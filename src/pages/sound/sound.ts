@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the SoundPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { SoundProvider } from '../../providers/sound/sound';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,29 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SoundPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public soundProvider: SoundProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SoundPage');
+    
+  }
+
+  ionViewWillEnter(){
+    this.getCategory();
+  }
+
+  getCategory() {
+    this.soundProvider.getCategory(0)
+      .then((data: any) => { 
+        console.log(data);
+      })
+      .catch(error => { 
+        console.log(error);
+      });
   }
 
 }
