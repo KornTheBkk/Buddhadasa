@@ -8,6 +8,9 @@ import { MyApp } from './app.component';
 import { SoundPageModule } from '../pages/sound/sound.module';
 import { BookPageModule } from '../pages/book/book.module';
 import { SettingPageModule } from '../pages/setting/setting.module';
+import { SoundCategoryPageModule } from '../pages/sound-category/sound-category.module';
+import { SoundArchivePageModule } from '../pages/sound-archive/sound-archive.module';
+import { SoundListenPageModule } from '../pages/sound-listen/sound-listen.module';
 
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -28,7 +31,10 @@ import { SoundProvider } from '../providers/sound/sound';
     IonicModule.forRoot(MyApp),
     SoundPageModule,
     BookPageModule,
-    SettingPageModule
+    SettingPageModule,
+    SoundCategoryPageModule,
+    SoundArchivePageModule,
+    SoundListenPageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,7 +46,8 @@ import { SoundProvider } from '../providers/sound/sound';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    { provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
+    //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
+    { provide: 'API_URL', useValue: 'http://172.20.10.3/buddha/services/api' },
     SoundProvider
   ]
 })

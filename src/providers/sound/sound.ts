@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import 'rxjs/add/operator/timeout';
 
@@ -10,12 +10,12 @@ export class SoundProvider {
 
   getCategory(parent_id?: number) {
     
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
+    if (!parent_id) {
+      parent_id = 0;
+    }
 
     return new Promise((resolve, reject) => { 
-      this.http.get(this.apiUrl + '/sound-categories/0', { headers })
+      this.http.get(`${this.apiUrl}/sound-categories/${parent_id}`)
         .timeout(10000)
         .subscribe(res => { 
           resolve(res);
@@ -24,6 +24,25 @@ export class SoundProvider {
         });  
     });
 
+  }
+
+  getSound(categoryId?: any) {
+  
+    if (!categoryId) {
+      categoryId = '';
+    }
+   // console.log(`${this.apiUrl}/sounds?cateogy_id=${categoryId}`);
+    
+    return new Promise((resolve, reject) => { 
+      this.http.get(`${this.apiUrl}/sounds?cateogy_id=${categoryId}`)
+        .timeout(10000)
+        .subscribe(res => { 
+          resolve(res);
+        }, error => { 
+          reject(error);
+        });  
+    });
+  
   }
 
 }

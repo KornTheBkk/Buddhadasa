@@ -1,78 +1,72 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 
-// Interface
 import { ICategory } from '../../interface/category';
 
 import { SoundProvider } from '../../providers/sound/sound';
-import { SoundCategoryPage } from '../sound-category/sound-category';
+import { SoundArchivePage } from './../sound-archive/sound-archive';
 
 @IonicPage()
 @Component({
-  selector: 'page-sound',
-  templateUrl: 'sound.html',
+  selector: 'page-sound-category',
+  templateUrl: 'sound-category.html',
 })
-export class SoundPage {
-
-  categories: Array<ICategory> = [];
-  categoryNum: number;
+export class SoundCategoryPage {
 
   loader: Loading;
+
+  category: ICategory;
+  totalCategory: number = 0;
+  subcategories: Array<ICategory> = [];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
     public soundProvider: SoundProvider) {
-    
+
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
     });
+
+    this.getSubcategory();
+
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SoundPage');
-    this.getCategory();
 
   }
 
-  ionViewWillEnter() {
-
-  }
-
-  getCategory() {
-
+  getSubcategory() {
     this.loader.present();
 
-    this.soundProvider.getCategory(0)
+    this.category = this.navParams.get('category');
+    //console.log(this.category);
+    this.soundProvider.getCategory(this.category.id)
       .then((res: any) => {
-        //console.log(data);
         this.loader.dismiss();
+        //console.log(res);
 
         if (res.ok) {
           let data: Array<ICategory> = res.data;
-
-          this.categoryNum = res.data.length;
-
-          data.forEach(c => {
-            this.categories.push({
+          this.totalCategory = res.data.length;
+          //this.subcategories = res.data;
+          data.forEach(c => { 
+            this.subcategories.push({
               id: c.id,
-              name: c.name,
-              description: c.description,
-              parent_id: c.parent_id
+              name: c.name
             });
           });
         }
-
-      })
-      .catch(error => {
+       })
+      .catch(error => { 
         this.loader.dismiss();
         console.log(error);
       });
   }
 
-  selectedCategory(category: ICategory) {
-    this.navCtrl.push(SoundCategoryPage, { category })
+  getSoundArchive(subcategory: ICategory) {
+    this.navCtrl.push(SoundArchivePage, subcategory);
   }
 
 }

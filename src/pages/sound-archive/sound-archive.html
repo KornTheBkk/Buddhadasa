@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>เสียงธรรม</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h2>
+    หมวด {{ subcategory.name }} ทั้งหมด {{ totalSound }} รายการ
+  </h2>
+
+  <ion-list>
+    <button ion-item *ngFor="let sound of sounds; let i = index" 
+    (click)="getSound(sound)">
+      <h1>{{ i+1 }}. {{ sound.title }}</h1>
+      <p>{{ sound.subtitle }}</p>
+    </button>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>เสียงธรรม</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <h2>
+    {{ category.name }}
+    <span *ngIf="totalCategory">มี {{ totalCategory }} หมวดย่อย คือ</span>
+    <span *ngIf="!totalCategory">ไม่มีหมวดย่อย</span>
+  </h2>
+
+  <ion-list>
+    <button ion-item *ngFor="let subcategory of subcategories; let i = index" 
+    (click)="getSoundArchive(subcategory)">
+      {{ i+1 }}. {{ subcategory.name }}
+    </button>
+  </ion-list>
+
+</ion-content>
