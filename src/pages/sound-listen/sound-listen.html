@@ -1,4 +1,3 @@
-
 <ion-header>
 
   <ion-navbar>
@@ -9,5 +8,35 @@
 
 
 <ion-content padding>
-<h1>{{ sound.title }}</h1>
+
+  <h3 text-center>{{ audio.title }}</h3>
+
+  <ion-card>
+    <ion-card-content text-center>
+      <ion-range [(ngModel)]="seekPosition" min="0" [max]="duration" debounce="0" (ionChange)="changeSeekTo()" [disabled]="isLoading">
+        <ion-label range-left *ngIf="currentPosition >= 0">{{ currentPosition }}</ion-label>
+        <ion-label range-right *ngIf="duration">{{ duration }}</ion-label>
+      </ion-range>
+
+      <button ion-button [disabled]="isLoading" (click)="skipBackward()">
+        <ion-icon name="skip-backward"></ion-icon>
+      </button>
+
+      <button ion-button disabled *ngIf="isLoading" id="btn-spinner">
+        <img src="./assets/imgs/spinner.gif" *ngIf="isLoading" />
+      </button>
+
+      <button ion-button (click)="play()" [disabled]="isLoading" *ngIf="!isLoading">
+        <ion-icon name="play" *ngIf="!isPlaying"></ion-icon>
+        <ion-icon name="pause" *ngIf="isPlaying"></ion-icon>
+      </button>
+
+      <button ion-button [disabled]="isLoading" (click)="skipForward()">
+        <ion-icon name="skip-forward"></ion-icon>
+      </button>
+
+    </ion-card-content>
+
+  </ion-card>
+
 </ion-content>

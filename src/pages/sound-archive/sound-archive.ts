@@ -58,6 +58,7 @@ export class SoundArchivePage {
             title: s.title,
             subtitle: s.subtitle,
             mp3_file: `${this.apiAssets}/${s.mp3_file}`
+            //mp3_file: 'http://sound.bia.or.th/administrator/biasound/6/6155320219020.mp3'
           };
           this.sounds.push(sound);
         });

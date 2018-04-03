@@ -3,6 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 
+// native plugins
+import { Media } from '@ionic-native/media';
+import { BackgroundMode } from '@ionic-native/background-mode';
+
+
 import { MyApp } from './app.component';
 
 import { SoundPageModule } from '../pages/sound/sound.module';
@@ -45,12 +50,14 @@ import { SoundProvider } from '../providers/sound/sound';
   providers: [
     StatusBar,
     SplashScreen,
+    Media,
+    BackgroundMode,
+    SoundProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
     //{ provide: 'API_ASSETS', useValue: 'http://localhost/buddha/services' },
     { provide: 'API_URL', useValue: 'http://172.20.10.2/buddha/services/api' },
     { provide: 'API_ASSETS', useValue: 'http://172.20.10.2/buddha/services' },
-    SoundProvider
   ]
 })
 export class AppModule {}
