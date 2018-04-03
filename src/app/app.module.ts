@@ -46,9 +46,10 @@ import { SoundProvider } from '../providers/sound/sound';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    { provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
-    { provide: 'API_ASSETS', useValue: 'http://localhost/buddha/services' },
-    //{ provide: 'API_URL', useValue: 'http://172.20.10.2/buddha/services/api' },
+    //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
+    //{ provide: 'API_ASSETS', useValue: 'http://localhost/buddha/services' },
+    { provide: 'API_URL', useValue: 'http://172.20.10.2/buddha/services/api' },
+    { provide: 'API_ASSETS', useValue: 'http://172.20.10.2/buddha/services' },
     SoundProvider
   ]
 })

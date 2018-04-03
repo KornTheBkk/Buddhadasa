@@ -32,12 +32,12 @@ export class SoundPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SoundPage');
+    
     this.getCategory();
-
   }
 
   ionViewWillEnter() {
-
+    
   }
 
   getCategory() {
@@ -50,6 +50,7 @@ export class SoundPage {
         this.loader.dismiss();
 
         if (res.ok) {
+          this.categories = []; //clear value
           let data: Array<ICategory> = res.data;
 
           this.categoryNum = res.data.length;

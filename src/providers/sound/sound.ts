@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import 'rxjs/add/operator/timeout';
 
@@ -13,6 +13,8 @@ export class SoundProvider {
     if (!parent_id) {
       parent_id = 0;
     }
+
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return new Promise((resolve, reject) => { 
       this.http.get(`${this.apiUrl}/sound-categories/${parent_id}`)
