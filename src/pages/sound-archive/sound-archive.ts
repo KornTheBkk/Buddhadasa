@@ -1,5 +1,5 @@
 import { SoundListenPage } from './../sound-listen/sound-listen';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 
 import { SoundProvider } from './../../providers/sound/sound';
@@ -24,7 +24,8 @@ export class SoundArchivePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
-    public soundProvider: SoundProvider) {
+    public soundProvider: SoundProvider,
+    @Inject('API_ASSETS') public apiAssets: string) {
 
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
@@ -55,7 +56,8 @@ export class SoundArchivePage {
             id: s.id,
             sound_category_id: s.sound_category_id,
             title: s.title,
-            subtitle: s.subtitle
+            subtitle: s.subtitle,
+            mp3_file: `${this.apiAssets}/${s.mp3_file}`
           };
           this.sounds.push(sound);
         });
