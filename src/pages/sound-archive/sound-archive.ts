@@ -20,6 +20,11 @@ export class SoundArchivePage {
   totalSound: number;
   sounds: Array<ISound> = [];
 
+  //config pagination
+  page: number = 1;
+  totalPage: number = 0;
+  nextPageUrl: string;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -31,6 +36,7 @@ export class SoundArchivePage {
       content: 'Loading'
     });
 
+    //this.subcategory = { name: '' };    
     this.getSounds();
   }
 
@@ -69,6 +75,11 @@ export class SoundArchivePage {
             };
             this.sounds.push(sound);
           });
+
+          this.page = res.data.current_page;
+          this.totalPage = res.data.last_page;
+          this.nextPageUrl = res.data.next_page_url;
+
         } else {
           console.log('Retieve data failed');
         }
@@ -86,12 +97,13 @@ export class SoundArchivePage {
   }
 
   doRefresh(refresher: Refresher) {
-
+    //console.log('do refresh');
+    
     this.soundProvider.getSound(this.subcategory.id)
       .then((res: any) => {
         //console.log(res);
         refresher.complete();
-        
+
         if (res.ok) {
           this.sounds = [];
           this.totalSound = res.total;
@@ -107,6 +119,11 @@ export class SoundArchivePage {
             };
             this.sounds.push(sound);
           });
+
+          this.page = res.data.current_page;
+          this.totalPage = res.data.last_page;
+          this.nextPageUrl = res.data.next_page_url;
+        
         } else {
           console.log('Retieve data failed');
         }
@@ -116,6 +133,47 @@ export class SoundArchivePage {
         refresher.complete();
         console.log(JSON.stringify(error));
       });
+  }
+
+  doInfinite(infiniteScroll) {
+    let nextPage = this.page + 1;
+
+    setTimeout(() => {
+
+      this.soundProvider.getSound(this.subcategory.id, nextPage)
+        .then((res: any) => {
+
+          if (res.ok) {
+            this.totalSound = res.total;
+            //this.sounds = res.data;
+            let data: Array<ISound> = res.data.data;
+            data.forEach(s => {
+              let sound = {
+                id: s.id,
+                sound_category_id: s.sound_category_id,
+                title: s.title,
+                subtitle: s.subtitle,
+                mp3_file: `${this.apiAssets}/${s.mp3_file}`
+              };
+              this.sounds.push(sound);
+            });
+
+            this.page = res.data.current_page;
+            this.totalPage = res.data.last_page;
+            this.nextPageUrl = res.data.next_page_url;
+            //console.log(`${this.page} < ${this.totalPage}`);
+
+          } else {
+            console.log('Retieve data failed');
+          }
+
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error));
+        });
+
+      infiniteScroll.complete();
+    }, 1000);
   }
 
 }

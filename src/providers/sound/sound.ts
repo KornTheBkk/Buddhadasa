@@ -30,7 +30,7 @@ export class SoundProvider {
 
   }
 
-  getSound(categoryId?: any) {
+  getSound(categoryId?: any, page?: number) {
   
     if (!categoryId) {
       categoryId = '';
@@ -38,7 +38,7 @@ export class SoundProvider {
    // console.log(`${this.apiUrl}/sounds?cateogy_id=${categoryId}`);
     
     return new Promise((resolve, reject) => { 
-      this.http.get(`${this.apiUrl}/sounds?cateogy_id=${categoryId}`)
+      this.http.get(`${this.apiUrl}/sounds?cateogy_id=${categoryId}&page=${page}`)
         .timeout(this.httpTimeout)
         .subscribe(res => { 
           resolve(res);
