@@ -9,23 +9,21 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Media } from '@ionic-native/media';
 import { BackgroundMode } from '@ionic-native/background-mode';
 
-
 import { MyApp } from './app.component';
 
 // custom components
 import { ComponentsModule } from '../components/components.module';
 
 // my pages
-import { SoundPageModule } from '../pages/sound/sound.module';
-import { BookPageModule } from '../pages/book/book.module';
-import { SettingPageModule } from '../pages/setting/setting.module';
-import { SoundCategoryPageModule } from '../pages/sound-category/sound-category.module';
-import { SoundArchivePageModule } from '../pages/sound-archive/sound-archive.module';
-import { SoundListenPageModule } from '../pages/sound-listen/sound-listen.module';
-import { SearchPageModule } from '../pages/search/search.module';
-
-import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import { HomePage } from '../pages/home/home';
+import { SoundPage } from '../pages/sound/sound';
+import { BookPage } from '../pages/book/book';
+import { SettingPage } from '../pages/setting/setting';
+import { SoundCategoryPage } from '../pages/sound-category/sound-category';
+import { SoundArchivePage } from '../pages/sound-archive/sound-archive';
+import { SoundListenPage } from '../pages/sound-listen/sound-listen';
+import { SearchPage } from '../pages/search/search';
 
 // providers
 import { SoundProvider } from '../providers/sound/sound';
@@ -34,28 +32,34 @@ import { SoundProvider } from '../providers/sound/sound';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
     TabsPage,
-    //HeaderComponent,
+    HomePage,
+    SoundPage,
+    BookPage,
+    SettingPage,
+    SoundCategoryPage,
+    SoundArchivePage,
+    SoundListenPage,
+    SearchPage,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
     ComponentsModule,
-    SoundPageModule,
-    BookPageModule,
-    SettingPageModule,
-    SoundCategoryPageModule,
-    SoundArchivePageModule,
-    SoundListenPageModule,
-    SearchPageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    TabsPage,
     HomePage,
-    TabsPage
+    SoundPage,
+    BookPage,
+    SettingPage,
+    SoundCategoryPage,
+    SoundArchivePage,
+    SoundListenPage,
+    SearchPage,
   ],
   providers: [
     StatusBar,
@@ -66,8 +70,8 @@ import { SoundProvider } from '../providers/sound/sound';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
     //{ provide: 'API_ASSETS', useValue: 'http://localhost/buddha/services' },
-    { provide: 'API_URL', useValue: 'http://172.20.10.2/buddha/services/api' },
-    { provide: 'API_ASSETS', useValue: 'http://172.20.10.2/buddha/services' },
+    { provide: 'API_URL', useValue: 'http://172.20.10.3/buddha/services/api' },
+    { provide: 'API_ASSETS', useValue: 'http://172.20.10.3/buddha/services' },
   ]
 })
 export class AppModule {}

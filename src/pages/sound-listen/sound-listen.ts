@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 
 import { Media, MediaObject } from '@ionic-native/media';
 import { BackgroundMode } from '@ionic-native/background-mode';
@@ -8,8 +8,8 @@ import { Observable } from 'rxjs/rx';
 import { Subscription } from "rxjs/Subscription";
 
 import { ISound } from './../../interface/sound';
+import { SearchPage } from '../search/search';
 
-@IonicPage()
 @Component({
   selector: 'page-sound-listen',
   templateUrl: 'sound-listen.html',
@@ -57,6 +57,10 @@ export class SoundListenPage {
   ionViewWillLeave() {
     this.file.release();
     this.stop();
+  }
+
+  search() {
+    this.navCtrl.push(SearchPage);
   }
 
   initializeMedia() {

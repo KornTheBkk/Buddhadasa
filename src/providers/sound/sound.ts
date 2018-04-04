@@ -5,6 +5,8 @@ import 'rxjs/add/operator/timeout';
 @Injectable()
 export class SoundProvider {
 
+  httpTimeout: number = 10000;
+
   constructor(public http: HttpClient, @Inject('API_URL') public apiUrl: string) {
   }
 
@@ -18,7 +20,7 @@ export class SoundProvider {
 
     return new Promise((resolve, reject) => { 
       this.http.get(`${this.apiUrl}/sound-categories/${parent_id}`)
-        .timeout(10000)
+        .timeout(this.httpTimeout)
         .subscribe(res => { 
           resolve(res);
         }, error => { 
@@ -37,7 +39,7 @@ export class SoundProvider {
     
     return new Promise((resolve, reject) => { 
       this.http.get(`${this.apiUrl}/sounds?cateogy_id=${categoryId}`)
-        .timeout(10000)
+        .timeout(this.httpTimeout)
         .subscribe(res => { 
           resolve(res);
         }, error => { 
@@ -45,6 +47,18 @@ export class SoundProvider {
         });  
     });
   
+  }
+
+  search(find: string) {
+    return new Promise((resolve, reject) => { 
+      this.http.get(`${this.apiUrl}/sounds?find=${find}`)
+        .timeout(this.httpTimeout)
+        .subscribe(res => {
+          resolve(res);
+        }, error => { 
+          reject(error);
+        });
+    });
   }
 
 }

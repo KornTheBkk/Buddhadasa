@@ -1,4 +1,3 @@
-import { SoundPage } from './../../pages/sound/sound';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
@@ -14,10 +13,6 @@ export class HeaderComponent {
   constructor(public navCtrl: NavController) {
     console.log('Hello HeaderComponent Component');
     this.text = 'Hello World';
-  }
-
-  navigateToSound(){
-    this.navCtrl.push(SoundPage);
   }
 
 }

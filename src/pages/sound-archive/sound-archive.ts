@@ -1,13 +1,13 @@
 import { SoundListenPage } from './../sound-listen/sound-listen';
 import { Component, Inject } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 
 import { SoundProvider } from './../../providers/sound/sound';
 
 import { ICategory } from './../../interface/category';
 import { ISound } from '../../interface/sound';
+import { SearchPage } from '../search/search';
 
-@IonicPage()
 @Component({
   selector: 'page-sound-archive',
   templateUrl: 'sound-archive.html',
@@ -36,6 +36,10 @@ export class SoundArchivePage {
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad SoundArchivePage');
+  }
+
+  search() {
+    this.navCtrl.push(SearchPage);
   }
 
   getSounds() {

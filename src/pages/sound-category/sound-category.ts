@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 
 import { ICategory } from '../../interface/category';
 
 import { SoundProvider } from '../../providers/sound/sound';
 import { SoundArchivePage } from './../sound-archive/sound-archive';
+import { SearchPage } from '../search/search';
 
-@IonicPage()
 @Component({
   selector: 'page-sound-category',
   templateUrl: 'sound-category.html',
@@ -35,6 +35,10 @@ export class SoundCategoryPage {
 
   ionViewDidLoad() {
 
+  }
+
+  search() {
+    this.navCtrl.push(SearchPage);
   }
 
   getSubcategory() {

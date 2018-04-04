@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import { SearchPage } from '../search/search';
 
-/**
- * Generated class for the SettingPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-setting',
   templateUrl: 'setting.html',
@@ -22,4 +15,7 @@ export class SettingPage {
     console.log('ionViewDidLoad SettingPage');
   }
 
+  search() {
+    this.navCtrl.push(SearchPage);
+  }
 }

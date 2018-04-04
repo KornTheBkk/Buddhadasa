@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 
 // Interface
 import { ICategory } from '../../interface/category';
 
 import { SoundProvider } from '../../providers/sound/sound';
 import { SoundCategoryPage } from '../sound-category/sound-category';
+import { SearchPage } from '../search/search';
 
-@IonicPage()
 @Component({
   selector: 'page-sound',
   templateUrl: 'sound.html',
@@ -38,6 +38,10 @@ export class SoundPage {
 
   ionViewWillEnter() {
     
+  }
+
+  search() {
+    this.navCtrl.push(SearchPage);
   }
 
   getCategory() {
