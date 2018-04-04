@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Loading, Refresher } from 'ionic-angular';
 
 import { ICategory } from '../../interface/category';
 
@@ -52,6 +52,7 @@ export class SoundCategoryPage {
         //console.log(res);
 
         if (res.ok) {
+          this.subcategories = []; //clear value
           let data: Array<ICategory> = res.data;
           this.totalCategory = res.data.length;
           //this.subcategories = res.data;
@@ -71,6 +72,33 @@ export class SoundCategoryPage {
 
   getSoundArchive(subcategory: ICategory) {
     this.navCtrl.push(SoundArchivePage, subcategory);
+  }
+
+  doRefresh(refresher: Refresher) {
+
+    this.soundProvider.getCategory(this.category.id)
+      .then((res: any) => {
+        refresher.complete();
+        //console.log(data);
+
+        if (res.ok) {
+          this.subcategories = []; //clear value
+          let data: Array<ICategory> = res.data;
+          this.totalCategory = res.data.length;
+          //this.subcategories = res.data;
+          data.forEach(c => { 
+            this.subcategories.push({
+              id: c.id,
+              name: c.name
+            });
+          });
+        }
+
+      })
+      .catch(error => {
+        refresher.complete();
+        console.log(JSON.stringify(error));
+      });
   }
 
 }

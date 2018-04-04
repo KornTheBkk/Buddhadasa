@@ -54,21 +54,27 @@ export class SearchPage {
         .then((res: any) => {
           this.isLoading = false;
           //console.log((res));
-          //this.items = res.data;
-          //console.log(this.items);
-          this.totalItem = res.total;
-          //this.sounds = res.data;
-          let data: Array<ISound> = res.data;
-          data.forEach(s => {
-            let item = {
-              id: s.id,
-              sound_category_id: s.sound_category_id,
-              title: s.title,
-              subtitle: s.subtitle,
-              mp3_file: `${this.apiAssets}/${s.mp3_file}`
-            };
-            this.items.push(item);
-          });
+
+          if (res.ok) {
+            //this.items = res.data;
+            //console.log(this.items);
+            this.totalItem = res.total;
+            //this.sounds = res.data;
+            let data: Array<ISound> = res.data.data;
+            data.forEach(s => {
+              let item = {
+                id: s.id,
+                sound_category_id: s.sound_category_id,
+                title: s.title,
+                subtitle: s.subtitle,
+                mp3_file: `${this.apiAssets}/${s.mp3_file}`
+              };
+              this.items.push(item);
+            });
+          } else {
+            console.log('Retrive data failed');
+          }
+
         })
         .catch(error => {
           this.isLoading = false;
