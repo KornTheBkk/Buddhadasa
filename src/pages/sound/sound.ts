@@ -131,7 +131,6 @@ export class SoundPage {
         .then((res: any) => {
 
           if (res.ok) {
-            this.totalCategory = res.total;
             //this.sounds = res.data;
             let data: Array<ICategory> = res.data.data;
             data.forEach(c => {

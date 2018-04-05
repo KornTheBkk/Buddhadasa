@@ -19,6 +19,10 @@ export class SoundCategoryPage {
   totalCategory: number = 0;
   subcategories: Array<ICategory> = [];
 
+  //config pagination
+  page: number = 1;
+  totalPage: number = 0;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -56,15 +60,19 @@ export class SoundCategoryPage {
           let data: Array<ICategory> = res.data.data;
           this.totalCategory = data.length;
           //this.subcategories = res.data;
-          data.forEach(c => { 
+          data.forEach(c => {
             this.subcategories.push({
               id: c.id,
               name: c.name
             });
           });
+
+          this.page = res.data.current_page;
+          this.totalPage = res.data.last_page;
+          this.totalCategory = res.data.total;
         }
-       })
-      .catch(error => { 
+      })
+      .catch(error => {
         this.loader.dismiss();
         console.log(error);
       });
@@ -86,12 +94,16 @@ export class SoundCategoryPage {
           let data: Array<ICategory> = res.data.data;
           this.totalCategory = data.length;
           //this.subcategories = res.data;
-          data.forEach(c => { 
+          data.forEach(c => {
             this.subcategories.push({
               id: c.id,
               name: c.name
             });
           });
+
+          this.page = res.data.current_page;
+          this.totalPage = res.data.last_page;
+          this.totalCategory = res.data.total;
         }
 
       })
@@ -99,6 +111,41 @@ export class SoundCategoryPage {
         refresher.complete();
         console.log(JSON.stringify(error));
       });
+  }
+
+  doInfinite(infiniteScroll) {
+    let nextPage = this.page + 1;
+
+    setTimeout(() => {
+
+      this.soundProvider.getCategory(0, nextPage)
+        .then((res: any) => {
+
+          if (res.ok) {
+            //this.sounds = res.data;
+            let data: Array<ICategory> = res.data.data;
+            data.forEach(c => {
+              this.subcategories.push({
+                id: c.id,
+                name: c.name
+              });
+            });
+
+            this.page = res.data.current_page;
+            this.totalPage = res.data.last_page;
+            this.totalCategory = res.data.total;
+
+          } else {
+            console.log('Retieve data failed');
+          }
+
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error));
+        });
+
+      infiniteScroll.complete();
+    }, 1000);
   }
 
 }
