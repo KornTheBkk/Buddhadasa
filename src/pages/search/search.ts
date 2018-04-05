@@ -20,6 +20,10 @@ export class SearchPage {
   totalItem: number = 0;
   isLoading: boolean = false;
 
+  //config pagination
+  page: number = 1;
+  totalPage: number = 0;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -71,6 +75,11 @@ export class SearchPage {
               };
               this.items.push(item);
             });
+
+            this.page = res.data.current_page;
+            this.totalPage = res.data.last_page;
+            this.totalItem = res.data.total;
+
           } else {
             console.log('Retrive data failed');
           }
@@ -87,6 +96,53 @@ export class SearchPage {
 
   navigateToListen(sound: ISound) {
     this.navCtrl.push(SoundListenPage, sound);
+  }
+
+  doInfinite(infiniteScroll) {
+    let nextPage = this.page + 1;
+
+    setTimeout(() => {
+
+      if (this.find.trim()) {
+
+        this.soundProvider.search(this.find, nextPage)
+          .then((res: any) => {
+            this.isLoading = false;
+            //console.log((res));
+
+            if (res.ok) {
+
+              this.totalItem = res.total;
+
+              let data: Array<ISound> = res.data.data;
+              data.forEach(s => {
+                let item = {
+                  id: s.id,
+                  sound_category_id: s.sound_category_id,
+                  title: s.title,
+                  subtitle: s.subtitle,
+                  mp3_file: `${this.apiAssets}/${s.mp3_file}`
+                };
+                this.items.push(item);
+              });
+
+              this.page = res.data.current_page;
+              this.totalPage = res.data.last_page;
+              this.totalItem = res.data.total;
+
+            } else {
+              console.log('Retrive data failed');
+            }
+
+          })
+          .catch(error => {
+            this.isLoading = false;
+            console.log('Error: ' + JSON.stringify(error));
+          });
+      }
+
+      infiniteScroll.complete();
+    }, 1000);
   }
 
 }

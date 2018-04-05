@@ -49,9 +49,16 @@ export class SoundProvider {
   
   }
 
-  search(find: string) {
+  search(find: string, page?: number) {
+
+    let pageQuery: string = '';
+
+    if (page > 0) {
+      pageQuery = '&page=' + page;
+    }
+
     return new Promise((resolve, reject) => { 
-      this.http.get(`${this.apiUrl}/sounds?find=${find}`)
+      this.http.get(`${this.apiUrl}/sounds?find=${find}${pageQuery}`)
         .timeout(this.httpTimeout)
         .subscribe(res => {
           resolve(res);
