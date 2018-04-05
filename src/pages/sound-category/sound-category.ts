@@ -60,7 +60,6 @@ export class SoundCategoryPage {
           let data: Array<ICategory> = res.data.data;
           this.totalCategory = data.length;
           //this.subcategories = res.data;
-          let category = [];
 
           data.forEach(c => {
             //category[c.id];

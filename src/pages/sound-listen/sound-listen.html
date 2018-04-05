@@ -19,8 +19,8 @@
   <ion-card>
     <ion-card-content text-center>
       <ion-range [(ngModel)]="seekPosition" min="0" [max]="duration" debounce="0" (ionChange)="changeSeekTo()" [disabled]="isLoading">
-        <ion-label range-left *ngIf="currentPosition >= 0">{{ currentPosition }}</ion-label>
-        <ion-label range-right *ngIf="duration">{{ duration }}</ion-label>
+        <ion-label range-left *ngIf="currentPosition >= 0">{{ currentPosition | timeSecToMin }}</ion-label>
+        <ion-label range-right *ngIf="duration">{{ duration | timeSecToMin }}</ion-label>
       </ion-range>
 
       <button ion-button [disabled]="isLoading" (click)="skipBackward()">

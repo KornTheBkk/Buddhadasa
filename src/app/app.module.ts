@@ -28,6 +28,8 @@ import { SearchPage } from '../pages/search/search';
 // providers
 import { SoundProvider } from '../providers/sound/sound';
 
+import { PipesModule } from '../pipes/pipes.module';
+
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { SoundProvider } from '../providers/sound/sound';
     HttpClientModule,
     IonicModule.forRoot(MyApp),
     ComponentsModule,
+    PipesModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -70,8 +73,8 @@ import { SoundProvider } from '../providers/sound/sound';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
     //{ provide: 'API_ASSETS', useValue: 'http://localhost/buddha/services' },
-    { provide: 'API_URL', useValue: 'http://172.20.10.3/buddha/services/api' },
-    { provide: 'API_ASSETS', useValue: 'http://172.20.10.3/buddha/services' },
+    { provide: 'API_URL', useValue: 'http://172.20.10.2/buddha/services/api' },
+    { provide: 'API_ASSETS', useValue: 'http://172.20.10.2/buddha/services' },
   ]
 })
 export class AppModule {}

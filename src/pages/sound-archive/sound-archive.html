@@ -33,7 +33,7 @@
         </span>
         <span *ngIf="sound.duration" style="margin-left: 15px">
           <ion-icon name="md-time"></ion-icon>
-          <span>{{ sound.duration }} นาที</span>
+          <span>{{ sound.duration*60 | timeSecToMin }}</span>
         </span>
       </div>
       <!-- <ion-grid id="duration">
