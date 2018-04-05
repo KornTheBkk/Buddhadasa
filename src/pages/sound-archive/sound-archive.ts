@@ -70,6 +70,8 @@ export class SoundArchivePage {
               sound_category_id: s.sound_category_id,
               title: s.title,
               subtitle: s.subtitle,
+              showed_at: s.showed_at,
+              duration: s.duration,
               mp3_file: s.mp3_file ? `${this.apiAssets}/${s.mp3_file}` : null,
               //mp3_file: 'http://sound.bia.or.th/administrator/biasound/6/6155320219020.mp3'
             };
@@ -96,13 +98,13 @@ export class SoundArchivePage {
     if (sound.mp3_file) {
       this.navCtrl.push(SoundListenPage, sound);
     } else {
-      console.log('Can\'t navigate to listen.'); 
+      console.log('Can\'t navigate to listen.');
     }
   }
 
   doRefresh(refresher: Refresher) {
     //console.log('do refresh');
-    
+
     this.soundProvider.getSound(this.subcategory.id)
       .then((res: any) => {
         //console.log(res);
@@ -119,6 +121,8 @@ export class SoundArchivePage {
               sound_category_id: s.sound_category_id,
               title: s.title,
               subtitle: s.subtitle,
+              showed_at: s.showed_at,
+              duration: s.duration,
               mp3_file: `${this.apiAssets}/${s.mp3_file}`
             };
             this.sounds.push(sound);
@@ -127,7 +131,7 @@ export class SoundArchivePage {
           this.page = res.data.current_page;
           this.totalPage = res.data.last_page;
           this.totalSound = res.data.total;
-        
+
         } else {
           console.log('Retieve data failed');
         }
@@ -157,6 +161,8 @@ export class SoundArchivePage {
                 sound_category_id: s.sound_category_id,
                 title: s.title,
                 subtitle: s.subtitle,
+                showed_at: s.showed_at,
+                duration: s.duration,
                 mp3_file: `${this.apiAssets}/${s.mp3_file}`
               };
               this.sounds.push(sound);

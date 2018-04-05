@@ -33,20 +33,23 @@ export class SearchPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SearchPage');
+    //console.log('ionViewDidLoad SearchPage');
   }
 
   ionViewWillEnter() {
-    this.searchbar.setFocus();
+    setTimeout(() => {
+      this.searchbar.setFocus();
+    }, 1000);
+
   }
 
   onInput(event) {
-    console.log('on input: ' + JSON.stringify(event));
+    //console.log('on input: ' + JSON.stringify(event));
     this.search();
   }
 
   onCancel(event) {
-    console.log('on cancel: ' + JSON.stringify(event));
+    //console.log('on cancel: ' + JSON.stringify(event));
   }
 
   resetValue() {
@@ -58,8 +61,8 @@ export class SearchPage {
   }
 
   search() {
-    
-    this.items = [];    
+
+    this.items = [];
 
     if (this.find.trim()) {
       this.isLoading = true;
@@ -81,6 +84,8 @@ export class SearchPage {
                 sound_category_id: s.sound_category_id,
                 title: s.title,
                 subtitle: s.subtitle,
+                showed_at: s.showed_at,
+                duration: s.duration,
                 mp3_file: `${this.apiAssets}/${s.mp3_file}`
               };
               this.items.push(item);
@@ -132,6 +137,8 @@ export class SearchPage {
                   sound_category_id: s.sound_category_id,
                   title: s.title,
                   subtitle: s.subtitle,
+                  showed_at: s.showed_at,
+                  duration: s.duration,
                   mp3_file: `${this.apiAssets}/${s.mp3_file}`
                 };
                 this.items.push(item);

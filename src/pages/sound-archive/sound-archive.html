@@ -14,23 +14,39 @@
 
 <ion-content padding>
   <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="arrow-dropdown"
-      pullingText="Pull to refresh"
-      refreshingSpinner="circles"
-      refreshingText="Refreshing...">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
 
-  <h2>
-    หมวด {{ subcategory.name }} ทั้งหมด {{ totalSound }} รายการ
-  </h2>
+  <h1>
+    <ion-icon name="logo-buffer"></ion-icon> หมวด {{ subcategory.name }} ทั้งหมด {{ totalSound }} รายการ
+  </h1>
 
   <ion-list>
-    <button ion-item *ngFor="let sound of sounds; let i = index" 
-    (click)="navigateToListen(sound)">
-      <h1>{{ i+1 }}. {{ sound.title }}</h1>
-      <p>{{ sound.subtitle }}</p>
+    <button ion-item *ngFor="let sound of sounds; let i = index" (click)="navigateToListen(sound)">
+      {{ i+1 }}. {{ sound.title }}
+      <!-- <p *ngIf="sound.subtitle">{{ sound.subtitle }}</p> -->
+      <div id="duration">
+        <span *ngIf="sound.showed_at">
+          <ion-icon name="md-calendar"></ion-icon>
+          <span>{{ sound.showed_at | date }}</span>
+        </span>
+        <span *ngIf="sound.duration" style="margin-left: 15px">
+          <ion-icon name="md-time"></ion-icon>
+          <span>{{ sound.duration }} นาที</span>
+        </span>
+      </div>
+      <!-- <ion-grid id="duration">
+        <ion-row>
+          <ion-col col-xs-6 *ngIf="sound.showed_at">
+            <ion-icon name="md-calendar"></ion-icon> <span>{{ sound.showed_at | date }}</span>
+          </ion-col>
+          <ion-col col-xs-6 text-right *ngIf="sound.duration">
+            <ion-icon name="md-time"></ion-icon> <span>{{ sound.duration }} นาที</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid> -->
+
     </button>
   </ion-list>
 

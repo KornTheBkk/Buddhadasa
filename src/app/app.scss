@@ -37,3 +37,17 @@
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
+#duration {
+  padding: 0px;
+
+  span {
+      font-size: 1.7rem;
+      color: #999;
+  }
+
+  ion-icon {
+      font-size: 0.8em;
+      color: #999;
+  }
+}

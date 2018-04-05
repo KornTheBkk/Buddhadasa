@@ -6,13 +6,13 @@
     </ion-searchbar>
   </ion-navbar>
 
-</ion-header> 
+</ion-header>
 
 
 <ion-content padding>
   <!-- find: {{ find }} | isLoading: {{ isLoading }}
   <p>page: {{ page }} totalPage: {{ totalPage }}</p> -->
-  
+
   <div id="searchLoading" *ngIf="isLoading && find" padding text-center>
     <img src="./assets/imgs/spinner.gif" />
   </div>
@@ -25,6 +25,17 @@
     <ion-list no-lines *ngIf="!isLoading">
       <button ion-item *ngFor="let item of items" (click)="navigateToListen(item)">
         {{ item.title }}
+
+        <div id="duration">
+          <span *ngIf="item.showed_at">
+            <ion-icon name="md-calendar"></ion-icon>
+            <span>{{ item.showed_at | date }}</span>
+          </span>
+          <span *ngIf="item.duration" style="margin-left: 15px">
+            <ion-icon name="md-time"></ion-icon>
+            <span>{{ item.duration }} นาที</span>
+          </span>
+        </div>
       </button>
     </ion-list>
   </div>

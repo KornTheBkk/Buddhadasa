@@ -22,11 +22,12 @@
     </ion-refresher-content>
   </ion-refresher>
   
-  <h2>
+  <h1>
+      <ion-icon name="logo-buffer"></ion-icon>
     {{ category.name }}
     <span *ngIf="totalCategory">มี {{ totalCategory }} หมวดย่อย คือ</span>
     <span *ngIf="!totalCategory">ไม่มีหมวดย่อย</span>
-  </h2>
+  </h1>
 
   <ion-list>
     <button ion-item *ngFor="let subcategory of subcategories; let i = index" 
