@@ -1,19 +1,19 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-searchbar #searchbar debounce="500" placeholder="ค้นหาเสียง" [(ngModel)]="find" [showCancelButton]="shouldShowCancel"
+    <ion-searchbar #searchbar debounce="1000" placeholder="ค้นหาเสียง" [(ngModel)]="find" [showCancelButton]="shouldShowCancel"
       (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
     </ion-searchbar>
   </ion-navbar>
 
-</ion-header>
+</ion-header> 
 
 
 <ion-content padding>
   <!-- find: {{ find }} | isLoading: {{ isLoading }}
   <p>page: {{ page }} totalPage: {{ totalPage }}</p> -->
   
-  <div id="searchLoading" *ngIf="isLoading && !find">
+  <div id="searchLoading" *ngIf="isLoading && find" padding text-center>
     <img src="./assets/imgs/spinner.gif" />
   </div>
 

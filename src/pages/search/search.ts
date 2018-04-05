@@ -43,12 +43,10 @@ export class SearchPage {
   onInput(event) {
     console.log('on input: ' + JSON.stringify(event));
     this.search();
-    this.isLoading = false;
   }
 
   onCancel(event) {
     console.log('on cancel: ' + JSON.stringify(event));
-    this.isLoading = false;
   }
 
   resetValue() {
@@ -60,9 +58,12 @@ export class SearchPage {
   }
 
   search() {
-    this.isLoading = true;
-    this.items = [];
+    
+    this.items = [];    
+
     if (this.find.trim()) {
+      this.isLoading = true;
+
       this.soundProvider.search(this.find)
         .then((res: any) => {
           this.isLoading = false;
@@ -99,6 +100,7 @@ export class SearchPage {
           console.log('Error: ' + JSON.stringify(error));
         });
     } else {
+      //console.log('reset value');
       this.resetValue();
     }
   }
