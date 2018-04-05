@@ -23,12 +23,14 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <h2>ประเภทของเสียงแบ่งเป็น {{ categoryNum }} หมวด</h2>
+  <h2>ประเภทของเสียงแบ่งเป็น {{ totalCategory }} หมวด</h2>
   <ion-list>
     <button ion-item *ngFor="let category of categories; let i = index" (click)="selectedCategory(category)">
       {{ i+1 }}. {{ category.name }}
     </button>
   </ion-list>
 
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

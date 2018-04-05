@@ -15,7 +15,11 @@ import { SearchPage } from '../search/search';
 export class SoundPage {
 
   categories: Array<ICategory> = [];
-  categoryNum: number;
+  totalCategory: number;
+
+  //config pagination
+  page: number = 1;
+  totalPage: number = 0;
 
   loader: Loading;
 
@@ -24,7 +28,7 @@ export class SoundPage {
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
     public soundProvider: SoundProvider) {
-    
+
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
     });
@@ -32,12 +36,12 @@ export class SoundPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SoundPage');
-    
+
     this.getCategory();
   }
 
   ionViewWillEnter() {
-    
+
   }
 
   search() {
@@ -55,9 +59,9 @@ export class SoundPage {
 
         if (res.ok) {
           this.categories = []; //clear value
-          let data: Array<ICategory> = res.data;
+          let data: Array<ICategory> = res.data.data;
 
-          this.categoryNum = res.data.length;
+          this.totalCategory = data.length;
 
           data.forEach(c => {
             this.categories.push({
@@ -67,6 +71,10 @@ export class SoundPage {
               parent_id: c.parent_id
             });
           });
+
+          this.page = res.data.current_page;
+          this.totalPage = res.data.last_page;
+          this.totalCategory = res.data.total;
         }
 
       })
@@ -89,9 +97,9 @@ export class SoundPage {
 
         if (res.ok) {
           this.categories = []; //clear value
-          let data: Array<ICategory> = res.data;
+          let data: Array<ICategory> = res.data.data;
 
-          this.categoryNum = res.data.length;
+          this.totalCategory = res.data.length;
 
           data.forEach(c => {
             this.categories.push({
@@ -101,6 +109,10 @@ export class SoundPage {
               parent_id: c.parent_id
             });
           });
+
+          this.page = res.data.current_page;
+          this.totalPage = res.data.last_page;
+          this.totalCategory = res.data.total;
         }
 
       })
@@ -108,7 +120,44 @@ export class SoundPage {
         refresher.complete();
         console.log(JSON.stringify(error));
       });
-    
+  }
+
+  doInfinite(infiniteScroll) {
+    let nextPage = this.page + 1;
+
+    setTimeout(() => {
+
+      this.soundProvider.getCategory(0, nextPage)
+        .then((res: any) => {
+
+          if (res.ok) {
+            this.totalCategory = res.total;
+            //this.sounds = res.data;
+            let data: Array<ICategory> = res.data.data;
+            data.forEach(c => {
+              this.categories.push({
+                id: c.id,
+                name: c.name,
+                description: c.description,
+                parent_id: c.parent_id
+              });
+            });
+
+            this.page = res.data.current_page;
+            this.totalPage = res.data.last_page;
+            this.totalCategory = res.data.total;
+
+          } else {
+            console.log('Retieve data failed');
+          }
+
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error));
+        });
+
+      infiniteScroll.complete();
+    }, 1000);
   }
 
 }

@@ -10,7 +10,7 @@ export class SoundProvider {
   constructor(public http: HttpClient, @Inject('API_URL') public apiUrl: string) {
   }
 
-  getCategory(parent_id?: number) {
+  getCategory(parent_id?: number, page?: number) {
     
     if (!parent_id) {
       parent_id = 0;
@@ -19,7 +19,7 @@ export class SoundProvider {
     //let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return new Promise((resolve, reject) => { 
-      this.http.get(`${this.apiUrl}/sound-categories/${parent_id}`)
+      this.http.get(`${this.apiUrl}/sound-categories/${parent_id}/?page=${page}`)
         .timeout(this.httpTimeout)
         .subscribe(res => { 
           resolve(res);

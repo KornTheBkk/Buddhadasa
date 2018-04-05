@@ -53,8 +53,8 @@ export class SoundCategoryPage {
 
         if (res.ok) {
           this.subcategories = []; //clear value
-          let data: Array<ICategory> = res.data;
-          this.totalCategory = res.data.length;
+          let data: Array<ICategory> = res.data.data;
+          this.totalCategory = data.length;
           //this.subcategories = res.data;
           data.forEach(c => { 
             this.subcategories.push({
@@ -83,8 +83,8 @@ export class SoundCategoryPage {
 
         if (res.ok) {
           this.subcategories = []; //clear value
-          let data: Array<ICategory> = res.data;
-          this.totalCategory = res.data.length;
+          let data: Array<ICategory> = res.data.data;
+          this.totalCategory = data.length;
           //this.subcategories = res.data;
           data.forEach(c => { 
             this.subcategories.push({

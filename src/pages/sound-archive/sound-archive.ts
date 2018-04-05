@@ -92,7 +92,7 @@ export class SoundArchivePage {
   }
 
   navigateToListen(sound: ISound) {
-    console.log(sound);
+    //console.log(sound);
     if (sound.mp3_file) {
       this.navCtrl.push(SoundListenPage, sound);
     } else {
