@@ -3,4 +3,6 @@ export interface ICategory {
     name?: string;
     description?: string;
     parent_id?: number;
+    totalSound?: number;
+    order?: number;
 };

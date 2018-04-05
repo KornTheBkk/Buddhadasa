@@ -23,7 +23,7 @@
   </ion-refresher>
   
   <h1>
-      <ion-icon name="logo-buffer"></ion-icon>
+    <ion-icon name="list"></ion-icon>
     {{ category.name }}
     <span *ngIf="totalCategory">มี {{ totalCategory }} หมวดย่อย คือ</span>
     <span *ngIf="!totalCategory">ไม่มีหมวดย่อย</span>
@@ -32,7 +32,8 @@
   <ion-list>
     <button ion-item *ngFor="let subcategory of subcategories; let i = index" 
     (click)="getSoundArchive(subcategory)">
-      {{ i+1 }}. {{ subcategory.name }}
+      {{ i+1 }}. {{ subcategory.name }} {{ subcategory.order }}
+      <ion-badge item-end>{{ subcategory.totalSound }}</ion-badge>
     </button>
   </ion-list>
 

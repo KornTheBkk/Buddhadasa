@@ -60,11 +60,37 @@ export class SoundCategoryPage {
           let data: Array<ICategory> = res.data.data;
           this.totalCategory = data.length;
           //this.subcategories = res.data;
+          let category = [];
+
           data.forEach(c => {
-            this.subcategories.push({
-              id: c.id,
-              name: c.name
-            });
+            //category[c.id];
+          
+            this.soundProvider.getTotalSound(c.id)
+              .then((res: any) => { 
+
+                let totalSound = 0;
+                if (res.ok) {
+                  totalSound = res.total;
+                }
+
+                this.subcategories.push({
+                  id: c.id,
+                  name: c.name,
+                  order: c.order,
+                  totalSound: totalSound
+                });
+              })
+              .catch(error => { 
+                console.log(JSON.stringify(error));
+
+                this.subcategories.push({
+                  id: c.id,
+                  name: c.name,
+                  order: c.order,
+                  totalSound: 0
+                });
+              });
+           
           });
 
           this.page = res.data.current_page;
@@ -95,10 +121,33 @@ export class SoundCategoryPage {
           this.totalCategory = data.length;
           //this.subcategories = res.data;
           data.forEach(c => {
-            this.subcategories.push({
-              id: c.id,
-              name: c.name
-            });
+            
+            this.soundProvider.getTotalSound(c.id)
+              .then((res: any) => { 
+
+                let totalSound = 0;
+                if (res.ok) {
+                  totalSound = res.total;
+                }
+
+                this.subcategories.push({
+                  id: c.id,
+                  name: c.name,
+                  order: c.order,
+                  totalSound: totalSound
+                });
+              })
+              .catch(error => { 
+                console.log(JSON.stringify(error));
+
+                this.subcategories.push({
+                  id: c.id,
+                  name: c.name,
+                  order: c.order,
+                  totalSound: 0
+                });
+              });
+            
           });
 
           this.page = res.data.current_page;
@@ -125,10 +174,33 @@ export class SoundCategoryPage {
             //this.sounds = res.data;
             let data: Array<ICategory> = res.data.data;
             data.forEach(c => {
-              this.subcategories.push({
-                id: c.id,
-                name: c.name
+              
+              this.soundProvider.getTotalSound(c.id)
+              .then((res: any) => { 
+
+                let totalSound = 0;
+                if (res.ok) {
+                  totalSound = res.total;
+                }
+
+                this.subcategories.push({
+                  id: c.id,
+                  name: c.name,
+                  order: c.order,
+                  totalSound: totalSound
+                });
+              })
+              .catch(error => { 
+                console.log(JSON.stringify(error));
+
+                this.subcategories.push({
+                  id: c.id,
+                  name: c.name,
+                  order: c.order,
+                  totalSound: 0
+                });
               });
+              
             });
 
             this.page = res.data.current_page;

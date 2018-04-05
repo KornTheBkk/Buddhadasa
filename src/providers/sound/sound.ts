@@ -82,4 +82,26 @@ export class SoundProvider {
     });
   }
 
+  getTotalSound(categoryId?: any) {
+  
+    if (!categoryId) {
+      categoryId = '';
+    }
+
+    let url = `${this.apiUrl}/sound-total/${categoryId}`;
+    //console.log(url);
+
+    return new Promise((resolve, reject) => { 
+      this.http.get(url)
+        .timeout(this.httpTimeout)
+        .subscribe(res => { 
+          resolve(res);
+        }, error => { 
+          reject(error);
+        });  
+    });
+  }
+
+
+
 }
