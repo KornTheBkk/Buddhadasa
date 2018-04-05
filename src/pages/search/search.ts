@@ -43,11 +43,20 @@ export class SearchPage {
   onInput(event) {
     console.log('on input: ' + JSON.stringify(event));
     this.search();
+    this.isLoading = false;
   }
 
   onCancel(event) {
     console.log('on cancel: ' + JSON.stringify(event));
+    this.isLoading = false;
+  }
 
+  resetValue() {
+    this.page = 1;
+    this.totalPage = 0;
+    this.items = [];
+    this.totalItem = 0;
+    this.isLoading = false;
   }
 
   search() {
@@ -90,7 +99,7 @@ export class SearchPage {
           console.log('Error: ' + JSON.stringify(error));
         });
     } else {
-
+      this.resetValue();
     }
   }
 

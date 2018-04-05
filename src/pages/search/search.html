@@ -10,15 +10,24 @@
 
 
 <ion-content padding>
-  <!-- <div id="searchLoading" *ngIf="isLoading">
+  <!-- find: {{ find }} | isLoading: {{ isLoading }}
+  <p>page: {{ page }} totalPage: {{ totalPage }}</p> -->
+  
+  <div id="searchLoading" *ngIf="isLoading && !find">
     <img src="./assets/imgs/spinner.gif" />
-  </div> -->
+  </div>
 
-  <ion-list no-lines *ngIf="!isLoading">
-    <button ion-item *ngFor="let item of items" (click)="navigateToListen(item)">
-      {{ item.title }}
-    </button>
-  </ion-list>
+  <div *ngIf="!isLoading">
+    <div id="searchResult" padding *ngIf="find">
+      ผลการค้นหาพบ {{ totalItem }} รายการ
+    </div>
+
+    <ion-list no-lines *ngIf="!isLoading">
+      <button ion-item *ngFor="let item of items" (click)="navigateToListen(item)">
+        {{ item.title }}
+      </button>
+    </ion-list>
+  </div>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
