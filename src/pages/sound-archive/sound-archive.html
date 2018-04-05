@@ -28,7 +28,7 @@
 
   <ion-list>
     <button ion-item *ngFor="let sound of sounds; let i = index" 
-    (click)="getSound(sound)">
+    (click)="navigateToListen(sound)">
       <h1>{{ i+1 }}. {{ sound.title }}</h1>
       <p>{{ sound.subtitle }}</p>
     </button>

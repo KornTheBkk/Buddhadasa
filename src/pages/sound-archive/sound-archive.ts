@@ -70,7 +70,7 @@ export class SoundArchivePage {
               sound_category_id: s.sound_category_id,
               title: s.title,
               subtitle: s.subtitle,
-              mp3_file: `${this.apiAssets}/${s.mp3_file}`
+              mp3_file: s.mp3_file ? `${this.apiAssets}/${s.mp3_file}` : null,
               //mp3_file: 'http://sound.bia.or.th/administrator/biasound/6/6155320219020.mp3'
             };
             this.sounds.push(sound);
@@ -78,7 +78,7 @@ export class SoundArchivePage {
 
           this.page = res.data.current_page;
           this.totalPage = res.data.last_page;
-          this.nextPageUrl = res.data.next_page_url;
+          this.totalSound = res.data.total;
 
         } else {
           console.log('Retieve data failed');
@@ -91,9 +91,13 @@ export class SoundArchivePage {
       });
   }
 
-  getSound(sound: ISound) {
-    //console.log(sound);
-    this.navCtrl.push(SoundListenPage, sound);
+  navigateToListen(sound: ISound) {
+    console.log(sound);
+    if (sound.mp3_file) {
+      this.navCtrl.push(SoundListenPage, sound);
+    } else {
+      console.log('Can\'t navigate to listen.'); 
+    }
   }
 
   doRefresh(refresher: Refresher) {
@@ -122,7 +126,7 @@ export class SoundArchivePage {
 
           this.page = res.data.current_page;
           this.totalPage = res.data.last_page;
-          this.nextPageUrl = res.data.next_page_url;
+          this.totalSound = res.data.total;
         
         } else {
           console.log('Retieve data failed');
@@ -160,7 +164,7 @@ export class SoundArchivePage {
 
             this.page = res.data.current_page;
             this.totalPage = res.data.last_page;
-            this.nextPageUrl = res.data.next_page_url;
+            this.totalSound = res.data.total;
             //console.log(`${this.page} < ${this.totalPage}`);
 
           } else {
