@@ -32,7 +32,7 @@
   <ion-list>
     <button ion-item *ngFor="let subcategory of subcategories; let i = index" 
     (click)="getSoundArchive(subcategory)">
-      {{ i+1 }}. {{ subcategory.name }} {{ subcategory.order }}
+      {{ i+1 }}. {{ subcategory.name }}
       <ion-badge item-end>{{ subcategory.totalSound }}</ion-badge>
     </button>
   </ion-list>

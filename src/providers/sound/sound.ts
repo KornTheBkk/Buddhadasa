@@ -35,7 +35,7 @@ export class SoundProvider {
 
   }
 
-  getSound(categoryId?: any, page?: any) {
+  getSound(categoryId?: any, page?: any, pageSize?: any) {
   
     if (!categoryId) {
       categoryId = '';
@@ -45,7 +45,11 @@ export class SoundProvider {
       page = '';
     }
 
-    let url = `${this.apiUrl}/sounds/?sound_category_id=${categoryId}&page=${page}`;
+    if (!pageSize) {
+      pageSize = '';
+    }
+
+    let url = `${this.apiUrl}/sounds/?sound_category_id=${categoryId}&page=${page}&page_size=${pageSize}`;
     //console.log(url);
     
     return new Promise((resolve, reject) => { 

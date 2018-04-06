@@ -10,6 +10,29 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>เสียงพุทธทาส</h2>
- 
+  <h1><span><ion-icon name="volume-up"></ion-icon></span> เสียงพุทธทาส</h1>
+
+  <ion-list>
+    <button ion-item *ngFor="let sound of sounds; let i = index" (click)="navigateToListen(sound)">
+      {{ i+1 }}. {{ sound.title }}
+      <!-- <p *ngIf="sound.subtitle">{{ sound.subtitle }}</p> -->
+      <div id="duration">
+        <span *ngIf="sound.showed_at">
+          <ion-icon name="md-time"></ion-icon>
+          <span>{{ sound.showed_at | date }}</span>
+        </span>
+        <span *ngIf="sound.duration" style="margin-left: 15px">
+          <span>ความยาว {{ sound.duration }} นาที</span>
+        </span>
+      </div>
+    </button>
+  </ion-list>
+
+  <button ion-button icon-only block (click)="navigateToListenPage()">
+    <ion-icon name="arrow-forward"></ion-icon>
+    เสียงธรรมอื่น ๆ
+  </button>
+  <br>
+
+
 </ion-content>
