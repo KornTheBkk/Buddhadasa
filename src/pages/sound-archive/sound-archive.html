@@ -19,7 +19,7 @@
   </ion-refresher>
 
   <h1>
-    <ion-icon name="list"></ion-icon> หมวด {{ subcategory.name }} ทั้งหมด {{ totalSound }} รายการ
+    <ion-icon name="volume-up"></ion-icon> หมวด {{ subcategory.name }} ทั้งหมด {{ totalSound }} รายการ
   </h1>
 
   <ion-list>
@@ -29,7 +29,7 @@
       <div id="duration">
         <span *ngIf="sound.showed_at">
           <ion-icon name="md-calendar"></ion-icon>
-          <span>{{ sound.showed_at | date }}</span>
+          <span>{{ sound.showed_at }}</span>
         </span>
         <span *ngIf="sound.duration" style="margin-left: 15px">
           <ion-icon name="md-time"></ion-icon>

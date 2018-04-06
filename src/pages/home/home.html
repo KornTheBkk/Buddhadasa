@@ -10,14 +10,23 @@
 </ion-header>
 
 <ion-content padding>
-  <div style="margin: -15px -15px 0 -15px"><img src="./assets/imgs/home_header.png" ></div>
-  
-  
-  <h1><span><ion-icon name="volume-up"></ion-icon></span> เสียงพุทธทาส</h1>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div id="headerBanner">
+    <img src="./assets/imgs/home_header.png">
+  </div>
+
+  <h1>
+    <span>
+      <ion-icon name="volume-up"></ion-icon>
+    </span> เสียงพุทธทาส</h1>
 
   <ion-list>
     <button ion-item *ngFor="let sound of sounds; let i = index" (click)="navigateToListen(sound)">
-      {{ i+1 }}. {{ sound.title }}
+      {{ sound.title }}
       <!-- <p *ngIf="sound.subtitle">{{ sound.subtitle }}</p> -->
       <div id="duration">
         <span *ngIf="sound.showed_at">

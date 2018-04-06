@@ -23,7 +23,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <h1><ion-icon name="list"></ion-icon> ประเภทของเสียงแบ่งเป็น {{ totalCategory }} หมวด</h1>
+  <h1><ion-icon name="volume-up"></ion-icon> ประเภทของเสียงแบ่งเป็น {{ totalCategory }} หมวด</h1>
   <ion-list>
     <button ion-item *ngFor="let category of categories; let i = index" (click)="selectedCategory(category)">
       {{ i+1 }}. {{ category.name }}
