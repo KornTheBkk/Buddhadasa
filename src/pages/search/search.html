@@ -27,15 +27,14 @@
         {{ item.title }}
 
         <div id="duration">
-          <span *ngIf="item.showed_at">
-            <ion-icon name="md-calendar"></ion-icon>
-            <span>{{ item.showed_at | date }}</span>
-          </span>
-          <span *ngIf="item.duration" style="margin-left: 15px">
-            <ion-icon name="md-time"></ion-icon>
-            <span>{{ item.duration }} นาที</span>
-          </span>
-        </div>
+            <span *ngIf="item.showed_at">
+              <ion-icon name="md-time"></ion-icon>
+              <span>{{ item.showed_at | thaiDate }}</span>
+            </span>
+            <span *ngIf="item.duration" style="margin-left: 15px">
+              <span>ความยาว {{ item.duration }} นาที</span>
+            </span>
+          </div>
       </button>
     </ion-list>
   </div>

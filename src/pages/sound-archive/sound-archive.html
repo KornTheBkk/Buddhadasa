@@ -27,15 +27,14 @@
       {{ i+1 }}. {{ sound.title }}
       <!-- <p *ngIf="sound.subtitle">{{ sound.subtitle }}</p> -->
       <div id="duration">
-        <span *ngIf="sound.showed_at">
-          <ion-icon name="md-calendar"></ion-icon>
-          <span>{{ sound.showed_at }}</span>
-        </span>
-        <span *ngIf="sound.duration" style="margin-left: 15px">
-          <ion-icon name="md-time"></ion-icon>
-          <span>{{ sound.duration*60 | timeSecToMin }}</span>
-        </span>
-      </div>
+          <span *ngIf="sound.showed_at">
+            <ion-icon name="md-time"></ion-icon>
+            <span>{{ sound.showed_at | thaiDate }}</span>
+          </span>
+          <span *ngIf="sound.duration" style="margin-left: 15px">
+            <span>ความยาว {{ sound.duration }} นาที</span>
+          </span>
+        </div>
       <!-- <ion-grid id="duration">
         <ion-row>
           <ion-col col-xs-6 *ngIf="sound.showed_at">
