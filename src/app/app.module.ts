@@ -8,6 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 // native plugins
 import { Media } from '@ionic-native/media';
 import { BackgroundMode } from '@ionic-native/background-mode';
+import { SQLite } from '@ionic-native/sqlite';
 
 import { MyApp } from './app.component';
 
@@ -69,6 +70,7 @@ import { PipesModule } from '../pipes/pipes.module';
     SplashScreen,
     Media,
     BackgroundMode,
+    SQLite,
     SoundProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
