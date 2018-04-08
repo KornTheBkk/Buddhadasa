@@ -1,5 +1,5 @@
 import { SoundListenPage } from './../sound-listen/sound-listen';
-import { Component, ViewChild, Inject } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Searchbar } from 'ionic-angular';
 
 import { SoundProvider } from '../../providers/sound/sound';
@@ -27,8 +27,7 @@ export class SearchPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public soundProvider: SoundProvider,
-    @Inject('API_ASSETS') public apiAssets: string) {
+    public soundProvider: SoundProvider) {
 
   }
 
@@ -86,7 +85,7 @@ export class SearchPage {
                 subtitle: s.subtitle,
                 showed_at: s.showed_at,
                 duration: s.duration,
-                mp3_file: `${this.apiAssets}/${s.mp3_file}`
+                mp3_file: s.mp3_file
               };
               this.items.push(item);
             });
@@ -111,7 +110,11 @@ export class SearchPage {
   }
 
   navigateToListen(sound: ISound) {
-    this.navCtrl.push(SoundListenPage, sound);
+    if (sound.mp3_file) {
+      this.navCtrl.push(SoundListenPage, sound);
+    } else {
+      console.log('Can\'t navigate to listen.');
+    }
   }
 
   doInfinite(infiniteScroll) {
@@ -139,7 +142,7 @@ export class SearchPage {
                   subtitle: s.subtitle,
                   showed_at: s.showed_at,
                   duration: s.duration,
-                  mp3_file: `${this.apiAssets}/${s.mp3_file}`
+                  mp3_file: s.mp3_file
                 };
                 this.items.push(item);
               });

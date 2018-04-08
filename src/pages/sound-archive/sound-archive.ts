@@ -1,5 +1,5 @@
 import { SoundListenPage } from './../sound-listen/sound-listen';
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, Loading, Refresher } from 'ionic-angular';
 
 import { SoundProvider } from './../../providers/sound/sound';
@@ -29,8 +29,7 @@ export class SoundArchivePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
-    public soundProvider: SoundProvider,
-    @Inject('API_ASSETS') public apiAssets: string) {
+    public soundProvider: SoundProvider) {
 
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
@@ -72,7 +71,7 @@ export class SoundArchivePage {
               subtitle: s.subtitle,
               showed_at: s.showed_at,
               duration: s.duration,
-              mp3_file: s.mp3_file ? `${this.apiAssets}/${s.mp3_file}` : null,
+              mp3_file: s.mp3_file
               //mp3_file: 'http://sound.bia.or.th/administrator/biasound/6/6155320219020.mp3'
             };
             this.sounds.push(sound);
@@ -123,7 +122,7 @@ export class SoundArchivePage {
               subtitle: s.subtitle,
               showed_at: s.showed_at,
               duration: s.duration,
-              mp3_file: `${this.apiAssets}/${s.mp3_file}`
+              mp3_file: s.mp3_file
             };
             this.sounds.push(sound);
           });
@@ -163,7 +162,7 @@ export class SoundArchivePage {
                 subtitle: s.subtitle,
                 showed_at: s.showed_at,
                 duration: s.duration,
-                mp3_file: `${this.apiAssets}/${s.mp3_file}`
+                mp3_file: s.mp3_file
               };
               this.sounds.push(sound);
             });

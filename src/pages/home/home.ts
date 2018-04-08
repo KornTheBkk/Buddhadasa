@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, App, Refresher } from 'ionic-angular';
 
 import { SearchPage } from '../search/search';
@@ -20,8 +20,7 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public soundProvider: SoundProvider,
-    private app: App,
-    @Inject('API_ASSETS') public apiAssets: string) {
+    private app: App) {
 
   }
 
@@ -48,7 +47,7 @@ export class HomePage {
               subtitle: s.subtitle,
               showed_at: s.showed_at,
               duration: s.duration,
-              mp3_file: s.mp3_file ? `${this.apiAssets}/${s.mp3_file}` : null,
+              mp3_file: s.mp3_file
             };
             this.sounds.push(sound);
           });
@@ -92,7 +91,7 @@ export class HomePage {
               subtitle: s.subtitle,
               showed_at: s.showed_at,
               duration: s.duration,
-              mp3_file: s.mp3_file ? `${this.apiAssets}/${s.mp3_file}` : null,
+              mp3_file: s.mp3_file
             };
             this.sounds.push(sound);
           });
