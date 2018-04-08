@@ -110,6 +110,9 @@ export class SearchPage {
   }
 
   navigateToListen(sound: ISound) {
+
+    this.logSearch();
+
     if (sound.mp3_file) {
       this.navCtrl.push(SoundListenPage, sound);
     } else {
@@ -164,6 +167,13 @@ export class SearchPage {
 
       infiniteScroll.complete();
     }, 1000);
+  }
+
+  logSearch() {
+    if (this.find) {
+      console.log('log serach : ' + this.find);
+      
+    }
   }
 
 }
