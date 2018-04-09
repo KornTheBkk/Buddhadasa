@@ -1,9 +1,17 @@
-import { SoundListenPage } from './../sound-listen/sound-listen';
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Searchbar } from 'ionic-angular';
+import { NavController, NavParams, Searchbar, Platform } from 'ionic-angular';
+
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 import { SoundProvider } from '../../providers/sound/sound';
 import { ISound } from '../../interface/sound';
+
+import { SoundListenPage } from './../sound-listen/sound-listen';
+
+import { SearchProvider } from './../../providers/search/search';
+
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'page-search',
@@ -24,11 +32,35 @@ export class SearchPage {
   page: number = 1;
   totalPage: number = 0;
 
+  db: SQLiteObject = null;
+
+  historyLog: Array<any> = [];
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public soundProvider: SoundProvider) {
+    public platform: Platform,
+    public soundProvider: SoundProvider,
+    private sqlite: SQLite,
+    private searchProvider: SearchProvider) {
 
+    platform.ready().then(() => {
+      this.initSQLite();
+    });
+  }
+
+  initSQLite() {
+
+    this.sqlite.create({
+      name: 'buddhadasa.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+
+        this.db = db;
+        this.getLog();
+      })
+      .catch(e => console.log(e));
   }
 
   ionViewDidLoad() {
@@ -42,9 +74,35 @@ export class SearchPage {
 
   }
 
+  getLog() {
+    this.searchProvider.getLog(this.db)
+      .then((res: any) => { 
+        //console.log(res);
+        this.historyLog = [];
+        
+        if (res.rows.length > 0) {
+          for (let i = 0; i < res.rows.length; i++){
+
+            let item = {
+              name: res.rows.item(i).name,
+              created_at: moment.unix(res.rows.item(i).created_at).format("DD/MM/YYYY HH:mm:ss")
+            };
+
+            this.historyLog.push(item);
+          }
+        }
+        //console.log(this.historyLog);
+        
+      })
+      .catch(error => { 
+        console.log('get log error : ' + JSON.stringify(error));       
+      });
+  }
+
   onInput(event) {
     //console.log('on input: ' + JSON.stringify(event));
     this.search();
+    this.getLog();
   }
 
   onCancel(event) {
@@ -170,10 +228,34 @@ export class SearchPage {
   }
 
   logSearch() {
-    if (this.find) {
-      console.log('log serach : ' + this.find);
-      
+    //console.log('db: ' + this.db);
+    let find = this.find.trim();
+
+    if (find && this.db) {
+      console.log('log serach : ' + find);
+      this.searchProvider.log(this.db, find)
+        .then(res => {
+          //console.log('logSearch inserted: ' + JSON.stringify(res));
+          console.log(JSON.stringify(res));
+         })
+        .catch(error => { 
+          console.log('Error : ' + JSON.stringify(error));
+        });
     }
+  }
+
+  historyClicked(log: any) {
+
+    this.searchProvider.updateLog(this.db, log.name)
+      .then(res => { 
+
+      })
+      .catch(error => { 
+
+      });
+    
+    this.find = log.name;
+    this.search();
   }
 
 }

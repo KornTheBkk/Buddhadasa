@@ -7,6 +7,8 @@ import { SoundProvider } from './../../providers/sound/sound';
 import { ISound } from '../../interface/sound';
 import { SoundListenPage } from '../sound-listen/sound-listen';
 
+//import * as moment from 'moment';
+
 
 @Component({
   selector: 'page-home',
@@ -21,7 +23,12 @@ export class HomePage {
     public navCtrl: NavController,
     public soundProvider: SoundProvider,
     private app: App) {
-
+    
+      /* let currentTime = moment().unix();
+      console.log(`currentTime : ${currentTime} | ${moment().format('YYYY-MM-DD HH:mm:ss')}`);      
+      let tt = moment.unix(1523265057).format("DD/MM/YYYY HH:mm:ss")
+      console.log(tt); */
+      
   }
 
   ionViewDidLoad() {

@@ -37,9 +37,12 @@ export class MyApp {
       .then((db: SQLiteObject) => {
     
         db.executeSql(`
-          CREATE TABLE IF NOT EXISTS SearchLog
-          (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), created_at TIMESTAMP)`, {})
-          .then(() => console.log('Executed SQL'))
+          CREATE TABLE IF NOT EXISTS SearchLog (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name VARCHAR(255),
+            created_at INTEGER
+          )`, {})
+          .then(() => console.log('Created the SearchLog table successfully.'))
           .catch(e => console.log(e));
       })
       .catch(e => console.log(e));

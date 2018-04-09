@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-searchbar #searchbar debounce="1000" placeholder="พิมพ์คำค้นหาเสียง" [(ngModel)]="find" [showCancelButton]="shouldShowCancel"
+    <ion-searchbar #searchbar debounce="500" placeholder="พิมพ์คำค้นหาเสียง" [(ngModel)]="find" [showCancelButton]="shouldShowCancel"
       (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
     </ion-searchbar>
   </ion-navbar>
@@ -38,6 +38,17 @@
       </button>
     </ion-list>
   </div>
+
+  <div id="searchLog" *ngIf="!find">
+    <ion-list no-lines>
+      <button ion-item *ngFor="let log of historyLog" (click)="historyClicked(log)">
+        <img src="./assets/imgs/time-machine.png" class="icon-time-machinge" /> {{ log.name }}
+        <p>{{ log.created_at }}</p>
+      </button>
+    </ion-list>
+  </div>
+
+
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>

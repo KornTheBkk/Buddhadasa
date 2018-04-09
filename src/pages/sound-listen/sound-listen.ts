@@ -72,7 +72,7 @@ export class SoundListenPage {
     this.file.onError.subscribe(error => console.log('Error!', JSON.stringify(error)));
 
     this.file.onStatusUpdate.subscribe(status => {
-      console.log('on status update: ' + status);
+      //console.log('on status update: ' + status);
       //console.log('init duration: ' + this.duration);
     });
   }
@@ -80,7 +80,7 @@ export class SoundListenPage {
   changeSeekTo() {
     if (this.seekPosition != this.currentPosition && this.currentPosition > 0) {
       this.file.seekTo(this.seekPosition * 1000);
-      console.log('seek to: ' + this.seekPosition);
+      //console.log('seek to: ' + this.seekPosition);
       this.currentPosition = this.seekPosition;
     }
   }
@@ -128,7 +128,7 @@ export class SoundListenPage {
           }
 
           if (this.isLoading) {
-            console.log('refresh player');
+            //console.log('refresh player');
 
             //refresh player: pause & play : ถ้าไม่ทำแบบนี้ เน็ตช้าๆ มันจะค้างและไม่เล่นต่อ
             this.refreshPlayer();
