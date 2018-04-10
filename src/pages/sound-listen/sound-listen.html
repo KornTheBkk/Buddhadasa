@@ -14,34 +14,52 @@
 
 <ion-content padding>
 
-  <h3 text-center>{{ audio.title }}</h3>
+  <!-- <h3 text-center>{{ audio.title }}</h3> -->
 
   <ion-card>
     <ion-card-content text-center>
-      <ion-range [(ngModel)]="seekPosition" min="0" [max]="duration" debounce="0" (ionChange)="changeSeekTo()" [disabled]="isLoading">
-        <ion-label range-left *ngIf="currentPosition >= 0">{{ currentPosition | timeSecToMin }}</ion-label>
-        <ion-label range-right *ngIf="duration">{{ duration | timeSecToMin }}</ion-label>
-      </ion-range>
+      <div text-center>
+        <ion-range [(ngModel)]="seekPosition" min="0" [max]="duration" debounce="0" (ionChange)="changeSeekTo()" [disabled]="isLoading">
+          <ion-label range-left *ngIf="currentPosition >= 0">{{ currentPosition | timeSecToMin }}</ion-label>
+          <ion-label range-right *ngIf="duration">{{ duration | timeSecToMin }}</ion-label>
+        </ion-range>
 
-      <button ion-button [disabled]="isLoading" (click)="skipBackward()">
-        <ion-icon name="skip-backward"></ion-icon>
-      </button>
+        <button ion-button [disabled]="isLoading" (click)="skipBackward()">
+          <ion-icon name="skip-backward"></ion-icon>
+        </button>
 
-      <button ion-button disabled *ngIf="isLoading" id="btn-spinner">
-        <img src="./assets/imgs/spinner.gif" *ngIf="isLoading" />
-      </button>
+        <button ion-button disabled *ngIf="isLoading" id="btn-spinner">
+          <img src="./assets/imgs/spinner.gif" *ngIf="isLoading" />
+        </button>
 
-      <button ion-button (click)="play()" [disabled]="isLoading" *ngIf="!isLoading">
-        <ion-icon name="play" *ngIf="!isPlaying"></ion-icon>
-        <ion-icon name="pause" *ngIf="isPlaying"></ion-icon>
-      </button>
+        <button ion-button (click)="play()" [disabled]="isLoading" *ngIf="!isLoading">
+          <ion-icon name="play" *ngIf="!isPlaying"></ion-icon>
+          <ion-icon name="pause" *ngIf="isPlaying"></ion-icon>
+        </button>
 
-      <button ion-button [disabled]="isLoading" (click)="skipForward()">
-        <ion-icon name="skip-forward"></ion-icon>
-      </button>
-
+        <button ion-button [disabled]="isLoading" (click)="skipForward()">
+          <ion-icon name="skip-forward"></ion-icon>
+        </button>
+      </div>
     </ion-card-content>
+  </ion-card>
 
+  <ion-card>
+    <ion-card-content>
+      <h1>{{ audio.title }}</h1>
+      <p *ngIf="audio.subtitle">
+        {{ audio.subtitle }}
+      </p>
+      <p *ngIf="audio.description">
+        {{ audio.description }}
+      </p>
+      <p *ngIf="audio.showed_at">
+        <strong>วันที่แสดงธรรม</strong> {{ audio.showed_at | thaiDate }}
+      </p>
+      <p *ngIf="audio.duration">
+        <strong>ความยาว</strong> {{ audio.duration }} นาที
+      </p>
+    </ion-card-content>
   </ion-card>
 
 </ion-content>

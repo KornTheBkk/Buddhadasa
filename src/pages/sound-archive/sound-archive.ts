@@ -58,7 +58,7 @@ export class SoundArchivePage {
     this.soundProvider.getSound(this.subcategory.id)
       .then((res: any) => {
         this.loader.dismiss();
-        //console.log(res);
+        console.log(res);
 
         if (res.ok) {
           this.sounds = [];
@@ -71,6 +71,7 @@ export class SoundArchivePage {
               sound_category_id: s.sound_category_id,
               title: s.title,
               subtitle: s.subtitle,
+              description: s.description,
               showed_at: s.showed_at,
               duration: s.duration,
               mp3_file: s.mp3_file
@@ -95,7 +96,7 @@ export class SoundArchivePage {
   }
 
   navigateToListen(sound: ISound) {
-    //console.log(sound);
+    console.log(sound);
     if (sound.mp3_file) {
       this.navCtrl.push(SoundListenPage, sound);
     } else {
@@ -122,12 +123,13 @@ export class SoundArchivePage {
               sound_category_id: s.sound_category_id,
               title: s.title,
               subtitle: s.subtitle,
+              description: s.description,
               showed_at: s.showed_at,
               duration: s.duration,
               mp3_file: s.mp3_file
             };
             this.sounds.push(sound);
-          });
+          });          
 
           this.page = res.data.current_page;
           this.totalPage = res.data.last_page;
@@ -167,6 +169,7 @@ export class SoundArchivePage {
                   sound_category_id: s.sound_category_id,
                   title: s.title,
                   subtitle: s.subtitle,
+                  description: s.description,
                   showed_at: s.showed_at,
                   duration: s.duration,
                   mp3_file: s.mp3_file

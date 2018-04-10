@@ -44,8 +44,8 @@ export class SoundListenPage {
 
     this.audio = navParams.data;
     this.filename = this.audio.mp3_file;
-    console.log(this.audio.mp3_file);
-    
+    //console.log(this.audio.mp3_file);
+    //console.log('audio: ' + JSON.stringify(this.audio));
   }
 
   ionViewWillEnter(){

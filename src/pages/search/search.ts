@@ -158,6 +158,7 @@ export class SearchPage {
                 sound_category_id: s.sound_category_id,
                 title: s.title,
                 subtitle: s.subtitle,
+                description: s.description,
                 showed_at: s.showed_at,
                 duration: s.duration,
                 mp3_file: s.mp3_file
@@ -218,6 +219,7 @@ export class SearchPage {
                   sound_category_id: s.sound_category_id,
                   title: s.title,
                   subtitle: s.subtitle,
+                  description: s.description,
                   showed_at: s.showed_at,
                   duration: s.duration,
                   mp3_file: s.mp3_file
