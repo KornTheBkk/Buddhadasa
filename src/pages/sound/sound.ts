@@ -23,6 +23,9 @@ export class SoundPage {
 
   loader: Loading;
 
+  isLoadingMore: boolean = false;
+
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -123,40 +126,46 @@ export class SoundPage {
   }
 
   doInfinite(infiniteScroll) {
-    let nextPage = this.page + 1;
 
-    setTimeout(() => {
+    if (!this.isLoadingMore) {
+      let nextPage = this.page + 1;
+      this.isLoadingMore = true;
 
-      this.soundProvider.getCategory(0, nextPage)
-        .then((res: any) => {
+      setTimeout(() => {
 
-          if (res.ok) {
-            //this.sounds = res.data;
-            let data: Array<ICategory> = res.data.data;
-            data.forEach(c => {
-              this.categories.push({
-                id: c.id,
-                name: c.name,
-                description: c.description,
-                parent_id: c.parent_id
+        this.soundProvider.getCategory(0, nextPage)
+          .then((res: any) => {
+
+            this.isLoadingMore = false;
+
+            if (res.ok) {
+              //this.sounds = res.data;
+              let data: Array<ICategory> = res.data.data;
+              data.forEach(c => {
+                this.categories.push({
+                  id: c.id,
+                  name: c.name,
+                  description: c.description,
+                  parent_id: c.parent_id
+                });
               });
-            });
 
-            this.page = res.data.current_page;
-            this.totalPage = res.data.last_page;
-            this.totalCategory = res.data.total;
+              this.page = res.data.current_page;
+              this.totalPage = res.data.last_page;
+              this.totalCategory = res.data.total;
 
-          } else {
-            console.log('Retieve data failed');
-          }
+            } else {
+              console.log('Retieve data failed');
+            }
 
-        })
-        .catch(error => {
-          console.log(JSON.stringify(error));
-        });
+          })
+          .catch(error => {
+            console.log(JSON.stringify(error));
+          });
 
-      infiniteScroll.complete();
-    }, 1000);
+        infiniteScroll.complete();
+      }, 1000);
+    }
   }
 
 }

@@ -23,6 +23,8 @@ export class SoundCategoryPage {
   page: number = 1;
   totalPage: number = 0;
 
+  isLoadingMore: boolean = false; 
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -162,61 +164,67 @@ export class SoundCategoryPage {
   }
 
   doInfinite(infiniteScroll) {
-    let nextPage = this.page + 1;
 
-    setTimeout(() => {
+    if (!this.isLoadingMore) {
+      let nextPage = this.page + 1;
+      this.isLoadingMore = true;
 
-      this.soundProvider.getCategory(0, nextPage)
-        .then((res: any) => {
+      setTimeout(() => {
 
-          if (res.ok) {
-            //this.sounds = res.data;
-            let data: Array<ICategory> = res.data.data;
-            data.forEach(c => {
+        this.soundProvider.getCategory(0, nextPage)
+          .then((res: any) => {
+
+            this.isLoadingMore = false;
+
+            if (res.ok) {
+              //this.sounds = res.data;
+              let data: Array<ICategory> = res.data.data;
+              data.forEach(c => {
               
-              this.soundProvider.getTotalSound(c.id)
-              .then((res: any) => { 
+                this.soundProvider.getTotalSound(c.id)
+                  .then((res: any) => {
 
-                let totalSound = 0;
-                if (res.ok) {
-                  totalSound = res.total;
-                }
+                    let totalSound = 0;
+                    if (res.ok) {
+                      totalSound = res.total;
+                    }
 
-                this.subcategories.push({
-                  id: c.id,
-                  name: c.name,
-                  order: c.order,
-                  totalSound: totalSound
-                });
-              })
-              .catch(error => { 
-                console.log(JSON.stringify(error));
+                    this.subcategories.push({
+                      id: c.id,
+                      name: c.name,
+                      order: c.order,
+                      totalSound: totalSound
+                    });
+                  })
+                  .catch(error => {
+                    console.log(JSON.stringify(error));
 
-                this.subcategories.push({
-                  id: c.id,
-                  name: c.name,
-                  order: c.order,
-                  totalSound: 0
-                });
+                    this.subcategories.push({
+                      id: c.id,
+                      name: c.name,
+                      order: c.order,
+                      totalSound: 0
+                    });
+                  });
+              
               });
-              
-            });
 
-            this.page = res.data.current_page;
-            this.totalPage = res.data.last_page;
-            this.totalCategory = res.data.total;
+              this.page = res.data.current_page;
+              this.totalPage = res.data.last_page;
+              this.totalCategory = res.data.total;
 
-          } else {
-            console.log('Retieve data failed');
-          }
+            } else {
+              console.log('Retieve data failed');
+            }
 
-        })
-        .catch(error => {
-          console.log(JSON.stringify(error));
-        });
+          })
+          .catch(error => {
+            console.log(JSON.stringify(error));
+          });
 
-      infiniteScroll.complete();
-    }, 1000);
+        infiniteScroll.complete();
+      }, 1000);
+    }  
   }
 
 }

@@ -25,6 +25,8 @@ export class SoundArchivePage {
   totalPage: number = 0;
   nextPageUrl: string;
 
+  isLoadingMore: boolean = false; // lock to do infinite when processing
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -143,46 +145,54 @@ export class SoundArchivePage {
   }
 
   doInfinite(infiniteScroll) {
-    let nextPage = this.page + 1;
 
-    setTimeout(() => {
+    if (!this.isLoadingMore) {
 
-      this.soundProvider.getSound(this.subcategory.id, nextPage)
-        .then((res: any) => {
+      let nextPage = this.page + 1;
+      this.isLoadingMore = true;
 
-          if (res.ok) {
-            this.totalSound = res.total;
-            //this.sounds = res.data;
-            let data: Array<ISound> = res.data.data;
-            data.forEach(s => {
-              let sound = {
-                id: s.id,
-                sound_category_id: s.sound_category_id,
-                title: s.title,
-                subtitle: s.subtitle,
-                showed_at: s.showed_at,
-                duration: s.duration,
-                mp3_file: s.mp3_file
-              };
-              this.sounds.push(sound);
-            });
+      setTimeout(() => {
 
-            this.page = res.data.current_page;
-            this.totalPage = res.data.last_page;
-            this.totalSound = res.data.total;
-            //console.log(`${this.page} < ${this.totalPage}`);
+        this.soundProvider.getSound(this.subcategory.id, nextPage)
+          .then((res: any) => {
+            this.isLoadingMore = false;
 
-          } else {
-            console.log('Retieve data failed');
-          }
+            if (res.ok) {
+              this.totalSound = res.total;
+              //this.sounds = res.data;
+              let data: Array<ISound> = res.data.data;
+              data.forEach(s => {
+                let sound = {
+                  id: s.id,
+                  sound_category_id: s.sound_category_id,
+                  title: s.title,
+                  subtitle: s.subtitle,
+                  showed_at: s.showed_at,
+                  duration: s.duration,
+                  mp3_file: s.mp3_file
+                };
+                this.sounds.push(sound);
+              });
 
-        })
-        .catch(error => {
-          console.log(JSON.stringify(error));
-        });
+              this.page = res.data.current_page;
+              this.totalPage = res.data.last_page;
+              this.totalSound = res.data.total;
+              //console.log(`${this.page} < ${this.totalPage}`);
 
-      infiniteScroll.complete();
-    }, 1000);
+            } else {
+              console.log('Retieve data failed');
+            }
+
+          })
+          .catch(error => {
+            this.isLoadingMore = false;
+            console.log(JSON.stringify(error));
+          });
+
+        infiniteScroll.complete();
+      }, 1000);
+
+    }
   }
 
 }
