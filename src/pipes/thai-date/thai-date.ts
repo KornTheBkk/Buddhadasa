@@ -12,11 +12,18 @@ export class ThaiDatePipe implements PipeTransform {
   /**
    * Takes a value and makes it lowercase.
    */
-  transform(value: string, ...args) {
+  transform(value: string, incTime: boolean = false) {
 
     let date = value.split(' ')[0];
     let ymd = date.split('-');
+    let strTime = '';
+    //console.log('incTime:  ' + incTime);
     
-    return `${ymd[2]}/${ymd[1]}/${parseInt(ymd[0]) + 543}`;
+    if (incTime) {
+      let t = value.split(' ')[1];
+      strTime = ' ' + t.slice(0, 5); // 15:20:34
+    }
+    
+    return `${ymd[2]}/${ymd[1]}/${parseInt(ymd[0]) + 543}${strTime}`;
   }
 }

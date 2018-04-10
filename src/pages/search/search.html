@@ -29,14 +29,14 @@
         {{ item.title }}
 
         <div id="duration">
-            <span *ngIf="item.showed_at">
-              <ion-icon name="md-time"></ion-icon>
-              <span>{{ item.showed_at | thaiDate }}</span>
-            </span>
-            <span *ngIf="item.duration" style="margin-left: 15px">
-              <span>ความยาว {{ item.duration }} นาที</span>
-            </span>
-          </div>
+          <span *ngIf="item.showed_at">
+            <ion-icon name="md-time"></ion-icon>
+            <span>{{ item.showed_at | thaiDate }}</span>
+          </span>
+          <span *ngIf="item.duration" style="margin-left: 15px">
+            <span>ความยาว {{ item.duration }} นาที</span>
+          </span>
+        </div>
       </button>
     </ion-list>
   </div>
@@ -44,8 +44,21 @@
   <div id="searchLog" *ngIf="!find">
     <ion-list no-lines>
       <button ion-item *ngFor="let log of historyLog" (click)="historyClicked(log)">
-        <img src="./assets/imgs/time-machine.png" class="icon-time-machinge" /> {{ log.name }}
-        <p>{{ log.created_at }}</p>
+        <img src="./assets/imgs/time-machine.png" class="icon-time-machinge" /> 
+        {{ log.name }}
+        <p style="margin-left: 30px">{{ log.created_at | thaiDate:true }}</p>
+
+        <!-- <ion-grid>
+          <ion-row>
+            <ion-col col-1>
+              <img src="./assets/imgs/time-machine.png" class="icon-time-machinge" />
+            </ion-col>
+            <ion-col col-11>
+              {{ log.name }}
+              <br>{{ log.created_at }}
+            </ion-col>
+          </ion-row>
+        </ion-grid> -->
       </button>
     </ion-list>
   </div>

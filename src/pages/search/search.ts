@@ -107,7 +107,7 @@ export class SearchPage {
 
               let item = {
                 name: res.rows.item(i).name,
-                created_at: moment.unix(res.rows.item(i).created_at).format("DD/MM/YYYY HH:mm:ss")
+                created_at: moment.unix(res.rows.item(i).created_at).format("YYYY-MM-DD HH:mm:ss")
               };
 
               this.historyLog.push(item);
