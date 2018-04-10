@@ -6,20 +6,46 @@ import * as moment from 'moment';
 @Injectable()
 export class SearchProvider {
 
+  perPage: number = 10;
+
   constructor(public http: HttpClient) {
 
   }
 
-  getLog(db: SQLiteObject) {
+  getLog(db: SQLiteObject, page: number = 1) {
+
+    if (page <= 0) {
+      page = 1;
+    }
+
+    let offset = (page - 1) * this.perPage;
+
     return new Promise((resolve, reject) => {
 
-      let sql = 'SELECT * FROM SearchLog ORDER BY created_at DESC';
+      this.getTotalLog(db)
+        .then((totalRows: number) => {
+          //console.log('totalRows: ' + totalRows);
+          let totalPage = Math.ceil(totalRows / this.perPage);
 
-      db.executeSql(sql, [])
-        .then(res => {
-          resolve(res);
+          let sql = `SELECT * FROM SearchLog ORDER BY created_at DESC LIMIT ${offset}, ${this.perPage}`;
+          console.log(sql);
+
+          db.executeSql(sql, [])
+            .then(res => {
+
+              let result = {
+                currentPage: page,
+                totalPage: totalPage,
+                rows: res.rows
+              };
+              resolve(result);
+            })
+            .catch(error => {
+              reject(error);
+            });
         })
         .catch(error => {
+          //console.log(error);
           reject(error);
         });
 
@@ -50,13 +76,13 @@ export class SearchProvider {
           } else {
 
             this.updateLog(db, log)
-              .then(res => { 
+              .then(res => {
                 resolve(res);
               })
-              .catch(error => { 
+              .catch(error => {
                 reject(error);
               });
-    
+
           }
 
         })
@@ -101,6 +127,22 @@ export class SearchProvider {
       db.executeSql(sql, [currentTime, log])
         .then(res => {
           resolve(res);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  getTotalLog(db: SQLiteObject) {
+    return new Promise((resolve, reject) => {
+
+      let sql = 'SELECT id FROM SearchLog';
+
+      db.executeSql(sql, [])
+        .then(res => {
+          let totalRows = res.rows.length;
+          resolve(totalRows);
         })
         .catch(error => {
           reject(error);

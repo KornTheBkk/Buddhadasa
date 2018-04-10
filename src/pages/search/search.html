@@ -2,7 +2,7 @@
 
   <ion-navbar>
     <ion-searchbar #searchbar debounce="500" placeholder="พิมพ์คำค้นหาเสียง" [(ngModel)]="find" [showCancelButton]="shouldShowCancel"
-      (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+      (ionInput)="onInput($event)" (ionCancel)="onCancel($event)" (ionClear)="onClear($event)">
     </ion-searchbar>
   </ion-navbar>
 
@@ -11,7 +11,9 @@
 
 <ion-content padding>
   <!-- find: {{ find }} | isLoading: {{ isLoading }}
-  <p>page: {{ page }} totalPage: {{ totalPage }}</p> -->
+  <p>isHistory: {{ isHistory }}</p>
+  <p>page: {{ page }} totalPage: {{ totalPage }}</p>
+  <p>pageLog: {{ pageLog }} totalPageLog: {{ totalPageLog }}</p> -->
 
   <div id="searchLoading" *ngIf="isLoading && find" padding text-center>
     <img src="./assets/imgs/spinner.gif" />
@@ -22,7 +24,7 @@
       ผลการค้นหาพบ {{ totalItem }} รายการ
     </div>
 
-    <ion-list no-lines *ngIf="!isLoading">
+    <ion-list no-lines>
       <button ion-item *ngFor="let item of items" (click)="navigateToListen(item)">
         {{ item.title }}
 
@@ -50,7 +52,12 @@
 
 
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="(page < totalPage) && !isHistory">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Search : Loading more data..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+
+  <ion-infinite-scroll (ionInfinite)="doInfiniteLog($event)" *ngIf="(pageLog < totalPageLog) && isHistory">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Log : Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>

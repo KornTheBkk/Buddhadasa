@@ -35,6 +35,9 @@ export class SearchPage {
   db: SQLiteObject = null;
 
   historyLog: Array<any> = [];
+  isHistory: boolean = true; // begining let show history log
+  pageLog: number = 1; // for log
+  totalPageLog: number = 0; // for log
 
   constructor(
     public navCtrl: NavController,
@@ -44,10 +47,36 @@ export class SearchPage {
     private sqlite: SQLite,
     private searchProvider: SearchProvider) {
 
-    platform.ready().then(() => {
-      this.initSQLite();
-    });
+      this.platform.ready().then(() => {
+        this.initSQLite();
+      });
   }
+
+  ionViewDidLoad() {
+    //console.log('ionViewDidLoad SearchPage');
+  }
+
+  ionViewWillEnter() {
+    setTimeout(() => {
+      this.searchbar.setFocus();
+    }, 1000);
+
+  }
+
+  onInput(event) {
+    //console.log('on input: ' + JSON.stringify(event));
+    this.search();
+   // this.getLog();
+    this.isHistory = false; 
+  }
+
+  onClear(event) {
+    //console.log('on clear : ' + JSON.stringify(event));
+    this.find = null;
+    this.isHistory = true;
+    this.items = [];
+  }
+
 
   initSQLite() {
 
@@ -63,50 +92,37 @@ export class SearchPage {
       .catch(e => console.log(e));
   }
 
-  ionViewDidLoad() {
-    //console.log('ionViewDidLoad SearchPage');
-  }
-
-  ionViewWillEnter() {
-    setTimeout(() => {
-      this.searchbar.setFocus();
-    }, 1000);
-
-  }
-
   getLog() {
-    this.searchProvider.getLog(this.db)
-      .then((res: any) => { 
-        //console.log(res);
-        this.historyLog = [];
-        
-        if (res.rows.length > 0) {
-          for (let i = 0; i < res.rows.length; i++){
+    if (this.historyLog.length == 0) {
 
-            let item = {
-              name: res.rows.item(i).name,
-              created_at: moment.unix(res.rows.item(i).created_at).format("DD/MM/YYYY HH:mm:ss")
-            };
+      this.isHistory = true;
 
-            this.historyLog.push(item);
+      this.searchProvider.getLog(this.db)
+        .then((res: any) => {
+          console.log(res);
+          this.historyLog = [];
+
+          if (res.rows.length > 0) {
+            for (let i = 0; i < res.rows.length; i++) {
+
+              let item = {
+                name: res.rows.item(i).name,
+                created_at: moment.unix(res.rows.item(i).created_at).format("DD/MM/YYYY HH:mm:ss")
+              };
+
+              this.historyLog.push(item);
+            }
+
+            this.pageLog = res.currentPage;
+            this.totalPageLog = res.totalPage;
           }
-        }
-        //console.log(this.historyLog);
-        
-      })
-      .catch(error => { 
-        console.log('get log error : ' + JSON.stringify(error));       
-      });
-  }
+          //console.log(this.historyLog);
 
-  onInput(event) {
-    //console.log('on input: ' + JSON.stringify(event));
-    this.search();
-    this.getLog();
-  }
-
-  onCancel(event) {
-    //console.log('on cancel: ' + JSON.stringify(event));
+        })
+        .catch(error => {
+          console.log('get log error : ' + JSON.stringify(error));
+        });
+    }
   }
 
   resetValue() {
@@ -123,6 +139,7 @@ export class SearchPage {
 
     if (this.find.trim()) {
       this.isLoading = true;
+      this.isHistory = false;
 
       this.soundProvider.search(this.find)
         .then((res: any) => {
@@ -237,8 +254,8 @@ export class SearchPage {
         .then(res => {
           //console.log('logSearch inserted: ' + JSON.stringify(res));
           console.log(JSON.stringify(res));
-         })
-        .catch(error => { 
+        })
+        .catch(error => {
           console.log('Error : ' + JSON.stringify(error));
         });
     }
@@ -247,15 +264,49 @@ export class SearchPage {
   historyClicked(log: any) {
 
     this.searchProvider.updateLog(this.db, log.name)
-      .then(res => { 
+      .then(res => {
 
       })
-      .catch(error => { 
+      .catch(error => {
 
       });
-    
+
     this.find = log.name;
     this.search();
+  }
+
+  doInfiniteLog(infiniteScroll) {
+    let nextPage = this.pageLog + 1;
+
+    setTimeout(() => {
+
+      this.searchProvider.getLog(this.db, nextPage)
+        .then((res: any) => {
+          //console.log(res);
+
+          if (res.rows.length > 0) {
+            for (let i = 0; i < res.rows.length; i++) {
+
+              let item = {
+                name: res.rows.item(i).name,
+                created_at: moment.unix(res.rows.item(i).created_at).format("DD/MM/YYYY HH:mm:ss")
+              };
+
+              this.historyLog.push(item);
+            }
+
+            this.pageLog = res.currentPage;
+            this.totalPageLog = res.totalPage;
+          }
+          //console.log(this.historyLog);
+
+        })
+        .catch(error => {
+          console.log('get log error : ' + JSON.stringify(error));
+        });
+
+      infiniteScroll.complete();
+    }, 1000);
   }
 
 }

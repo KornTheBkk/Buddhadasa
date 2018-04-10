@@ -159,7 +159,7 @@ export class SoundListenPage {
           }
 
 
-          console.log('current position: ' + this.currentPosition);
+          //console.log('current position: ' + this.currentPosition);
         });
 
       });
