@@ -23,7 +23,7 @@ export class SoundCategoryPage {
   page: number = 1;
   totalPage: number = 0;
 
-  isLoadingMore: boolean = false; 
+  isLoadingMore: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -65,33 +65,13 @@ export class SoundCategoryPage {
 
           data.forEach(c => {
             //category[c.id];
-          
-            this.soundProvider.getTotalSound(c.id)
-              .then((res: any) => { 
 
-                let totalSound = 0;
-                if (res.ok) {
-                  totalSound = res.total;
-                }
+            this.subcategories.push({
+              id: c.id,
+              name: c.name,
+              total_sound: c.total_sound
+            });
 
-                this.subcategories.push({
-                  id: c.id,
-                  name: c.name,
-                  order: c.order,
-                  totalSound: totalSound
-                });
-              })
-              .catch(error => { 
-                console.log(JSON.stringify(error));
-
-                this.subcategories.push({
-                  id: c.id,
-                  name: c.name,
-                  order: c.order,
-                  totalSound: 0
-                });
-              });
-           
           });
 
           this.page = res.data.current_page;
@@ -122,33 +102,13 @@ export class SoundCategoryPage {
           this.totalCategory = data.length;
           //this.subcategories = res.data;
           data.forEach(c => {
-            
-            this.soundProvider.getTotalSound(c.id)
-              .then((res: any) => { 
 
-                let totalSound = 0;
-                if (res.ok) {
-                  totalSound = res.total;
-                }
+            this.subcategories.push({
+              id: c.id,
+              name: c.name,
+              total_sound: c.total_sound
+            });
 
-                this.subcategories.push({
-                  id: c.id,
-                  name: c.name,
-                  order: c.order,
-                  totalSound: totalSound
-                });
-              })
-              .catch(error => { 
-                console.log(JSON.stringify(error));
-
-                this.subcategories.push({
-                  id: c.id,
-                  name: c.name,
-                  order: c.order,
-                  totalSound: 0
-                });
-              });
-            
           });
 
           this.page = res.data.current_page;
@@ -180,33 +140,13 @@ export class SoundCategoryPage {
               //this.sounds = res.data;
               let data: Array<ICategory> = res.data.data;
               data.forEach(c => {
-              
-                this.soundProvider.getTotalSound(c.id)
-                  .then((res: any) => {
 
-                    let totalSound = 0;
-                    if (res.ok) {
-                      totalSound = res.total;
-                    }
+                this.subcategories.push({
+                  id: c.id,
+                  name: c.name,
+                  total_sound: c.total_sound
+                });
 
-                    this.subcategories.push({
-                      id: c.id,
-                      name: c.name,
-                      order: c.order,
-                      totalSound: totalSound
-                    });
-                  })
-                  .catch(error => {
-                    console.log(JSON.stringify(error));
-
-                    this.subcategories.push({
-                      id: c.id,
-                      name: c.name,
-                      order: c.order,
-                      totalSound: 0
-                    });
-                  });
-              
               });
 
               this.page = res.data.current_page;
@@ -224,7 +164,7 @@ export class SoundCategoryPage {
 
         infiniteScroll.complete();
       }, 1000);
-    }  
+    }
   }
 
 }
