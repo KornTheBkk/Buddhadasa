@@ -31,6 +31,7 @@ import { SoundProvider } from '../providers/sound/sound';
 
 import { PipesModule } from '../pipes/pipes.module';
 import { SearchProvider } from '../providers/search/search';
+import { BookProvider } from '../providers/book/book';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { SearchProvider } from '../providers/search/search';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
     { provide: 'API_URL', useValue: 'http://172.20.10.3/buddhadasa/api' },
-    SearchProvider
+    SearchProvider,
+    BookProvider
   ]
 })
 export class AppModule {}

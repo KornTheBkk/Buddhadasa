@@ -3,6 +3,6 @@ export interface IBookCategory {
     name?: string;
     description?: string;
     parent_id?: number;
-    total_sound?: number;
+    total_book?: number;
     order?: number;
 };

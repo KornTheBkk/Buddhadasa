@@ -12,5 +12,24 @@
 </ion-header>
 
 <ion-content padding>
-    <p>Coming Soon</p>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+  <h1>
+    <ion-icon name="volume-up"></ion-icon> ประเภทของหนังสือแบ่งเป็น {{ totalCategory }} หมวด</h1>
+  <ion-list>
+    <button ion-item *ngFor="let category of categories; let i = index" (click)="selectedCategory(category)">
+      {{ i+1 }}. {{ category.name }}
+      <ion-badge item-end>{{ category.total_book | number }}</ion-badge>
+    </button>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
