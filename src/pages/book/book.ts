@@ -41,6 +41,10 @@ export class BookPage {
     this.navCtrl.push(SearchPage);
   }
 
+  navigateToDetail(category: IBookCategory) {
+    
+  }
+
   getCategory() {
     this.loader.present();
 

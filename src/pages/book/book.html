@@ -20,9 +20,9 @@
 
 
   <h1>
-    <ion-icon name="volume-up"></ion-icon> ประเภทของหนังสือแบ่งเป็น {{ totalCategory }} หมวด</h1>
+    <ion-icon name="book"></ion-icon> ประเภทของหนังสือแบ่งเป็น {{ totalCategory }} หมวด</h1>
   <ion-list>
-    <button ion-item *ngFor="let category of categories; let i = index" (click)="selectedCategory(category)">
+    <button ion-item *ngFor="let category of categories; let i = index" (click)="navigateToDetail(category)">
       {{ i+1 }}. {{ category.name }}
       <ion-badge item-end>{{ category.total_book | number }}</ion-badge>
     </button>

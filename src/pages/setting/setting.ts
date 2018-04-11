@@ -8,6 +8,8 @@ import { SearchPage } from '../search/search';
 })
 export class SettingPage {
 
+  pushNotification: boolean = true;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

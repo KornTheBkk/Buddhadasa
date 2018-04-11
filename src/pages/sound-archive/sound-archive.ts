@@ -58,7 +58,7 @@ export class SoundArchivePage {
     this.soundProvider.getSound(this.subcategory.id)
       .then((res: any) => {
         this.loader.dismiss();
-        console.log(res);
+        //console.log(res);
 
         if (res.ok) {
           this.sounds = [];
