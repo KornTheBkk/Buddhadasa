@@ -6,7 +6,7 @@ import 'rxjs/add/operator/timeout';
 @Injectable()
 export class BookProvider {
 
-  httpTimeout: number = 10000;
+  httpTimeout: number = 5000;
 
   constructor(public http: HttpClient, @Inject('API_URL') public apiUrl: string) {
   }
@@ -33,6 +33,35 @@ export class BookProvider {
         });  
     });
 
+  }
+
+  getBooks(categoryId?: any, page?: any, pageSize?: any) {
+  
+    if (!categoryId) {
+      categoryId = '';
+    }
+
+    if (!page) {
+      page = '';
+    }
+
+    if (!pageSize) {
+      pageSize = '';
+    }
+
+    let url = `${this.apiUrl}/books/?book_category_id=${categoryId}&page=${page}&page_size=${pageSize}`;
+    //console.log(url);
+    
+    return new Promise((resolve, reject) => { 
+      this.http.get(url)
+        .timeout(this.httpTimeout)
+        .subscribe(res => { 
+          resolve(res);
+        }, error => { 
+          reject(error);
+        });  
+    });
+  
   }
 
 }

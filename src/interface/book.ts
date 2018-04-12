@@ -5,8 +5,9 @@ export interface IBook {
     subtitle?: string;
     description?: string;
     pdf_file?: string;
-    image?: string,
-    image_thumb?: string,
-    image_thumb_square?: string,
+    image?: string;
+    image_thumb?: string;
+    image_thumb_square?: string;
     published_at?: string;
+    view?: number;
 };

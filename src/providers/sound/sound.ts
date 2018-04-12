@@ -5,7 +5,7 @@ import 'rxjs/add/operator/timeout';
 @Injectable()
 export class SoundProvider {
 
-  httpTimeout: number = 10000;
+  httpTimeout: number = 5000;
 
   constructor(public http: HttpClient, @Inject('API_URL') public apiUrl: string) {
   }

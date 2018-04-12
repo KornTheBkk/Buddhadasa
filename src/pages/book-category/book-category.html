@@ -8,9 +8,48 @@
 
 
 <ion-content padding>
+  <!-- <p>page: {{ page }} totalPage: {{ totalPage }}</p> -->
 
   <h1>
     <ion-icon name="book"></ion-icon> หมวด {{ category.name }} ทั้งหมด {{ category.total_book }} รายการ
   </h1>
+  <br>
+
+  <!-- <ion-card *ngFor="let book of books; let i = index">
+    <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" style="max-width: 150px; margin: 0 auto" />
+    <ion-card-content>
+      <ion-card-title>
+        {{ i+1 }}. {{ book.title }}
+      </ion-card-title>
+      <p>
+        {{ book.description }}
+      </p>
+      <p class="date">
+        <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
+        <ion-icon name="eye"></ion-icon> 1,341
+      </p>
+    </ion-card-content>
+  </ion-card> -->
+
+  <ion-list>
+    <button ion-item *ngFor="let book of books; let i = index" (click)="readBook(book)">
+      <div class="book-thumbnail">
+          <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
+      </div>
+      <h1>{{ i+1 }}. {{ book.title }}</h1>
+      <p *ngIf="book.description">
+        {{ book.description }}
+      </p>
+      <p class="date">
+        <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
+        <ion-icon name="eye"></ion-icon> {{ book.view | number }}
+      </p>
+    </button>
+  </ion-list>
+
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

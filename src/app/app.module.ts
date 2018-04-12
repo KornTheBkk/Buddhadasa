@@ -10,6 +10,12 @@ import { Media } from '@ionic-native/media';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { SQLite } from '@ionic-native/sqlite';
 
+// providers
+import { SoundProvider } from '../providers/sound/sound';
+import { PipesModule } from '../pipes/pipes.module';
+import { SearchProvider } from '../providers/search/search';
+import { BookProvider } from '../providers/book/book';
+
 import { MyApp } from './app.component';
 
 // custom components
@@ -26,13 +32,6 @@ import { SoundCategoryPage } from '../pages/sound-category/sound-category';
 import { SoundArchivePage } from '../pages/sound-archive/sound-archive';
 import { SoundListenPage } from '../pages/sound-listen/sound-listen';
 import { SearchPage } from '../pages/search/search';
-
-// providers
-import { SoundProvider } from '../providers/sound/sound';
-
-import { PipesModule } from '../pipes/pipes.module';
-import { SearchProvider } from '../providers/search/search';
-import { BookProvider } from '../providers/book/book';
 
 
 @NgModule({
@@ -79,7 +78,7 @@ import { BookProvider } from '../providers/book/book';
     SoundProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
-    { provide: 'API_URL', useValue: 'http://172.20.10.2/buddhadasa/api' },
+    { provide: 'API_URL', useValue: 'http://172.20.10.3/buddhadasa/api' },
     SearchProvider,
     BookProvider
   ]
