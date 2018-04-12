@@ -53,7 +53,21 @@ export class BookCategoryPage {
 
   readBook(book: IBook) {
     console.log(book.pdf_file);
-    
+    this.updateView(book.id);
+  }
+
+  updateView(bookId: number) {
+    this.bookProvider.updateView(bookId)
+      .then((res: any) => { 
+        if (res.ok) {
+          console.log(JSON.stringify(res));
+        } else {
+          console.log(JSON.stringify(res.message));
+        }
+      })
+      .catch(error => { 
+        console.log(JSON.stringify(error));
+      });
   }
 
   getBooks() {
@@ -70,22 +84,7 @@ export class BookCategoryPage {
           //this.totalBook = res.total;
           //this.sounds = res.data;
           let data: Array<IBook> = res.data.data;
-          data.forEach(s => {
-            let book = {
-              id: s.id,
-              book_category_id: s.book_category_id,
-              title: s.title,
-              subtitle: s.subtitle,
-              description: s.description,
-              published_at: s.published_at,
-              view: s.view,
-              pdf_file: s.pdf_file,
-              image: s.image,
-              image_thumb: s.image_thumb ? s.image_thumb : null,
-              image_thumb_square: s.image_thumb_square ? s.image_thumb_square : null
-            };
-            this.books.push(book);
-          });
+          this.books = this.bookProvider.bookMapping(data);
 
           this.page = res.data.current_page;
           this.totalPage = res.data.last_page;
@@ -112,7 +111,7 @@ export class BookCategoryPage {
 
         this.bookProvider.getBooks(this.category.id, nextPage, this.pageSize)
           .then((res: any) => {
-            console.log(res);
+            //console.log(res);
 
             this.isLoadingMore = false;
 
@@ -120,22 +119,7 @@ export class BookCategoryPage {
               //this.sounds = res.data;
               let data: Array<IBook> = res.data.data;
 
-              data.forEach(s => {
-                let book = {
-                  id: s.id,
-                  book_category_id: s.book_category_id,
-                  title: s.title,
-                  subtitle: s.subtitle,
-                  description: s.description,
-                  published_at: s.published_at,
-                  view: s.view,
-                  pdf_file: s.pdf_file,
-                  image: s.image,
-                  image_thumb: s.image_thumb ? s.image_thumb : null,
-                  image_thumb_square: s.image_thumb_square ? s.image_thumb_square : null
-                };
-                this.books.push(book);
-              });
+              this.books = this.bookProvider.bookMapping(data);
 
               this.page = res.data.current_page;
               this.totalPage = res.data.last_page;
@@ -169,22 +153,7 @@ export class BookCategoryPage {
           //this.totalBook = res.total;
           //this.sounds = res.data;
           let data: Array<IBook> = res.data.data;
-          data.forEach(s => {
-            let book = {
-              id: s.id,
-              book_category_id: s.book_category_id,
-              title: s.title,
-              subtitle: s.subtitle,
-              description: s.description,
-              published_at: s.published_at,
-              view: s.view,
-              pdf_file: s.pdf_file,
-              image: s.image,
-              image_thumb: s.image_thumb ? s.image_thumb : null,
-              image_thumb_square: s.image_thumb_square ? s.image_thumb_square : null
-            };
-            this.books.push(book);
-          });
+          this.books = this.bookProvider.bookMapping(data);
 
           this.page = res.data.current_page;
           this.totalPage = res.data.last_page;

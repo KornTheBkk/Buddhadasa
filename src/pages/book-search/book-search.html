@@ -1,8 +1,7 @@
-
 <ion-header>
 
   <ion-navbar>
-      <ion-searchbar #searchbar debounce="500" placeholder="พิมพ์คำค้นหาหนังสือ" [(ngModel)]="find" [showCancelButton]="shouldShowCancel"
+    <ion-searchbar #searchbar debounce="500" placeholder="พิมพ์คำค้นหาหนังสือ" [(ngModel)]="find" [showCancelButton]="shouldShowCancel"
       (ionInput)="onInput($event)" (ionClear)="onClear($event)">
     </ion-searchbar>
   </ion-navbar>
@@ -11,5 +10,39 @@
 
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div id="searchLoading" *ngIf="isLoading && find" padding text-center>
+    <img src="./assets/imgs/spinner.gif" />
+  </div>
+
+  <div *ngIf="!isLoading">
+    <div id="searchResult" padding *ngIf="find">
+      ผลการค้นหาพบ {{ totalBook }} รายการ
+    </div>
+
+    <ion-list>
+      <button ion-item *ngFor="let book of books; let i = index" (click)="readBook(book)">
+        <div class="book-thumbnail">
+          <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
+        </div>
+        <h1>{{ i+1 }}. {{ book.title }}</h1>
+        <p *ngIf="book.description">
+          {{ book.description }}
+        </p>
+        <p class="date">
+          <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
+          <ion-icon name="eye"></ion-icon> {{ book.view | number }}
+        </p>
+      </button>
+    </ion-list>
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
