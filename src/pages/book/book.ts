@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, Loading, Refresher } from 'ionic-angular';
+
 import { SearchPage } from '../search/search';
+import { BookCategoryPage } from './../book-category/book-category';
+
 
 import { BookProvider } from '../../providers/book/book';
 import { IBookCategory } from '../../interface/book-category';
@@ -42,7 +45,7 @@ export class BookPage {
   }
 
   navigateToDetail(category: IBookCategory) {
-    
+    this.navCtrl.push(BookCategoryPage, category);
   }
 
   getCategory() {

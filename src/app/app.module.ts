@@ -20,6 +20,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
 import { SoundPage } from '../pages/sound/sound';
 import { BookPage } from '../pages/book/book';
+import { BookCategoryPage } from '../pages/book-category/book-category';
 import { SettingPage } from '../pages/setting/setting';
 import { SoundCategoryPage } from '../pages/sound-category/sound-category';
 import { SoundArchivePage } from '../pages/sound-archive/sound-archive';
@@ -41,6 +42,7 @@ import { BookProvider } from '../providers/book/book';
     HomePage,
     SoundPage,
     BookPage,
+    BookCategoryPage,
     SettingPage,
     SoundCategoryPage,
     SoundArchivePage,
@@ -61,6 +63,7 @@ import { BookProvider } from '../providers/book/book';
     HomePage,
     SoundPage,
     BookPage,
+    BookCategoryPage,
     SettingPage,
     SoundCategoryPage,
     SoundArchivePage,
