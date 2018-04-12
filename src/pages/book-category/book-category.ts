@@ -5,6 +5,7 @@ import { IBookCategory } from '../../interface/book-category';
 
 import { BookProvider } from './../../providers/book/book';
 import { IBook } from '../../interface/book';
+import { BookSearchPage } from '../book-search/book-search';
 
 @Component({
   selector: 'page-book-category',
@@ -44,6 +45,11 @@ export class BookCategoryPage {
     //console.log('ionViewDidLoad BookCategoryPage');
     this.getBooks();
   }
+
+  search() {
+    this.navCtrl.push(BookSearchPage);
+  }
+
 
   readBook(book: IBook) {
     console.log(book.pdf_file);

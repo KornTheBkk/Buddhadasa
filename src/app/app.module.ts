@@ -32,6 +32,7 @@ import { SoundCategoryPage } from '../pages/sound-category/sound-category';
 import { SoundArchivePage } from '../pages/sound-archive/sound-archive';
 import { SoundListenPage } from '../pages/sound-listen/sound-listen';
 import { SearchPage } from '../pages/search/search';
+import { BookSearchPage } from '../pages/book-search/book-search';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { SearchPage } from '../pages/search/search';
     SoundArchivePage,
     SoundListenPage,
     SearchPage,
+    BookSearchPage,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,7 @@ import { SearchPage } from '../pages/search/search';
     SoundArchivePage,
     SoundListenPage,
     SearchPage,
+    BookSearchPage,
   ],
   providers: [
     StatusBar,
