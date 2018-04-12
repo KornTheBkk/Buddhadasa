@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Loading, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, Loading, LoadingController, Refresher } from 'ionic-angular';
 
 import { IBookCategory } from '../../interface/book-category';
 
@@ -45,6 +45,11 @@ export class BookCategoryPage {
     this.getBooks();
   }
 
+  readBook(book: IBook) {
+    console.log(book.pdf_file);
+    
+  }
+
   getBooks() {
 
     this.loader.present();
@@ -52,7 +57,7 @@ export class BookCategoryPage {
     this.bookProvider.getBooks(this.category.id, 1, this.pageSize)
       .then((res: any) => {
         this.loader.dismiss();
-        console.log(res);
+        //console.log(res);
 
         if (res.ok) {
           this.books = [];
@@ -102,7 +107,7 @@ export class BookCategoryPage {
         this.bookProvider.getBooks(this.category.id, nextPage, this.pageSize)
           .then((res: any) => {
             console.log(res);
-            
+
             this.isLoadingMore = false;
 
             if (res.ok) {
@@ -144,9 +149,46 @@ export class BookCategoryPage {
     }
   }
 
-  readBook(book: IBook) {
 
+  doRefresh(refresher: Refresher) {
+
+    this.bookProvider.getBooks(this.category.id, 1, this.pageSize)
+      .then((res: any) => {
+        refresher.complete();
+        //console.log(data);
+
+        if (res.ok) {
+
+          this.books = [];
+          //this.totalBook = res.total;
+          //this.sounds = res.data;
+          let data: Array<IBook> = res.data.data;
+          data.forEach(s => {
+            let book = {
+              id: s.id,
+              book_category_id: s.book_category_id,
+              title: s.title,
+              subtitle: s.subtitle,
+              description: s.description,
+              published_at: s.published_at,
+              view: s.view,
+              pdf_file: s.pdf_file,
+              image: s.image,
+              image_thumb: s.image_thumb ? s.image_thumb : null,
+              image_thumb_square: s.image_thumb_square ? s.image_thumb_square : null
+            };
+            this.books.push(book);
+          });
+
+          this.page = res.data.current_page;
+          this.totalPage = res.data.last_page;
+          this.totalBook = res.data.total;
+        }
+
+      })
+      .catch(error => {
+        refresher.complete();
+        console.log(JSON.stringify(error));
+      });
   }
-
-
 }

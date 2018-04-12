@@ -8,6 +8,12 @@
 
 
 <ion-content padding>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <!-- <p>page: {{ page }} totalPage: {{ totalPage }}</p> -->
 
   <h1>
@@ -34,7 +40,7 @@
   <ion-list>
     <button ion-item *ngFor="let book of books; let i = index" (click)="readBook(book)">
       <div class="book-thumbnail">
-          <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
+        <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
       </div>
       <h1>{{ i+1 }}. {{ book.title }}</h1>
       <p *ngIf="book.description">
