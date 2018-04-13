@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Loading, LoadingController, Refresher } from 'ionic-angular';
+import { NavController, NavParams, Loading, LoadingController, Refresher, Platform } from 'ionic-angular';
+
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { DocumentViewer } from '@ionic-native/document-viewer';
 
 import { IBookCategory } from '../../interface/book-category';
 
@@ -31,8 +35,12 @@ export class BookCategoryPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public platform: Platform,
     public loadingCtrl: LoadingController,
-    private bookProvider: BookProvider) {
+    private bookProvider: BookProvider,
+    private document: DocumentViewer,
+    private file: File,
+    private transfer: FileTransfer) {
 
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
@@ -55,6 +63,9 @@ export class BookCategoryPage {
     if (book.pdf_file) {
       this.updateView(book.id);
       console.log(book.pdf_file);
+
+      let fileName = book.id + '.pdf';
+      this.downloadAndOpenPdf(book.pdf_file, fileName);
     }
   }
 
@@ -167,5 +178,60 @@ export class BookCategoryPage {
         refresher.complete();
         console.log(JSON.stringify(error));
       });
+  }
+
+  downloadAndOpenPdf(fileUrl: string, fileName: string) {
+
+    this.platform.ready().then(() => {
+
+      let loader = this.loadingCtrl.create();
+      loader.setContent(`กำลังโหลดหนังสือ...`);
+      
+
+      let path = null;
+
+      if (this.platform.is('ios')) {
+        path = this.file.documentsDirectory;
+      } else {
+        path = this.file.dataDirectory;
+      }
+
+      let dirPath = path + 'buddhadasa/book/';
+      let filePath = dirPath + fileName;
+
+      this.file.checkFile(dirPath, fileName)
+        .then(() => {
+
+          console.log('file found');
+
+          this.document.viewDocument(filePath, 'application/pdf', {});
+
+        })
+        .catch(error => {
+
+          loader.present();
+
+          //console.log(JSON.stringify(error));
+
+          console.log('file not found');
+
+          let transfer: FileTransferObject = this.transfer.create();
+
+          transfer.download(fileUrl, filePath)
+            .then(entry => {
+
+              loader.dismiss();
+
+              let url = entry.toURL();
+              this.document.viewDocument(url, 'application/pdf', {});
+            })
+            .catch(error => {
+              loader.dismiss();
+              console.log(JSON.stringify(error));
+            });
+        
+        });
+
+    });
   }
 }

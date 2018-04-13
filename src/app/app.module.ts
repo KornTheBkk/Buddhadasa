@@ -9,6 +9,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Media } from '@ionic-native/media';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { SQLite } from '@ionic-native/sqlite';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { DocumentViewer } from '@ionic-native/document-viewer';
 
 // providers
 import { SoundProvider } from '../providers/sound/sound';
@@ -81,6 +84,9 @@ import { BookDetailPage } from '../pages/book-detail/book-detail';
     Media,
     BackgroundMode,
     SQLite,
+    File,
+    FileTransfer,
+    DocumentViewer,
     SoundProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
