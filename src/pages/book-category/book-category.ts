@@ -51,16 +51,18 @@ export class BookCategoryPage {
   }
 
 
-  readBook(book: IBook) {
-    console.log(book.pdf_file);
-    this.updateView(book.id);
+  navigateToBookDetail(book: IBook) {
+    if (book.pdf_file) {
+      this.updateView(book.id);
+      console.log(book.pdf_file);
+    }
   }
 
   updateView(bookId: number) {
     this.bookProvider.updateView(bookId)
       .then((res: any) => { 
         if (res.ok) {
-          console.log(JSON.stringify(res));
+          //console.log(JSON.stringify(res));
         } else {
           console.log(JSON.stringify(res.message));
         }
@@ -119,7 +121,7 @@ export class BookCategoryPage {
               //this.sounds = res.data;
               let data: Array<IBook> = res.data.data;
 
-              this.books = this.bookProvider.bookMapping(data);
+              this.books = [...this.books, ...this.bookProvider.bookMapping(data)];
 
               this.page = res.data.current_page;
               this.totalPage = res.data.last_page;

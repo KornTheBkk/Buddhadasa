@@ -54,6 +54,10 @@ export class BookSearchPage {
     this.isLoading = false;
   }
 
+  readBook() {
+    
+  }
+
   search() {
 
     this.books = [];

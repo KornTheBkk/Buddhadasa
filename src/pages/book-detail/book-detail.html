@@ -1,18 +1,31 @@
-<!--
-  Generated template for the BookDetailPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>bookDetail</ion-title>
+    <ion-title>หนังสือ</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="search()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+  <h1>{{ book.title }}</h1>
+  
+  <div class="book-thumbnail">
+    <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
+  </div>
+  
+  <p *ngIf="book.description">
+    {{ book.description }}
+  </p>
+  <p class="date">
+    <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
+    <ion-icon name="eye"></ion-icon> {{ book.view | number }}
+  </p>
 
 </ion-content>
