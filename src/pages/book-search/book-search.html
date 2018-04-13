@@ -25,7 +25,7 @@
     </div>
 
     <ion-list>
-      <button ion-item *ngFor="let book of books; let i = index" (click)="readBook(book)">
+      <button ion-item *ngFor="let book of books; let i = index" (click)="navigateToBookDetail(book)">
         <div class="book-thumbnail">
           <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
         </div>

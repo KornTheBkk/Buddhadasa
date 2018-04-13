@@ -7,6 +7,7 @@ import * as moment from 'moment';
 export class SearchProvider {
 
   perPage: number = 10;
+  category: string = 'song';
 
   constructor(public http: HttpClient) {
 
@@ -27,10 +28,10 @@ export class SearchProvider {
           //console.log('totalRows: ' + totalRows);
           let totalPage = Math.ceil(totalRows / this.perPage);
 
-          let sql = `SELECT * FROM SearchLog ORDER BY created_at DESC LIMIT ${offset}, ${this.perPage}`;
+          let sql = `SELECT * FROM SearchLog WHERE category = ? ORDER BY created_at DESC LIMIT ${offset}, ${this.perPage}`;
           console.log(sql);
 
-          db.executeSql(sql, [])
+          db.executeSql(sql, [this.category])
             .then(res => {
 
               let result = {
@@ -61,11 +62,11 @@ export class SearchProvider {
           //console.log('log isExists : ' + isExists);
           if (!isExists) {
 
-            let sql = 'INSERT INTO SearchLog (name, created_at) VALUES (?, ?)';
+            let sql = 'INSERT INTO SearchLog (name, category, created_at) VALUES (?, ?, ?)';
             //let currentTime = moment().format('YYYY-MM-DD h:mm:ss');
             let currentTime = moment().unix();
 
-            db.executeSql(sql, [log, currentTime])
+            db.executeSql(sql, [log, this.category, currentTime])
               .then(res => {
                 resolve(res);
               })
@@ -97,10 +98,10 @@ export class SearchProvider {
   private logExists(db: SQLiteObject, log: string) {
 
     let isExists = false;
-    let sql = 'SELECT id FROM SearchLog WHERE name = ?';
+    let sql = 'SELECT id FROM SearchLog WHERE name = ? AND category = ?';
 
     return new Promise((resolve, reject) => {
-      db.executeSql(sql, [log])
+      db.executeSql(sql, [log, this.category])
         .then((res: any) => {
           //console.log('logExists: ' + JSON.stringify(res));
 
@@ -121,10 +122,10 @@ export class SearchProvider {
     return new Promise((resolve, reject) => {
 
       // update this log to created_at
-      let sql = 'UPDATE SearchLog SET created_at = ? WHERE name = ?';
+      let sql = 'UPDATE SearchLog SET created_at = ? WHERE name = ? AND category = ?';
       let currentTime = moment().unix();
 
-      db.executeSql(sql, [currentTime, log])
+      db.executeSql(sql, [currentTime, log, this.category])
         .then(res => {
           resolve(res);
         })
@@ -137,9 +138,9 @@ export class SearchProvider {
   getTotalLog(db: SQLiteObject) {
     return new Promise((resolve, reject) => {
 
-      let sql = 'SELECT id FROM SearchLog';
+      let sql = 'SELECT id FROM SearchLog WHERE category = ?';
 
-      db.executeSql(sql, [])
+      db.executeSql(sql, [this.category])
         .then(res => {
           let totalRows = res.rows.length;
           resolve(totalRows);

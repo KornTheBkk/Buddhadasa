@@ -47,7 +47,7 @@
       <div class="book-thumbnail">
         <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
       </div>
-      <h1>{{ book.id }}. {{ book.title }}</h1>
+      <h1>{{ i+1 }}. {{ book.title }}</h1>
       <p *ngIf="book.description">
         {{ book.description }}
       </p>

@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, Refresher } from 'ionic-angular';
+import { NavController, NavParams, Platform, Refresher, LoadingController, Loading, AlertController } from 'ionic-angular';
+
 import { BookProvider } from '../../providers/book/book';
+
 import { IBook } from '../../interface/book';
+
+import { DocumentViewer } from '@ionic-native/document-viewer';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 
 
 @Component({
@@ -10,6 +16,7 @@ import { IBook } from '../../interface/book';
 })
 export class BookSearchPage {
 
+  loader: Loading;
 
   shouldShowCancel: boolean = false;
   find: string = null;
@@ -25,12 +32,32 @@ export class BookSearchPage {
 
   isLoadingMore: boolean = false; // lock to do infinite when processing
 
+  stragePath: string; // path for store file to local device
+
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public platform: Platform,
-    public bookProvider: BookProvider) {
+    public bookProvider: BookProvider,
+    public loadingCtrl: LoadingController,
+    private document: DocumentViewer,
+    private file: File,
+    private transfer: FileTransfer,
+    public alertCtrl: AlertController) {
+
+    this.loader = this.loadingCtrl.create({
+      content: 'Loading'
+    });
+
+
+    if (this.platform.is('ios')) {
+      this.stragePath = this.file.documentsDirectory;
+    } else {
+      this.stragePath = this.file.dataDirectory;
+    }
+
+    this.stragePath = this.stragePath + 'buddhadasa/book/';
 
   }
 
@@ -54,8 +81,23 @@ export class BookSearchPage {
     this.isLoading = false;
   }
 
-  readBook() {
-    
+  navigateToBookDetail(book: IBook) {
+    if (book.pdf_file) {
+
+      this.bookProvider.updateView(book.id).then(() => { });
+
+      let fileName = book.id + '.pdf'; // name for store to local device storage.      
+      this.downloadAndOpenPdf(book.pdf_file, fileName);
+    } else {
+
+      let alert = this.alertCtrl.create({
+        title: 'Alert!',
+        subTitle: 'ไม่พบไฟล์หนังสือเล่มนี้จากฐานข้อมูล',
+        buttons: ['OK']
+      });
+      alert.present();
+
+    }
   }
 
   search() {
@@ -162,6 +204,60 @@ export class BookSearchPage {
         refresher.complete();
         console.log(JSON.stringify(error));
       });
+  }
+
+  downloadAndOpenPdf(fileUrl: string, fileName: string) {
+
+    this.platform.ready().then(() => {
+
+      this.loader.setContent(`กำลังดาวน์โหลดหนังสือ...`);
+
+
+      let filePath = this.stragePath + fileName;
+
+      this.file.checkFile(this.stragePath, fileName)
+        .then(() => {
+
+          //console.log('file found');
+
+          this.document.viewDocument(filePath, 'application/pdf', {});
+
+        })
+        .catch(error => {
+
+          this.loader.present();
+
+          //console.log(JSON.stringify(error));
+
+          //console.log('file not found');
+
+          let transfer: FileTransferObject = this.transfer.create();
+
+          transfer.download(fileUrl, filePath)
+            .then(entry => {
+
+              this.loader.dismiss();
+
+              let url = entry.toURL();
+              this.document.viewDocument(url, 'application/pdf', {});
+            })
+            .catch(error => {
+
+              this.loader.dismiss();
+              //console.log(JSON.stringify(error));
+
+              let alert = this.alertCtrl.create({
+                title: 'Alert!',
+                subTitle: 'ไม่พบไฟล์หนังสือเล่มนี้จากฐานข้อมูล',
+                buttons: ['OK']
+              });
+              alert.present();
+
+            });
+
+        });
+
+    });
   }
 
 }

@@ -40,6 +40,7 @@ export class MyApp {
           CREATE TABLE IF NOT EXISTS SearchLog (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name VARCHAR(255),
+            category VARCHAR(50),
             created_at INTEGER
           )`, {})
           .then(() => console.log('Created the SearchLog table successfully.'))

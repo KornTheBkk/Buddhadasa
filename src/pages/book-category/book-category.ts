@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Loading, LoadingController, Refresher, Platform } from 'ionic-angular';
+import { NavController, NavParams, Loading, LoadingController, Refresher, Platform, AlertController } from 'ionic-angular';
 
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
@@ -31,6 +31,7 @@ export class BookCategoryPage {
 
   isLoadingMore: boolean = false; // lock to do infinite when processing
 
+  stragePath: string; // path for store file to local device
 
   constructor(
     public navCtrl: NavController,
@@ -40,13 +41,22 @@ export class BookCategoryPage {
     private bookProvider: BookProvider,
     private document: DocumentViewer,
     private file: File,
-    private transfer: FileTransfer) {
+    private transfer: FileTransfer,
+    public alertCtrl: AlertController) {
 
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
     });
 
     this.category = navParams.data;
+
+    if (this.platform.is('ios')) {
+      this.stragePath = this.file.documentsDirectory;
+    } else {
+      this.stragePath = this.file.dataDirectory;
+    }
+
+    this.stragePath = this.stragePath + 'buddhadasa/book/';
   }
 
   ionViewDidLoad() {
@@ -61,26 +71,21 @@ export class BookCategoryPage {
 
   navigateToBookDetail(book: IBook) {
     if (book.pdf_file) {
-      this.updateView(book.id);
-      console.log(book.pdf_file);
+
+      this.bookProvider.updateView(book.id).then(() => { });
 
       let fileName = book.id + '.pdf';
       this.downloadAndOpenPdf(book.pdf_file, fileName);
-    }
-  }
+    } else {
 
-  updateView(bookId: number) {
-    this.bookProvider.updateView(bookId)
-      .then((res: any) => { 
-        if (res.ok) {
-          //console.log(JSON.stringify(res));
-        } else {
-          console.log(JSON.stringify(res.message));
-        }
-      })
-      .catch(error => { 
-        console.log(JSON.stringify(error));
+      let alert = this.alertCtrl.create({
+        title: 'Alert!',
+        subTitle: 'ไม่พบไฟล์หนังสือเล่มนี้จากฐานข้อมูล',
+        buttons: ['OK']
       });
+      alert.present();
+
+    }
   }
 
   getBooks() {
@@ -184,52 +189,51 @@ export class BookCategoryPage {
 
     this.platform.ready().then(() => {
 
-      let loader = this.loadingCtrl.create();
-      loader.setContent(`กำลังโหลดหนังสือ...`);
-      
+      this.loader.setContent(`กำลังดาวน์โหลดหนังสือ...`);
 
-      let path = null;
 
-      if (this.platform.is('ios')) {
-        path = this.file.documentsDirectory;
-      } else {
-        path = this.file.dataDirectory;
-      }
+      let filePath = this.stragePath + fileName;
 
-      let dirPath = path + 'buddhadasa/book/';
-      let filePath = dirPath + fileName;
-
-      this.file.checkFile(dirPath, fileName)
+      this.file.checkFile(this.stragePath, fileName)
         .then(() => {
 
-          console.log('file found');
+          //console.log('file found');
 
           this.document.viewDocument(filePath, 'application/pdf', {});
 
         })
         .catch(error => {
 
-          loader.present();
+          this.loader.present();
 
           //console.log(JSON.stringify(error));
 
-          console.log('file not found');
+         // console.log('file not found');
 
           let transfer: FileTransferObject = this.transfer.create();
 
           transfer.download(fileUrl, filePath)
             .then(entry => {
 
-              loader.dismiss();
+              this.loader.dismiss();
 
               let url = entry.toURL();
               this.document.viewDocument(url, 'application/pdf', {});
             })
             .catch(error => {
-              loader.dismiss();
-              console.log(JSON.stringify(error));
+
+              this.loader.dismiss();
+              //console.log('File not found : ' + JSON.stringify(error));
+
+              let alert = this.alertCtrl.create({
+                title: 'Alert!',
+                subTitle: 'ไม่พบไฟล์หนังสือเล่มนี้จากฐานข้อมูล',
+                buttons: ['OK']
+              });
+              alert.present();
+
             });
-        
+
         });
 
     });
