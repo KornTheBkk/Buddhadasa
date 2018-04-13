@@ -37,6 +37,7 @@ import { SoundListenPage } from '../pages/sound-listen/sound-listen';
 import { SearchPage } from '../pages/search/search';
 import { BookSearchPage } from '../pages/book-search/book-search';
 import { BookDetailPage } from '../pages/book-detail/book-detail';
+import { BookSearchProvider } from '../providers/book-search/book-search';
 
 
 @NgModule({
@@ -90,9 +91,11 @@ import { BookDetailPage } from '../pages/book-detail/book-detail';
     SoundProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
-    { provide: 'API_URL', useValue: 'http://172.20.10.3/buddhadasa/api' },
+    { provide: 'API_URL', useValue: 'http://172.20.10.2/buddhadasa/api' },
     SearchProvider,
-    BookProvider
+    BookProvider,
+    BookSearchProvider,
+    BookSearchProvider
   ]
 })
 export class AppModule {}

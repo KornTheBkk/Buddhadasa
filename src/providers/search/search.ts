@@ -6,11 +6,15 @@ import * as moment from 'moment';
 @Injectable()
 export class SearchProvider {
 
-  perPage: number = 10;
-  category: string = 'song';
+  private perPage: number = 10;
+  private category: string = 'song'; //default category
 
   constructor(public http: HttpClient) {
 
+  }
+
+  setCategory(category: string) {
+    this.category = category;
   }
 
   getLog(db: SQLiteObject, page: number = 1) {
@@ -144,6 +148,22 @@ export class SearchProvider {
         .then(res => {
           let totalRows = res.rows.length;
           resolve(totalRows);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  clearLog(db: SQLiteObject, category: string) {
+
+    return new Promise((resolve, reject) => {
+
+      let sql = 'DELETE FROM SearchLog WHERE category = ?';
+
+      db.executeSql(sql, [category])
+        .then(res => {
+          resolve(res);
         })
         .catch(error => {
           reject(error);

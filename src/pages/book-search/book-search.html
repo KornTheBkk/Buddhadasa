@@ -41,8 +41,34 @@
     </ion-list>
   </div>
 
+  <div id="searchLog" *ngIf="!find">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-8>
+          <h3>ประวัติการค้นหา</h3>
+        </ion-col>
+        <ion-col col-4 text-right>
+          <button class="button-history-clear" ion-button clear (click)="clearHistorySearch()">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list no-lines>
+      <button ion-item *ngFor="let log of historyLog" (click)="historyClicked(log)">
+        <img src="./assets/imgs/time-machine.png" class="icon-time-machinge" /> {{ log.name }}
+        <p style="margin-left: 30px">{{ log.created_at | thaiDate:true }}</p>
+      </button>
+    </ion-list>
+  </div>
+
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-infinite-scroll (ionInfinite)="doInfiniteLog($event)" *ngIf="(pageLog < totalPageLog) && isHistory">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Log : Loading more data..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
 </ion-content>

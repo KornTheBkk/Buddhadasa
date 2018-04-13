@@ -48,9 +48,9 @@
         <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
       </div>
       <h1>{{ i+1 }}. {{ book.title }}</h1>
-      <p *ngIf="book.description">
+      <p class="description" *ngIf="book.description">
         {{ book.description }}
-      </p>
+      </p> 
       <p class="date">
         <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
         <ion-icon name="eye"></ion-icon> {{ book.view | number }}

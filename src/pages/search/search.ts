@@ -50,6 +50,8 @@ export class SearchPage {
       this.platform.ready().then(() => {
         this.initSQLite();
       });
+    
+      this.searchProvider.setCategory('song');
   }
 
   ionViewDidLoad() {
@@ -311,4 +313,8 @@ export class SearchPage {
     }, 1000);
   }
 
+  clearHistorySearch() {
+    this.searchProvider.clearLog(this.db, 'song').then(() => { });
+    this.historyLog = [];
+  }
 }
