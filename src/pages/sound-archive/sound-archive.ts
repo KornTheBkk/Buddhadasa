@@ -73,9 +73,9 @@ export class SoundArchivePage {
               subtitle: s.subtitle,
               description: s.description,
               showed_at: s.showed_at,
+              published_at: s.published_at,
               duration: s.duration,
               mp3_file: s.mp3_file
-              //mp3_file: 'http://sound.bia.or.th/administrator/biasound/6/6155320219020.mp3'
             };
             this.sounds.push(sound);
           });
@@ -125,6 +125,7 @@ export class SoundArchivePage {
               subtitle: s.subtitle,
               description: s.description,
               showed_at: s.showed_at,
+              published_at: s.published_at,
               duration: s.duration,
               mp3_file: s.mp3_file
             };
@@ -171,6 +172,7 @@ export class SoundArchivePage {
                   subtitle: s.subtitle,
                   description: s.description,
                   showed_at: s.showed_at,
+                  published_at: s.published_at,
                   duration: s.duration,
                   mp3_file: s.mp3_file
                 };

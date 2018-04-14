@@ -31,7 +31,7 @@ export class BookCategoryPage {
 
   isLoadingMore: boolean = false; // lock to do infinite when processing
 
-  stragePath: string; // path for store file to local device
+  storagePath: string; // path for store file to local device
 
   constructor(
     public navCtrl: NavController,
@@ -51,12 +51,12 @@ export class BookCategoryPage {
     this.category = navParams.data;
 
     if (this.platform.is('ios')) {
-      this.stragePath = this.file.documentsDirectory;
+      this.storagePath = this.file.documentsDirectory;
     } else {
-      this.stragePath = this.file.dataDirectory;
+      this.storagePath = this.file.dataDirectory;
     }
 
-    this.stragePath = this.stragePath + 'buddhadasa/book/';
+    this.storagePath = this.storagePath + 'buddhadasa/book/';
   }
 
   ionViewDidLoad() {
@@ -192,9 +192,9 @@ export class BookCategoryPage {
       this.loader.setContent(`กำลังดาวน์โหลดหนังสือ...`);
 
 
-      let filePath = this.stragePath + fileName;
+      let filePath = this.storagePath + fileName;
 
-      this.file.checkFile(this.stragePath, fileName)
+      this.file.checkFile(this.storagePath, fileName)
         .then(() => {
 
           //console.log('file found');

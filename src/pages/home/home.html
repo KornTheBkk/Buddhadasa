@@ -27,15 +27,19 @@
   <ion-list>
     <button ion-item *ngFor="let sound of sounds; let i = index" (click)="navigateToListen(sound)">
       <h1>{{ sound.title }}</h1>
-      <div id="duration">
+      <p class="duration">
         <span *ngIf="sound.showed_at">
           <!-- <ion-icon name="md-time"></ion-icon> -->
-          <span>วันที่แสดงธรรม {{ sound.showed_at | thaiDate }}</span>
+          วันที่ {{ sound.showed_at | thaiDate }}
         </span>
         <span *ngIf="sound.duration" style="margin-left: 15px">
-          <span>ความยาว {{ sound.duration }} นาที</span>
+          ความยาว {{ sound.duration }} นาที
         </span>
-      </div>
+      </p>
+      <p class="date">
+        <ion-icon name="md-time"></ion-icon> {{ sound.published_at | thaiDate:true }} &nbsp;
+        <ion-icon name="headset"></ion-icon> 1,300
+      </p>
     </button>
   </ion-list>
 

@@ -31,7 +31,7 @@
         <div id="duration">
           <span *ngIf="item.showed_at">
             <!-- <ion-icon name="md-time"></ion-icon> -->
-            <span>วันที่แสดงธรรม {{ item.showed_at | thaiDate }}</span>
+            <span>วันที่ {{ item.showed_at | thaiDate }}</span>
           </span>
           <span *ngIf="item.duration" style="margin-left: 15px">
             <span>ความยาว {{ item.duration }} นาที</span>
