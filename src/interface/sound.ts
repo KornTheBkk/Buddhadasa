@@ -10,9 +10,5 @@ export interface ISound {
     mp3_file?: string;
     pdf_file?: string;
     published_at?: string;
-    // data?: {
-    //     current_page: number,
-    //     total: number,
-    //     next_page_url: string
-    // };
+    view?: number;
 };

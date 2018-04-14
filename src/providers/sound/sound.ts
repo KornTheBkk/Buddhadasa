@@ -106,6 +106,20 @@ export class SoundProvider {
     });
   }
 
+  updateView(soundId: number) {
 
+    let url = `${this.apiUrl}/sound-view/${soundId}`;
+    //console.log(url);
+    
+    return new Promise((resolve, reject) => { 
+      this.http.get(url)
+        .timeout(this.httpTimeout)
+        .subscribe(res => { 
+          resolve(res);
+        }, error => { 
+          reject(error);
+        });  
+    });
+  }
 
 }

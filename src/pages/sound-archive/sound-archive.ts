@@ -74,6 +74,7 @@ export class SoundArchivePage {
               description: s.description,
               showed_at: s.showed_at,
               published_at: s.published_at,
+              view: s.view,
               duration: s.duration,
               mp3_file: s.mp3_file
             };
@@ -96,11 +97,12 @@ export class SoundArchivePage {
   }
 
   navigateToListen(sound: ISound) {
-    console.log(sound);
+    //console.log(sound);
     if (sound.mp3_file) {
+      this.soundProvider.updateView(sound.id).then(() => { });
       this.navCtrl.push(SoundListenPage, sound);
     } else {
-      console.log('Can\'t navigate to listen.');
+      console.log('No have mp3 file.');
     }
   }
 
@@ -126,6 +128,7 @@ export class SoundArchivePage {
               description: s.description,
               showed_at: s.showed_at,
               published_at: s.published_at,
+              view: s.view,
               duration: s.duration,
               mp3_file: s.mp3_file
             };
@@ -173,6 +176,7 @@ export class SoundArchivePage {
                   description: s.description,
                   showed_at: s.showed_at,
                   published_at: s.published_at,
+                  view: s.view,
                   duration: s.duration,
                   mp3_file: s.mp3_file
                 };

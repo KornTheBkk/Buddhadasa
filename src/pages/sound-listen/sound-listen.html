@@ -59,6 +59,10 @@
       <p *ngIf="audio.duration">
         <strong>ความยาว</strong> {{ audio.duration }} นาที
       </p>
+      <p class="date">
+        <ion-icon name="md-time"></ion-icon> {{ audio.published_at | thaiDate:true }} &nbsp;
+        <ion-icon name="headset"></ion-icon> {{ audio.view | number }}
+      </p>
     </ion-card-content>
   </ion-card>
 

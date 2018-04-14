@@ -192,9 +192,10 @@ export class SearchPage {
     this.logSearch();
 
     if (sound.mp3_file) {
+      this.soundProvider.updateView(sound.id).then(() => { });
       this.navCtrl.push(SoundListenPage, sound);
     } else {
-      console.log('Can\'t navigate to listen.');
+      console.log('No have mp3 file.');
     }
   }
 
