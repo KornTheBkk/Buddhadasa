@@ -29,12 +29,12 @@ export class HomePage {
     public soundProvider: SoundProvider,
     private app: App,
     private bookProvider: BookProvider) {
-    
-      /* let currentTime = moment().unix();
-      console.log(`currentTime : ${currentTime} | ${moment().format('YYYY-MM-DD HH:mm:ss')}`);      
-      let tt = moment.unix(1523265057).format("DD/MM/YYYY HH:mm:ss")
-      console.log(tt); */
-      
+
+    /* let currentTime = moment().unix();
+    console.log(`currentTime : ${currentTime} | ${moment().format('YYYY-MM-DD HH:mm:ss')}`);      
+    let tt = moment.unix(1523265057).format("DD/MM/YYYY HH:mm:ss")
+    console.log(tt); */
+
   }
 
   ionViewDidLoad() {
@@ -50,7 +50,7 @@ export class HomePage {
 
     this.soundProvider.getSound(null, null, this.soundsTotal)
       .then((res: any) => {
-       // console.log(res);
+        // console.log(res);
         if (res.ok) {
           let data: Array<ISound> = res.data.data;
           data.forEach(s => {
@@ -91,14 +91,14 @@ export class HomePage {
   }
 
   navigateToBookDetail(book: IBook) {
-    
+
   }
 
   getRecommendedBook() {
 
     this.bookProvider.getBooks(null, null, this.soundsTotal)
       .then((res: any) => {
-       // console.log(res);
+        // console.log(res);
         if (res.ok) {
           let data: Array<IBook> = res.data.data;
           this.books = this.bookProvider.bookMapping(data);
@@ -115,8 +115,8 @@ export class HomePage {
     this.soundProvider.getSound(null, null, this.soundsTotal)
       .then((res: any) => {
         refresher.complete();
-       // console.log(res);
-        
+        // console.log(res);
+
         if (res.ok) {
           this.sounds = [];
 
@@ -138,6 +138,20 @@ export class HomePage {
       })
       .catch(error => {
         refresher.complete();
+        console.log(JSON.stringify(error));
+      });
+
+    this.bookProvider.getBooks(null, null, this.soundsTotal)
+      .then((res: any) => {
+        // console.log(res);
+        if (res.ok) {
+          this.books = [];
+          
+          let data: Array<IBook> = res.data.data;
+          this.books = this.bookProvider.bookMapping(data);
+        }
+      })
+      .catch(error => {
         console.log(JSON.stringify(error));
       });
   }
