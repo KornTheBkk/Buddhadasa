@@ -5,4 +5,26 @@ page-home {
     #headerBanner img {
         width: 100%;
     }
+
+    .book-thumbnail {
+        text-align: center;
+    }
+    .book-thumbnail img {
+        max-height: 280px; 
+        margin: 10px auto;
+    }
+    .description {
+        font-size: 2rem !important;
+        white-space: normal;
+    }
+    #duration {
+        padding: 0px;
+        text-align: left;
+    }
+    
+    h1 {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }

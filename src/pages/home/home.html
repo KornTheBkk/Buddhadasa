@@ -10,6 +10,7 @@
 </ion-header>
 
 <ion-content padding>
+
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
     </ion-refresher-content>
@@ -20,18 +21,16 @@
   </div>
 
   <h1>
-    <span>
-      <ion-icon name="headset"></ion-icon>
-    </span> เสียงพุทธทาส</h1>
+    <ion-icon name="headset"></ion-icon> เสียงพุทธทาส
+  </h1>
 
   <ion-list>
     <button ion-item *ngFor="let sound of sounds; let i = index" (click)="navigateToListen(sound)">
-      {{ sound.title }}
-      <!-- <p *ngIf="sound.subtitle">{{ sound.subtitle }}</p> -->
+      <h1>{{ sound.title }}</h1>
       <div id="duration">
         <span *ngIf="sound.showed_at">
-          <ion-icon name="md-time"></ion-icon>
-          <span>{{ sound.showed_at | thaiDate }}</span>
+          <!-- <ion-icon name="md-time"></ion-icon> -->
+          <span>วันที่แสดงธรรม {{ sound.showed_at | thaiDate }}</span>
         </span>
         <span *ngIf="sound.duration" style="margin-left: 15px">
           <span>ความยาว {{ sound.duration }} นาที</span>
@@ -40,20 +39,36 @@
     </button>
   </ion-list>
 
-  <button ion-button icon-only block (click)="navigateToListenPage()">
-    <ion-icon name="arrow-forward"></ion-icon>
+  <button ion-button full icon-only (click)="navigateToListenPage()">
     เสียงธรรมอื่น ๆ
+    <ion-icon name="more"></ion-icon>
   </button>
   <br>
 
-  <!-- <ion-grid>
-    <ion-row>
-      <ion-col col-1>time</ion-col>
-      <ion-col col-11>
-        This column will take 12 columns
-        <p>10/04/2018 13:50</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
+  <h1>
+    <ion-icon name="book"></ion-icon> หนังสือ
+  </h1>
+
+  <ion-list>
+    <button ion-item *ngFor="let book of books" (click)="navigateToBookDetail(book)">
+      <div class="book-thumbnail">
+        <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
+      </div>
+      <h1>{{ book.title }}</h1>
+      <p class="description" *ngIf="book.description">
+        {{ book.description }}
+      </p>
+      <p class="date">
+        <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
+        <ion-icon name="eye"></ion-icon> {{ book.view | number }}
+      </p>
+    </button>
+  </ion-list>
+
+  <button ion-button icon-only full (click)="navigateToBookPage()">
+    หนังสือ ๆ
+    <ion-icon name="more"></ion-icon>
+  </button>
+  <br>
 
 </ion-content>

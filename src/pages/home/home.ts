@@ -1,8 +1,10 @@
+import { IBook } from './../../interface/book';
 import { Component } from '@angular/core';
 import { NavController, App, Refresher } from 'ionic-angular';
 
 import { SearchPage } from '../search/search';
 
+import { BookProvider } from './../../providers/book/book';
 import { SoundProvider } from './../../providers/sound/sound';
 import { ISound } from '../../interface/sound';
 import { SoundListenPage } from '../sound-listen/sound-listen';
@@ -19,10 +21,14 @@ export class HomePage {
   sounds: Array<ISound> = [];
   soundsTotal: number = 5;
 
+  bookTotal: number = 5;
+  books: Array<IBook> = [];
+
   constructor(
     public navCtrl: NavController,
     public soundProvider: SoundProvider,
-    private app: App) {
+    private app: App,
+    private bookProvider: BookProvider) {
     
       /* let currentTime = moment().unix();
       console.log(`currentTime : ${currentTime} | ${moment().format('YYYY-MM-DD HH:mm:ss')}`);      
@@ -33,6 +39,7 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.getRecommendedSound();
+    this.getRecommendedBook();
   }
 
   search() {
@@ -77,6 +84,29 @@ export class HomePage {
 
   navigateToListenPage() {
     this.app.getRootNav().getActiveChildNav().select(1);
+  }
+
+  navigateToBookPage() {
+    this.app.getRootNav().getActiveChildNav().select(2);
+  }
+
+  navigateToBookDetail(book: IBook) {
+    
+  }
+
+  getRecommendedBook() {
+
+    this.bookProvider.getBooks(null, null, this.soundsTotal)
+      .then((res: any) => {
+       // console.log(res);
+        if (res.ok) {
+          let data: Array<IBook> = res.data.data;
+          this.books = this.bookProvider.bookMapping(data);
+        }
+      })
+      .catch(error => {
+        console.log(JSON.stringify(error));
+      });
   }
 
   doRefresh(refresher: Refresher) {
