@@ -9,6 +9,8 @@ import { SearchPage } from '../search/search';
 export class SettingPage {
 
   pushNotification: boolean = true;
+  bookDownloaded: boolean = true;
+  songDownloaded: boolean = true;
   
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
