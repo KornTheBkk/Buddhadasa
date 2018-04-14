@@ -17,4 +17,11 @@ page-book-search {
         font-size: 2rem !important;
         white-space: normal;
     }
+    h1.book-title {
+        white-space: normal;
+        word-wrap: nowrap;
+        /* overflow: hidden; */
+        /* text-overflow: ellipsis; */
+        font-size: 2rem;
+    }
 }

@@ -1,12 +1,12 @@
 <ion-header>
 
   <ion-navbar>
-      <ion-title>หนังสือ</ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only color="royal" (click)="search()">
-          <ion-icon name="search"></ion-icon>
-        </button>
-      </ion-buttons>
+    <ion-title>หนังสือ</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="search()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -27,7 +27,7 @@
   </h1>
   <br>
 
-  <ion-list>
+  <!-- <ion-list>
     <button ion-item *ngFor="let book of books; let i = index" (click)="navigateToBookDetail(book)">
       <div class="book-thumbnail">
         <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
@@ -35,13 +35,37 @@
       <h1>{{ i+1 }}. {{ book.title }}</h1>
       <p class="description" *ngIf="book.subtitle">
         {{ book.subtitle }}
-      </p> 
+      </p>
       <p class="date">
         <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
         <ion-icon name="eye"></ion-icon> {{ book.view | number }}
       </p>
     </button>
-  </ion-list>
+  </ion-list> -->
+
+  <ion-grid>
+    <ion-list>
+      <button ion-item *ngFor="let book of books; let i = index" (click)="navigateToBookDetail(book)">
+        <ion-row>
+          <ion-col col-3>
+            <div class="book-thumbnail">
+              <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
+            </div>
+          </ion-col>
+          <ion-col col-9>
+            <h1>{{ i+1 }}. {{ book.title }}</h1>
+            <!-- <p class="description" *ngIf="book.subtitle">
+              {{ book.subtitle }}
+            </p> -->
+            <p class="date">
+              <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
+              <!-- <ion-icon name="eye"></ion-icon> {{ book.view | number }} -->
+            </p>
+          </ion-col>
+        </ion-row>
+      </button>
+    </ion-list>
+  </ion-grid>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>

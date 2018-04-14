@@ -10,9 +10,19 @@ page-book-category {
         font-size: 2rem !important;
     }
     .item-md h1 {
-        white-space: nowrap;
+        white-space: normal;
         word-wrap: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        /* overflow: hidden; */
+        /* text-overflow: ellipsis; */
+        font-size: 2rem;
+    }
+    
+    .item-md ion-thumbnail{
+        min-height: auto !important;
+        min-width: auto !important;
+    }
+    .item-md ion-thumbnail ion-img, .item-md ion-thumbnail img {
+        width: 50px;
+        height: auto;
     }
 }

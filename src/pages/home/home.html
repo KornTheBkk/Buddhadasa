@@ -21,7 +21,7 @@
   </div>
 
   <h1>
-      <ion-icon name="volume-up"></ion-icon> เสียงพุทธทาส
+    <ion-icon name="volume-up"></ion-icon> เสียงพุทธทาส
   </h1>
 
   <ion-list>
@@ -53,7 +53,7 @@
     <ion-icon name="book"></ion-icon> หนังสือ
   </h1>
 
-  <ion-list>
+  <!-- <ion-list>
     <button ion-item *ngFor="let book of books" (click)="navigateToBookDetail(book)">
       <div class="book-thumbnail">
         <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
@@ -67,7 +67,31 @@
         <ion-icon name="eye"></ion-icon> {{ book.view | number }}
       </p>
     </button>
-  </ion-list>
+  </ion-list> -->
+
+  <ion-grid>
+    <ion-list>
+      <button ion-item *ngFor="let book of books; let i = index" (click)="navigateToBookDetail(book)">
+        <ion-row>
+          <ion-col col-3>
+            <div class="book-thumbnail">
+              <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
+            </div>
+          </ion-col>
+          <ion-col col-9>
+            <h1 class="book-title">{{ book.title }}</h1>
+            <!-- <p class="description" *ngIf="book.subtitle">
+                {{ book.subtitle }}
+              </p> -->
+            <p class="date">
+              <ion-icon name="md-time"></ion-icon> {{ book.published_at | thaiDate:true }} น. &nbsp;
+              <!-- <ion-icon name="eye"></ion-icon> {{ book.view | number }} -->
+            </p>
+          </ion-col>
+        </ion-row>
+      </button>
+    </ion-list>
+  </ion-grid>
 
   <button ion-button icon-only full (click)="navigateToBookPage()">
     หนังสือ ๆ
