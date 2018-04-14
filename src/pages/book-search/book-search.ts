@@ -267,7 +267,7 @@ export class BookSearchPage {
 
           //console.log(JSON.stringify(error));
 
-          //console.log('file not found');
+          console.log('file not found');
 
           let transfer: FileTransferObject = this.transfer.create();
 

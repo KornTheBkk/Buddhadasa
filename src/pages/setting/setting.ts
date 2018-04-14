@@ -8,9 +8,9 @@ import { SearchPage } from '../search/search';
 })
 export class SettingPage {
 
-  pushNotification: boolean = true;
-  bookDownloaded: boolean = true;
-  songDownloaded: boolean = true;
+  pushNotification: boolean;
+  bookDownloaded: boolean;
+  songDownloaded: boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -19,28 +19,9 @@ export class SettingPage {
 
     this.platform.ready().then(() => {
 
-      let localPushNotification = localStorage.getItem('pushNotification');
-      let localBookDownloaded = localStorage.getItem('bookDownloaded');
-      let localSongDonwloaded = localStorage.getItem('songDownloaded');
-
-      if (localBookDownloaded) {
-        this.bookDownloaded = JSON.parse(localBookDownloaded);
-      } else {
-        localStorage.setItem('bookDownloaded', 'true');
-      }
-
-      if (localSongDonwloaded) {
-        this.songDownloaded = JSON.parse(localSongDonwloaded);
-      } else {
-        localStorage.setItem('songDownloaded', 'true');
-      }
-
-      if (localPushNotification) {
-        this.pushNotification = JSON.parse(localPushNotification);
-      } else {
-        localStorage.setItem('pushNotification', 'true');
-      }
-
+      this.pushNotification = JSON.parse(localStorage.getItem('pushNotification'));
+      this.bookDownloaded = JSON.parse(localStorage.getItem('bookDownloaded'));
+      this.songDownloaded = JSON.parse(localStorage.getItem('songDownloaded'));
 
     });
   }

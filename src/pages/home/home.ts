@@ -49,21 +49,19 @@ export class HomePage {
     let tt = moment.unix(1523265057).format("DD/MM/YYYY HH:mm:ss")
     console.log(tt); */
 
+    platform.ready().then(() => { 
+      if (this.platform.is('ios')) {
+        this.storagePath = this.file.documentsDirectory;
+      } else {
+        this.storagePath = this.file.dataDirectory;
+      }
+    
+      this.storagePath = this.storagePath + 'buddhadasa/book/';
+    });
+
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
     });
-
-    if (this.platform.is('ios')) {
-      this.storagePath = this.file.documentsDirectory;
-    } else {
-      this.storagePath = this.file.dataDirectory;
-    }
-
-    console.log('storagePath: ' + this.storagePath);
-    
-
-    this.storagePath = this.storagePath + 'buddhadasa/book/';
-
   }
 
   ionViewDidLoad() {
@@ -228,7 +226,7 @@ export class HomePage {
 
           //console.log(JSON.stringify(error));
 
-         // console.log('file not found');
+          console.log('file not found');
 
           let transfer: FileTransferObject = this.transfer.create();
 

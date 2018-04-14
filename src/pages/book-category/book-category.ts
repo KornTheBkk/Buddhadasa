@@ -33,6 +33,9 @@ export class BookCategoryPage {
 
   storagePath: string; // path for store file to local device
 
+  bookDownloaded: boolean;
+  tempBookName: string = 'book.pdf'; // set this name when bookDownloaded is false
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -44,24 +47,35 @@ export class BookCategoryPage {
     private transfer: FileTransfer,
     public alertCtrl: AlertController) {
 
-    this.loader = this.loadingCtrl.create({
-      content: 'Loading'
+    platform.ready().then(() => {
+
+      this.loader = this.loadingCtrl.create({
+        content: 'Loading'
+      });
+
+      this.category = navParams.data;
+
+      if (this.platform.is('ios')) {
+        this.storagePath = this.file.documentsDirectory;
+      } else {
+        this.storagePath = this.file.dataDirectory;
+      }
+
+      this.storagePath = this.storagePath + 'buddhadasa/book/';
+
     });
-
-    this.category = navParams.data;
-
-    if (this.platform.is('ios')) {
-      this.storagePath = this.file.documentsDirectory;
-    } else {
-      this.storagePath = this.file.dataDirectory;
-    }
-
-    this.storagePath = this.storagePath + 'buddhadasa/book/';
   }
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad BookCategoryPage');
     this.getBooks();
+  }
+
+  ionViewWillEnter() {
+    
+    this.platform.ready().then(() => {
+      this.bookDownloaded = JSON.parse(localStorage.getItem('bookDownloaded'));
+    });
   }
 
   search() {
@@ -191,51 +205,67 @@ export class BookCategoryPage {
 
       this.loader.setContent(`กำลังดาวน์โหลดหนังสือ...`);
 
+      let filePath: string;
 
-      let filePath = this.storagePath + fileName;
+      if (this.bookDownloaded) {
 
-      this.file.checkFile(this.storagePath, fileName)
-        .then(() => {
+        filePath = this.storagePath + fileName;
 
-          //console.log('file found');
+        this.file.checkFile(this.storagePath, fileName)
+          .then(() => {
 
-          this.document.viewDocument(filePath, 'application/pdf', {});
+            console.log('bookDownloaded = true : file found');
+            this.document.viewDocument(filePath, 'application/pdf', {});
 
-        })
-        .catch(error => {
+          })
+          .catch(error => {
 
-          this.loader.present();
+            console.log('bookDownloaded = true : file not found : ' + filePath);
+            this.openPdf(fileUrl, filePath);
+            //console.log(JSON.stringify(error));
 
-          //console.log(JSON.stringify(error));
+          });
 
-         // console.log('file not found');
+      } else {
 
-          let transfer: FileTransferObject = this.transfer.create();
 
-          transfer.download(fileUrl, filePath)
-            .then(entry => {
+        filePath = this.storagePath + this.tempBookName;
+        this.openPdf(fileUrl, filePath);
 
-              this.loader.dismiss();
+        console.log('bookDownloaded = false : new download file : ' + filePath);
+      } // end if bookDonwloaded
 
-              let url = entry.toURL();
-              this.document.viewDocument(url, 'application/pdf', {});
-            })
-            .catch(error => {
 
-              this.loader.dismiss();
-              //console.log('File not found : ' + JSON.stringify(error));
-
-              let alert = this.alertCtrl.create({
-                title: 'Alert!',
-                subTitle: 'ไม่พบไฟล์หนังสือเล่มนี้จากฐานข้อมูล',
-                buttons: ['OK']
-              });
-              alert.present();
-
-            });
-
-        });
 
     });
+  }
+
+  private openPdf(fileUrl: string, filePath: string) {
+
+    this.loader.present();
+
+    let transfer: FileTransferObject = this.transfer.create();
+
+    transfer.download(fileUrl, filePath)
+      .then(entry => {
+
+        this.loader.dismiss();
+
+        let url = entry.toURL();
+        this.document.viewDocument(url, 'application/pdf', {});
+      })
+      .catch(error => {
+
+        this.loader.dismiss();
+        //console.log('File not found : ' + JSON.stringify(error));
+
+        let alert = this.alertCtrl.create({
+          title: 'Alert!',
+          subTitle: 'ไม่พบไฟล์หนังสือเล่มนี้จากฐานข้อมูล',
+          buttons: ['OK']
+        });
+        alert.present();
+
+      });
   }
 }

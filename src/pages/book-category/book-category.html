@@ -13,6 +13,7 @@
 
 
 <ion-content padding>
+  <!-- <p>bookDownloaded : {{ bookDownloaded }}</p> -->
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
@@ -57,7 +58,6 @@
       </p>
     </button>
   </ion-list>
-
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>

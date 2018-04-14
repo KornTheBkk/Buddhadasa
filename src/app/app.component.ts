@@ -25,6 +25,21 @@ export class MyApp {
       splashScreen.hide();
 
       this.initSQLite();
+
+
+      // init setting vars
+      if (!localStorage.getItem('pushNotification')) {
+        localStorage.setItem('bookDownloaded', 'true');
+      }
+
+      if (!localStorage.getItem('bookDownloaded')) {
+        localStorage.setItem('songDownloaded', 'true');
+      }
+
+      if (!localStorage.getItem('songDownloaded')) {
+        localStorage.setItem('pushNotification', 'true');
+      }      
+
     });
   }
 
