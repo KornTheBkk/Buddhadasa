@@ -14,13 +14,19 @@
 
 <ion-content padding>
 
-  <h1>{{ book.title }}</h1>
-  
   <div class="book-thumbnail">
     <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
   </div>
-  
-  <p *ngIf="book.description">
+  <div text-center>
+    <button ion-button (click)="read()">
+        <ion-icon name="book"></ion-icon> &nbsp; อ่านหนังสือเล่มนี้
+    </button>
+  </div>
+  <h1>{{ book.title }}</h1>
+  <p class="description" *ngIf="book.subtitle">
+    {{ book.subtitle }}
+  </p>
+  <p class="description" *ngIf="book.description">
     {{ book.description }}
   </p>
   <p class="date">

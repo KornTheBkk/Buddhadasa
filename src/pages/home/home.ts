@@ -3,14 +3,12 @@ import { Component } from '@angular/core';
 import { NavController, App, Refresher, AlertController, Platform, LoadingController, Loading } from 'ionic-angular';
 
 import { SearchPage } from '../search/search';
+import { BookDetailPage } from './../book-detail/book-detail';
 
 import { BookProvider } from './../../providers/book/book';
 import { SoundProvider } from './../../providers/sound/sound';
 import { ISound } from '../../interface/sound';
 import { SoundListenPage } from '../sound-listen/sound-listen';
-import { DocumentViewer } from '@ionic-native/document-viewer';
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
 
 //import * as moment from 'moment';
 
@@ -29,16 +27,10 @@ export class HomePage {
   bookTotal: number = 5;
   books: Array<IBook> = [];
 
-  storagePath: string; // path for store file to local device
-
-
   constructor(
     public navCtrl: NavController,
     public platform: Platform,
     public loadingCtrl: LoadingController,
-    private document: DocumentViewer,
-    private file: File,
-    private transfer: FileTransfer,
     public soundProvider: SoundProvider,
     private app: App,
     private bookProvider: BookProvider,
@@ -48,16 +40,6 @@ export class HomePage {
     console.log(`currentTime : ${currentTime} | ${moment().format('YYYY-MM-DD HH:mm:ss')}`);      
     let tt = moment.unix(1523265057).format("DD/MM/YYYY HH:mm:ss")
     console.log(tt); */
-
-    platform.ready().then(() => { 
-      if (this.platform.is('ios')) {
-        this.storagePath = this.file.documentsDirectory;
-      } else {
-        this.storagePath = this.file.dataDirectory;
-      }
-    
-      this.storagePath = this.storagePath + 'buddhadasa/book/';
-    });
 
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
@@ -121,11 +103,7 @@ export class HomePage {
 
   navigateToBookDetail(book: IBook) {
     if (book.pdf_file) {
-
-      this.bookProvider.updateView(book.id).then(() => { });
-
-      let fileName = book.id + '.pdf';
-      this.downloadAndOpenPdf(book.pdf_file, fileName);
+      this.navCtrl.push(BookDetailPage, book);
 
     } else {
 
@@ -203,57 +181,4 @@ export class HomePage {
       });
   }
 
-  downloadAndOpenPdf(fileUrl: string, fileName: string) {
-
-    this.platform.ready().then(() => {
-
-      this.loader.setContent(`กำลังดาวน์โหลดหนังสือ...`);
-
-
-      let filePath = this.storagePath + fileName;
-
-      this.file.checkFile(this.storagePath, fileName)
-        .then(() => {
-
-          //console.log('file found');
-
-          this.document.viewDocument(filePath, 'application/pdf', {});
-
-        })
-        .catch(error => {
-
-          this.loader.present();
-
-          //console.log(JSON.stringify(error));
-
-          console.log('file not found');
-
-          let transfer: FileTransferObject = this.transfer.create();
-
-          transfer.download(fileUrl, filePath)
-            .then(entry => {
-
-              this.loader.dismiss();
-
-              let url = entry.toURL();
-              this.document.viewDocument(url, 'application/pdf', {});
-            })
-            .catch(error => {
-
-              this.loader.dismiss();
-              //console.log('File not found : ' + JSON.stringify(error));
-
-              let alert = this.alertCtrl.create({
-                title: 'Alert!',
-                subTitle: 'ไม่พบไฟล์หนังสือเล่มนี้จากฐานข้อมูล',
-                buttons: ['OK']
-              });
-              alert.present();
-
-            });
-
-        });
-
-    });
-  }
 }

@@ -9,4 +9,10 @@ page-book-category {
     .description {
         font-size: 2rem !important;
     }
+    .item-md h1 {
+        white-space: nowrap;
+        word-wrap: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }

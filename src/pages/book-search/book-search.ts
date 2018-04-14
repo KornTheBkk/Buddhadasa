@@ -3,12 +3,10 @@ import { NavController, NavParams, Platform, Refresher, LoadingController, Loadi
 
 import { BookProvider } from '../../providers/book/book';
 import { SearchProvider } from './../../providers/search/search';
+import { BookDetailPage } from './../book-detail/book-detail';
 
 import { IBook } from '../../interface/book';
 
-import { DocumentViewer } from '@ionic-native/document-viewer';
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 import * as moment from 'moment';
@@ -36,8 +34,6 @@ export class BookSearchPage {
 
   isLoadingMore: boolean = false; // lock to do infinite when processing
 
-  stragePath: string; // path for store file to local device
-
   db: SQLiteObject = null;
 
   historyLog: Array<any> = [];
@@ -52,9 +48,6 @@ export class BookSearchPage {
     public platform: Platform,
     public bookProvider: BookProvider,
     public loadingCtrl: LoadingController,
-    private document: DocumentViewer,
-    private file: File,
-    private transfer: FileTransfer,
     public alertCtrl: AlertController,
     private sqlite: SQLite,
     private searchProvider: SearchProvider) {
@@ -66,15 +59,6 @@ export class BookSearchPage {
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
     });
-
-
-    if (this.platform.is('ios')) {
-      this.stragePath = this.file.documentsDirectory;
-    } else {
-      this.stragePath = this.file.dataDirectory;
-    }
-
-    this.stragePath = this.stragePath + 'buddhadasa/book/';
 
     this.searchProvider.setCategory('book');
   }
@@ -122,10 +106,8 @@ export class BookSearchPage {
 
     if (book.pdf_file) {
 
-      this.bookProvider.updateView(book.id).then(() => { });
+      this.navCtrl.push(BookDetailPage, book);
 
-      let fileName = book.id + '.pdf'; // name for store to local device storage.      
-      this.downloadAndOpenPdf(book.pdf_file, fileName);
     } else {
 
       let alert = this.alertCtrl.create({
@@ -242,60 +224,6 @@ export class BookSearchPage {
         refresher.complete();
         console.log(JSON.stringify(error));
       });
-  }
-
-  downloadAndOpenPdf(fileUrl: string, fileName: string) {
-
-    this.platform.ready().then(() => {
-
-      this.loader.setContent(`กำลังดาวน์โหลดหนังสือ...`);
-
-
-      let filePath = this.stragePath + fileName;
-
-      this.file.checkFile(this.stragePath, fileName)
-        .then(() => {
-
-          //console.log('file found');
-
-          this.document.viewDocument(filePath, 'application/pdf', {});
-
-        })
-        .catch(error => {
-
-          this.loader.present();
-
-          //console.log(JSON.stringify(error));
-
-          console.log('file not found');
-
-          let transfer: FileTransferObject = this.transfer.create();
-
-          transfer.download(fileUrl, filePath)
-            .then(entry => {
-
-              this.loader.dismiss();
-
-              let url = entry.toURL();
-              this.document.viewDocument(url, 'application/pdf', {});
-            })
-            .catch(error => {
-
-              this.loader.dismiss();
-              //console.log(JSON.stringify(error));
-
-              let alert = this.alertCtrl.create({
-                title: 'Alert!',
-                subTitle: 'ไม่พบไฟล์หนังสือเล่มนี้จากฐานข้อมูล',
-                buttons: ['OK']
-              });
-              alert.present();
-
-            });
-
-        });
-
-    });
   }
 
   getLog() {
