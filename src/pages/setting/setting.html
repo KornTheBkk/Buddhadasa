@@ -13,12 +13,16 @@
 
 
 <ion-content padding>
+  <!-- <p>Push Notification: {{ pushNotification }}</p>
+  <p>Book Donwloaded: {{ bookDownloaded }}</p>
+  <p>Song Donwloaded: {{ songDownloaded }}</p> -->
+
   <ion-item>
     <ion-label>
       <h2>ระบบแจ้งเตือน</h2>
       <p class="note">รับข้อมูลอัพเดตหนังสือ / เสียงธรรม</p>
     </ion-label>
-    <ion-toggle checked="true" [(ngModel)]="pushNotification"></ion-toggle>
+    <ion-toggle checked="true" [(ngModel)]="pushNotification" (ionChange)="updateSetting('push')"></ion-toggle>
   </ion-item>
 
   <ion-item>
@@ -26,7 +30,7 @@
         <h2>ดาวน์โหลดหนังสือไว้ที่เครื่อง</h2>
         <p class="note">เมื่อเปิดอ่านหนังสือ ให้ระบบดาวน์โหลดไฟล์หนังสือเก็บไว้ที่เครื่อง</p>
       </ion-label>
-      <ion-toggle checked="true" [(ngModel)]="bookDownloaded"></ion-toggle>
+      <ion-toggle checked="true" [(ngModel)]="bookDownloaded" (ionChange)="updateSetting('book')"></ion-toggle>
     </ion-item>
 
     <ion-item>
@@ -34,6 +38,6 @@
           <h2>ดาวน์โหลดเสียงไว้ที่เครื่อง</h2>
           <p class="note">เมื่อเปิดฟังเสียง ให้ระบบดาวน์โหลดไฟล์เสียงเก็บไว้ที่เครื่อง</p>
         </ion-label>
-        <ion-toggle checked="true" [(ngModel)]="songDownloaded"></ion-toggle>
+        <ion-toggle checked="true" [(ngModel)]="songDownloaded" (ionChange)="updateSetting('song')"></ion-toggle>
       </ion-item>
 </ion-content>

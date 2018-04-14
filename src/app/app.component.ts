@@ -10,14 +10,14 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = TabsPage;
+  rootPage: any = TabsPage;
 
   constructor(
     platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
     private sqlite: SQLite) {
-    
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -35,7 +35,7 @@ export class MyApp {
       location: 'default'
     })
       .then((db: SQLiteObject) => {
-    
+
         db.executeSql(`
           CREATE TABLE IF NOT EXISTS SearchLog (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,10 +43,11 @@ export class MyApp {
             category VARCHAR(50),
             created_at INTEGER
           )`, {})
-          .then(() => console.log('Created the SearchLog table successfully.'))
+          .then(() => console.log('SearchLog table was created successfully.'))
           .catch(e => console.log(e));
+
       })
-      .catch(e => console.log(e));
-    
+      .catch(e => console.log(e)); 
+
   }
 }
