@@ -23,8 +23,6 @@ export class SoundListenPage {
   mediaObject: MediaObject;
   loadedProgress: number = 0;
   soundReady: boolean = false; // control by download 
-  audio: any;
-  isLoading: boolean = false;
 
   loader: Loading;
 
@@ -64,12 +62,12 @@ export class SoundListenPage {
       this.storagePath = this.storagePath + 'buddhadasa/sound/';
     });
 
-    this.audio = navParams.data;
+    this.sound = navParams.data;
 
-    this.fileUrl = this.audio.mp3_file; // source file
-    this.fileName = this.audio.id + '.mp3'; // destination file name
+    this.fileUrl = this.sound.mp3_file; // source file
+    this.fileName = this.sound.id + '.mp3'; // destination file name ; using for Check file exists
 
-    this.loader = this.loadingCtrl.create();   
+    this.loader = this.loadingCtrl.create();
   }
 
   ionViewWillEnter() {
@@ -80,18 +78,11 @@ export class SoundListenPage {
 
   ionViewWillLeave() {
     this.mediaObject.release();
-    //this.stop();
+    this.stop();
   }
 
   search() {
     this.navCtrl.push(SearchPage);
-  }
-
-  initializeMedia() {
-
-
-    //this.mediaObject.onError.subscribe(error => console.log('Error!', JSON.stringify(error)))
-  
   }
 
   changeSeekTo() {
@@ -106,11 +97,10 @@ export class SoundListenPage {
     this.subsPosition.unsubscribe();
     // this.backgroundMode.disable();
     this.mediaObject.stop();
-    this.currentPosition = 0;
+    this.currentPosition = -1;
+    this.duration = -1;
     this.seekPosition = 0;
     this.isPlaying = false;
-    this.isLoading = false;
-    //console.log('playing: ' + this.playing);
   }
 
   skipForward() {
@@ -136,62 +126,66 @@ export class SoundListenPage {
 
     this.platform.ready().then(() => {
 
-      this.loader.present();
-      this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+      let filePath = this.storagePath + this.fileName;
+      let fileFound = false;
 
-      let filePath: string;
+      this.file.checkFile(this.storagePath, this.fileName)
+        .then((res) => { // file exists do then, file not exists jump to do at catch block.
 
-      filePath = this.storagePath + this.fileName;
+          //console.log('file found: ' + JSON.stringify(res));
 
-      // this.file.checkFile(this.storagePath, this.fileName)
-      //   .then(() => {
-
-      //     console.log('file found');
-
-      //   })
-      //   .catch(error => {
-
-      //console.log('file not found : ' + filePath);
-
-      let transfer: FileTransferObject = this.transfer.create();
-
-      transfer.download(this.fileUrl, filePath)
-        .then(entry => {
-
-          let url = entry.toURL();
           this.soundReady = true;
+          fileFound = true; // ป้องกันการ donwload file ซ้ำใน catch; ถ้ามี error ต่อจากบรรทัดนี้ มันจะไปทำที่ catch ทันที
 
-          let fileName = this.storagePath + this.fileName;
-          console.log('fileName: ' + fileName);
-          this.mediaObject = this.media.create(fileName.replace(/^file:\/\//, ''));
+          this.mediaObject = this.media.create(filePath.replace(/^file:\/\//, ''));
           this.playSound();
-
-          console.log('download success : ' + url);
 
         })
         .catch(error => {
 
-          console.log('download failed : ' + JSON.stringify(error));
+          //console.log('file not found : ' + JSON.stringify(error));
+        
+          if (!fileFound) {
 
-        });
+            this.loader.present();
+            this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
 
-      transfer.onProgress((progressEvent) => {
-        //console.log('on progress: ' + JSON.stringify(progressEvent));
-        //this.loadedProgress = Math.round(progressEvent.loaded / progressEvent.total);
-        this._zone.run(() => {
-          this.loadedProgress = (progressEvent.lengthComputable) ? Math.floor(progressEvent.loaded / progressEvent.total * 100) : -1;
-          console.log('loadedProgress: ' + this.loadedProgress + '%');
-          this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+            let transfer: FileTransferObject = this.transfer.create();
 
-          if (this.loadedProgress == 100) {
-            this.loader.dismiss();
-          }
-        });
-      });
+            transfer.download(this.fileUrl, filePath)
+              .then(entry => {
+
+                this.soundReady = true;
+
+                this.mediaObject = this.media.create(filePath.replace(/^file:\/\//, ''));
+                this.playSound();
+                //console.log('download success : ' + url);
+
+              })
+              .catch(error => {
+
+                console.log('download failed : ' + JSON.stringify(error));
+
+              });
+
+            transfer.onProgress((progressEvent) => {
+              //console.log('on progress: ' + JSON.stringify(progressEvent));
+              //this.loadedProgress = Math.round(progressEvent.loaded / progressEvent.total);
+              this._zone.run(() => {
+                this.loadedProgress = (progressEvent.lengthComputable) ? Math.floor(progressEvent.loaded / progressEvent.total * 100) : -1;
+                //console.log('loadedProgress: ' + this.loadedProgress + '%');
+                this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+
+                if (this.loadedProgress == 100) {
+                  this.loader.dismiss();
+                }
+              });
+            });
+
+          } // end if fileFound
+        }); // end checkFile
 
     });
-
-    //});
   }
 
   playSound() {
@@ -210,7 +204,7 @@ export class SoundListenPage {
 
             this.currentPosition = Math.floor(position);
             //console.log('current position : ' + this.currentPosition);
-            
+
             if (this.duration == -1) {
               this.duration = Math.floor(this.mediaObject.getDuration());
             }
