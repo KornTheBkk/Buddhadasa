@@ -21,7 +21,7 @@
       <div text-center>
         <ion-range [(ngModel)]="seekPosition" min="0" [max]="duration" debounce="0" (ionChange)="changeSeekTo()" [disabled]="isLoading">
           <ion-label range-left *ngIf="currentPosition >= 0">{{ currentPosition | timeSecToMin }}</ion-label>
-          <ion-label range-right *ngIf="duration">{{ duration | timeSecToMin }}</ion-label>
+          <ion-label range-right *ngIf="duration >= 0">{{ duration | timeSecToMin }}</ion-label>
         </ion-range>
 
         <button ion-button [disabled]="isLoading" (click)="skipBackward()">
@@ -32,7 +32,7 @@
           <img src="./assets/imgs/spinner.gif" *ngIf="isLoading" />
         </button>
 
-        <button ion-button (click)="play()" [disabled]="isLoading" *ngIf="!isLoading">
+        <button ion-button (click)="playSound()" [disabled]="!soundReady" *ngIf="!isLoading">
           <ion-icon name="play" *ngIf="!isPlaying"></ion-icon>
           <ion-icon name="pause" *ngIf="isPlaying"></ion-icon>
         </button>
