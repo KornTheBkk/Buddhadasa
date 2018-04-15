@@ -59,6 +59,9 @@
   line-height: 1.2;
 }
 /* ****************/
+.sound-title {
+  font-size: 2rem !important;
+}
 
 .date {
   color: #999 !important;
@@ -67,7 +70,7 @@
 }
 
 .date ion-icon {
-  font-size: 1em !important;
+  font-size: 0.8em !important;
 }
 
 #searchLoading img{

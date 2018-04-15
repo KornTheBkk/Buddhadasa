@@ -26,7 +26,7 @@
 
   <ion-list>
     <button ion-item *ngFor="let sound of sounds; let i = index" (click)="navigateToListen(sound)">
-      <h1>{{ sound.title }}</h1>
+      <h1 class="sound-title">{{ sound.title }}</h1>
       <p class="duration">
         <span *ngIf="sound.showed_at">
           <!-- <ion-icon name="md-time"></ion-icon> -->

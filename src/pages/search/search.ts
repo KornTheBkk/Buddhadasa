@@ -188,7 +188,8 @@ export class SearchPage {
   }
 
   navigateToListen(sound: ISound) {
-
+    //console.log('navigateToListen');
+    
     this.logSearch();
 
     if (sound.mp3_file) {

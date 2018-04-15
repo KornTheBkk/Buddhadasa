@@ -25,7 +25,6 @@
   <h1>
     <ion-icon name="book"></ion-icon> หมวด {{ category.name }} ทั้งหมด {{ category.total_book }} รายการ
   </h1>
-  <br>
 
   <!-- <ion-list>
     <button ion-item *ngFor="let book of books; let i = index" (click)="navigateToBookDetail(book)">
@@ -53,7 +52,7 @@
             </div>
           </ion-col>
           <ion-col col-9>
-            <h1>{{ i+1 }}. {{ book.title }}</h1>
+            <h1 class="book-title">{{ i+1 }}. {{ book.title }}</h1>
             <!-- <p class="description" *ngIf="book.subtitle">
               {{ book.subtitle }}
             </p> -->
