@@ -10,7 +10,7 @@ export class SettingPage {
 
   pushNotification: boolean;
   bookDownloaded: boolean;
-  songDownloaded: boolean;
+  soundDownloaded: boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -21,7 +21,7 @@ export class SettingPage {
 
       this.pushNotification = JSON.parse(localStorage.getItem('pushNotification'));
       this.bookDownloaded = JSON.parse(localStorage.getItem('bookDownloaded'));
-      this.songDownloaded = JSON.parse(localStorage.getItem('songDownloaded'));
+      this.soundDownloaded = JSON.parse(localStorage.getItem('soundDownloaded'));
 
     });
   }
@@ -40,8 +40,8 @@ export class SettingPage {
       localStorage.setItem('pushNotification', this.pushNotification.toString());
     } else if (name == 'book') {
       localStorage.setItem('bookDownloaded', this.bookDownloaded.toString());
-    } else if (name == 'song') {
-      localStorage.setItem('songDownloaded', this.songDownloaded.toString());
+    } else if (name == 'sound') {
+      localStorage.setItem('soundDownloaded', this.soundDownloaded.toString());
     }
   }
 

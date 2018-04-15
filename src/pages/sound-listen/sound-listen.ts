@@ -21,22 +21,23 @@ export class SoundListenPage {
   sound: ISound;
 
   mediaObject: MediaObject;
-  loadedProgress: number = 0;
-  soundReady: boolean = false; // control by download 
-
-  loader: Loading;
-
   isPlaying: boolean = false;
   duration: number = -1;
   currentPosition: number = -1;
   subsPosition: Subscription;
   seekPosition: number;
-
   skipStep: number = 60;
+
+  loadedProgress: number = 0;
+  soundReady: boolean = false; // control by download 
 
   storagePath: string; // path for store file to local device
   fileUrl: string; // source file
-  fileName: string; // file name on target
+  fileName: string; // file name on target related soundDownload mode in settings
+  soundDownloaded: boolean; // every set value when onViewWillEnter
+  tempSoundName: string = 'sound.mp3'; // set this name instead when soundDownloaded is false
+
+  loader: Loading;
 
   constructor(
     public navCtrl: NavController,
@@ -60,19 +61,21 @@ export class SoundListenPage {
       }
 
       this.storagePath = this.storagePath + 'buddhadasa/sound/';
+
+      this.sound = navParams.data;
+
+      this.fileUrl = this.sound.mp3_file; // source file
+      this.fileName = this.sound.id + '.mp3'; // destination file name ; using for Check file exists
+
+      this.loader = this.loadingCtrl.create();
     });
 
-    this.sound = navParams.data;
-
-    this.fileUrl = this.sound.mp3_file; // source file
-    this.fileName = this.sound.id + '.mp3'; // destination file name ; using for Check file exists
-
-    this.loader = this.loadingCtrl.create();
   }
 
   ionViewWillEnter() {
     this.platform.ready().then(() => {
-      this.downloadSound();
+      this.soundDownloaded = JSON.parse(localStorage.getItem('soundDownloaded'));
+      this.initSound(this.fileUrl, this.fileName);
     });
   }
 
@@ -121,70 +124,84 @@ export class SoundListenPage {
     this.mediaObject.seekTo(seekTo * 1000);
   }
 
-
-  downloadSound() {
+  initSound(fileUrl: string, fileName: string) {
 
     this.platform.ready().then(() => {
 
-      let filePath = this.storagePath + this.fileName;
-      let fileFound = false;
+      let filePath = '';
 
-      this.file.checkFile(this.storagePath, this.fileName)
-        .then((res) => { // file exists do then, file not exists jump to do at catch block.
+      if (this.soundDownloaded) {
 
-          //console.log('file found: ' + JSON.stringify(res));
+        let fileFound = false;
+        filePath = this.storagePath + fileName;
 
-          this.soundReady = true;
-          fileFound = true; // ป้องกันการ donwload file ซ้ำใน catch; ถ้ามี error ต่อจากบรรทัดนี้ มันจะไปทำที่ catch ทันที
+        this.file.checkFile(this.storagePath, fileName)
+          .then((res) => { // file exists do then, file not exists jump to do at catch block.
 
-          this.mediaObject = this.media.create(filePath.replace(/^file:\/\//, ''));
-          this.playSound();
+            //console.log('file found: ' + JSON.stringify(res));
 
-        })
-        .catch(error => {
+            this.soundReady = true;
+            fileFound = true; // ป้องกันการ donwload file ซ้ำใน catch; ถ้ามี error ต่อจากบรรทัดนี้ มันจะไปทำที่ catch ทันที
 
-          //console.log('file not found : ' + JSON.stringify(error));
-        
-          if (!fileFound) {
+            this.mediaObject = this.media.create(filePath.replace(/^file:\/\//, ''));
+            this.playSound();
 
-            this.loader.present();
-            this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+          })
+          .catch(error => {
 
-            let transfer: FileTransferObject = this.transfer.create();
+            //console.log('file not found : ' + JSON.stringify(error));
 
-            transfer.download(this.fileUrl, filePath)
-              .then(entry => {
+            if (!fileFound) {
+              this.downloadAndPlaySound(fileUrl, filePath);
+            } // end if fileFound
+          }); // end checkFile
 
-                this.soundReady = true;
+      }else {
 
-                this.mediaObject = this.media.create(filePath.replace(/^file:\/\//, ''));
-                this.playSound();
-                //console.log('download success : ' + url);
+        filePath = this.storagePath + this.tempSoundName;
+        this.downloadAndPlaySound(fileUrl, filePath);
 
-              })
-              .catch(error => {
+        console.log('soundDownloaded = false : new download file : ' + filePath);
+      } // end if soundDownloaded
 
-                console.log('download failed : ' + JSON.stringify(error));
+    });
+  }
 
-              });
+  downloadAndPlaySound(fileUrl: string, filePath: string) {
 
-            transfer.onProgress((progressEvent) => {
-              //console.log('on progress: ' + JSON.stringify(progressEvent));
-              //this.loadedProgress = Math.round(progressEvent.loaded / progressEvent.total);
-              this._zone.run(() => {
-                this.loadedProgress = (progressEvent.lengthComputable) ? Math.floor(progressEvent.loaded / progressEvent.total * 100) : -1;
-                //console.log('loadedProgress: ' + this.loadedProgress + '%');
-                this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+    this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+    this.loader.present();
 
-                if (this.loadedProgress == 100) {
-                  this.loader.dismiss();
-                }
-              });
-            });
+    let transfer: FileTransferObject = this.transfer.create();
 
-          } // end if fileFound
-        }); // end checkFile
+    transfer.download(fileUrl, filePath)
+      .then(entry => {
 
+        this.soundReady = true;
+
+        this.mediaObject = this.media.create(filePath.replace(/^file:\/\//, ''));
+        this.playSound();
+        //console.log('download success : ' + url);
+
+      })
+      .catch(error => {
+
+        console.log('download failed : ' + JSON.stringify(error));
+
+      });
+
+    transfer.onProgress((progressEvent) => {
+      //console.log('on progress: ' + JSON.stringify(progressEvent));
+      //this.loadedProgress = Math.round(progressEvent.loaded / progressEvent.total);
+      this._zone.run(() => {
+        this.loadedProgress = (progressEvent.lengthComputable) ? Math.floor(progressEvent.loaded / progressEvent.total * 100) : -1;
+        //console.log('loadedProgress: ' + this.loadedProgress + '%');
+        this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+
+        if (this.loadedProgress == 100) {
+          this.loader.dismiss();
+        }
+      });
     });
   }
 

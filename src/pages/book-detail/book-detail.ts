@@ -20,7 +20,7 @@ export class BookDetailPage {
 
   storagePath: string; // path for store file to local device
 
-  bookDownloaded: boolean;
+  bookDownloaded: boolean; // every set value when onViewWillEnter
   tempBookName: string = 'book.pdf'; // set this name when bookDownloaded is false
 
   constructor(

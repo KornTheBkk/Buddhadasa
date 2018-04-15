@@ -29,15 +29,15 @@ export class MyApp {
 
       // init setting vars
       if (!localStorage.getItem('pushNotification')) {
-        localStorage.setItem('bookDownloaded', 'true');
+        localStorage.setItem('pushNotification', 'true');
       }
 
       if (!localStorage.getItem('bookDownloaded')) {
-        localStorage.setItem('songDownloaded', 'true');
+        localStorage.setItem('bookDownloaded', 'true');
       }
 
-      if (!localStorage.getItem('songDownloaded')) {
-        localStorage.setItem('pushNotification', 'true');
+      if (!localStorage.getItem('soundDownloaded')) {
+        localStorage.setItem('soundDownloaded', 'true');
       }      
 
     });
