@@ -66,7 +66,8 @@ export class SoundListenPage {
 
       this.sound = navParams.data;
 
-      this.fileUrl = this.sound.mp3_file; // source file
+      this.fileUrl = 'http://sound.bia.or.th/administrator/biasound/1/1215120530020.mp3'; // for test
+      //this.fileUrl = this.sound.mp3_file; // source file
       this.fileName = this.sound.id + '.mp3'; // destination file name ; using for Check file exists
 
       this.loader = this.loadingCtrl.create();

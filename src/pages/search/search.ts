@@ -51,7 +51,7 @@ export class SearchPage {
         this.initSQLite();
       });
     
-      this.searchProvider.setCategory('song');
+      this.searchProvider.setCategory('sound');
   }
 
   ionViewDidLoad() {
