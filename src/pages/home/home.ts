@@ -2,7 +2,6 @@ import { IBook } from './../../interface/book';
 import { Component } from '@angular/core';
 import { NavController, App, Refresher, AlertController, Platform, LoadingController, Loading } from 'ionic-angular';
 
-import { SearchPage } from '../search/search';
 import { BookDetailPage } from './../book-detail/book-detail';
 
 import { BookProvider } from './../../providers/book/book';

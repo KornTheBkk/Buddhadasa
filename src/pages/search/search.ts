@@ -188,13 +188,13 @@ export class SearchPage {
   }
 
   navigateToListen(sound: ISound) {
-    //console.log('navigateToListen');
+    console.log('navigateToListen: ' + sound.mp3_file);
     
     this.logSearch();
 
     if (sound.mp3_file) {
-      this.soundProvider.updateView(sound.id).then(() => { });
       this.navCtrl.push(SoundListenPage, sound);
+      console.log('navCtrl.push');
     } else {
       console.log('No have mp3 file.');
     }
@@ -255,11 +255,11 @@ export class SearchPage {
     let find = this.find.trim();
 
     if (find && this.db) {
-      console.log('log serach : ' + find);
+      //console.log('log serach : ' + find);
       this.searchProvider.log(this.db, find)
         .then(res => {
           //console.log('logSearch inserted: ' + JSON.stringify(res));
-          console.log(JSON.stringify(res));
+          console.log('logSearch : ' + JSON.stringify(res));
         })
         .catch(error => {
           console.log('Error : ' + JSON.stringify(error));

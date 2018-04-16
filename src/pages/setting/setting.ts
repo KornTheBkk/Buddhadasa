@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
-import { SearchPage } from '../search/search';
 
 import { File } from '@ionic-native/file';
 

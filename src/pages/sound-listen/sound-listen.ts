@@ -74,6 +74,11 @@ export class SoundListenPage {
 
   }
 
+  ionViewDidLoad(){
+   console.log('ionViewDidLoad SoundListenPage');
+   
+  }
+
   ionViewWillEnter() {
     this.platform.ready().then(() => {
       this.soundDownloaded = JSON.parse(localStorage.getItem('soundDownloaded'));
