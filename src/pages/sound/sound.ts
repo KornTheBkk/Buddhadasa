@@ -38,8 +38,6 @@ export class SoundPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SoundPage');
-
     this.getCategory();
   }
 

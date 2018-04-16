@@ -28,7 +28,7 @@ export class HomePage {
   bookTotal: number = 5;
   books: Array<IBook> = [];
 
-  banners: Array<{ image_url: string }> = [];
+  banners: Array<{ image_url: string }> = [{ image_url: null }];
   bannerUrl: string;
 
   constructor(
@@ -41,11 +41,6 @@ export class HomePage {
     public alertCtrl: AlertController,
     private bannerProvider: BannerProvider) {
 
-    /* let currentTime = moment().unix();
-    console.log(`currentTime : ${currentTime} | ${moment().format('YYYY-MM-DD HH:mm:ss')}`);      
-    let tt = moment.unix(1523265057).format("DD/MM/YYYY HH:mm:ss")
-    console.log(tt); */
-
     this.loader = this.loadingCtrl.create({
       content: 'Loading'
     });
@@ -54,22 +49,26 @@ export class HomePage {
   ionViewDidLoad() {
     this.getRecommendedSound();
     this.getRecommendedBook();
+    this.getBanner();
   }
 
-  ionViewWillEnter() {
-    //console.log(this.banners);
-    this.getBanner();
+  ionViewWillEnter() {    
+    let indexRandom = Math.floor((Math.random() * this.banners.length));    
+    this.bannerUrl = this.banners[indexRandom].image_url;
   }
 
   getBanner() {
     this.bannerProvider.getBanner()
       .then((res: any) => {
-        //console.log(res);
+        //console.log('getBanner ok');
         if (res.ok) {
-          this.banners = res.data;
-
-          let rand = Math.floor((Math.random() * this.banners.length));
-          this.bannerUrl = this.banners[rand].image_url;
+          for (let i = 0; i < res.data.length; i++){
+            this.banners[i] = res.data[i];
+          }
+          
+          // fires once then it will fire in ionViewWillEnter
+          let indexRandom = Math.floor((Math.random() * this.banners.length));
+          this.bannerUrl = this.banners[indexRandom].image_url;
         }
       })
       .catch(error => {
