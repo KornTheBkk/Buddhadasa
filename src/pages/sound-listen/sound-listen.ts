@@ -11,6 +11,7 @@ import { Subscription } from "rxjs/Subscription";
 
 import { ISound } from './../../interface/sound';
 import { SearchPage } from '../search/search';
+import { SoundProvider } from '../../providers/sound/sound';
 
 @Component({
   selector: 'page-sound-listen',
@@ -48,7 +49,8 @@ export class SoundListenPage {
     private transfer: FileTransfer,
     private file: File,
     private loadingCtrl: LoadingController,
-    private _zone: NgZone) {
+    private _zone: NgZone,
+    public soundProvider: SoundProvider) {
 
     platform.ready().then(() => {
 
@@ -76,6 +78,7 @@ export class SoundListenPage {
     this.platform.ready().then(() => {
       this.soundDownloaded = JSON.parse(localStorage.getItem('soundDownloaded'));
       this.initSound(this.fileUrl, this.fileName);
+      this.soundProvider.updateView(this.sound.id).then(() => { });
     });
   }
 
@@ -169,7 +172,7 @@ export class SoundListenPage {
 
   downloadAndPlaySound(fileUrl: string, filePath: string) {
 
-    this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+    this.loader.setContent(`<center>กำลังดาวน์โหลด<br>เสียง ${this.loadedProgress}%</center>`);
     this.loader.present();
 
     let transfer: FileTransferObject = this.transfer.create();
@@ -196,7 +199,7 @@ export class SoundListenPage {
       this._zone.run(() => {
         this.loadedProgress = (progressEvent.lengthComputable) ? Math.floor(progressEvent.loaded / progressEvent.total * 100) : -1;
         //console.log('loadedProgress: ' + this.loadedProgress + '%');
-        this.loader.setContent(`ดาวน์โหลดเสียง ${this.loadedProgress}%`);
+        this.loader.setContent(`<center>กำลังดาวน์โหลด<br>เสียง ${this.loadedProgress}%</center>`);
 
         if (this.loadedProgress == 100) {
           this.loader.dismiss();

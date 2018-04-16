@@ -108,13 +108,13 @@ export class BookDetailPage {
         this.file.checkFile(this.storagePath, fileName)
           .then(() => {
 
-            console.log('bookDownloaded = true : file found');
+            //console.log('bookDownloaded = true : file found');
             this.document.viewDocument(filePath, 'application/pdf', {});
 
           })
           .catch(error => {
 
-            console.log('bookDownloaded = true : file not found : ' + filePath);
+            //console.log('bookDownloaded = true : file not found : ' + filePath);
             this.openPdf(fileUrl, filePath);
             //console.log(JSON.stringify(error));
 
@@ -125,7 +125,7 @@ export class BookDetailPage {
         filePath = this.storagePath + this.tempBookName;
         this.openPdf(fileUrl, filePath);
 
-        console.log('bookDownloaded = false : new download file : ' + filePath);
+        //console.log('bookDownloaded = false : new download file : ' + filePath);
       } // end if bookDonwloaded
 
 

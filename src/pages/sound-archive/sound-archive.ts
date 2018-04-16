@@ -99,7 +99,6 @@ export class SoundArchivePage {
   navigateToListen(sound: ISound) {
     //console.log(sound);
     if (sound.mp3_file) {
-      this.soundProvider.updateView(sound.id).then(() => { });
       this.navCtrl.push(SoundListenPage, sound);
     } else {
       console.log('No have mp3 file.');
