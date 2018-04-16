@@ -18,7 +18,7 @@
     <img src="{{ book.image_thumb }}" *ngIf="book.image_thumb" />
   </div>
   <div text-center>
-    <button ion-button (click)="read()">
+    <button ion-button (click)="openBook()" [disabled]="isLoading">
         <ion-icon name="book"></ion-icon> &nbsp; อ่านหนังสือเล่มนี้
     </button>
   </div>

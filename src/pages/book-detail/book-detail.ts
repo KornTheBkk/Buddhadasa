@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController, NavParams, Loading, LoadingController, Platform, AlertController } from 'ionic-angular';
 import { BookProvider } from './../../providers/book/book';
 import { IBook } from '../../interface/book';
@@ -23,6 +23,10 @@ export class BookDetailPage {
   bookDownloaded: boolean; // every set value when onViewWillEnter
   tempBookName: string = 'book.pdf'; // set this name when bookDownloaded is false
 
+  loadedProgress: number = 0;
+  bookReady: boolean = false; // control by download 
+  isLoading: boolean = false; // using for button read book
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -32,7 +36,8 @@ export class BookDetailPage {
     private file: File,
     private transfer: FileTransfer,
     public alertCtrl: AlertController,
-    private bookProvider: BookProvider) {
+    private bookProvider: BookProvider,
+    private _zone: NgZone) {
 
     platform.ready().then(() => {
 
@@ -80,7 +85,7 @@ export class BookDetailPage {
       });
   }
 
-  read() {
+  openBook() {
     if (this.book.pdf_file) {
       this.updateView(this.book.id);
       let fileName = this.book.id + '.pdf';
@@ -92,7 +97,7 @@ export class BookDetailPage {
 
     this.platform.ready().then(() => {
 
-      this.loader.setContent(`กำลังดาวน์โหลดหนังสือ...`);
+      //this.loader.setContent(`กำลังดาวน์โหลดหนังสือ...`);
 
       let filePath: string;
 
@@ -117,7 +122,6 @@ export class BookDetailPage {
 
       } else {
 
-
         filePath = this.storagePath + this.tempBookName;
         this.openPdf(fileUrl, filePath);
 
@@ -131,21 +135,31 @@ export class BookDetailPage {
 
   openPdf(fileUrl: string, filePath: string) {
 
-    this.loader.present();
+    let loader = this.loadingCtrl.create({
+      content: `<center>กำลังดาวน์โหลด<br>หนังสือ ${this.loadedProgress}%</center>`,
+    });
+    loader.present();
+    
+    this.isLoading = true;
 
     let transfer: FileTransferObject = this.transfer.create();
+
+    //fileUrl = 'http://download.watnapahpong.org/data/books/ariyavinaya.pdf'; // for test
 
     transfer.download(fileUrl, filePath)
       .then(entry => {
 
-        this.loader.dismiss();
+        loader.dismiss();
+        this.bookReady = true;
+        this.isLoading = false;
 
         let url = entry.toURL();
         this.document.viewDocument(url, 'application/pdf', {});
       })
       .catch(error => {
 
-        this.loader.dismiss();
+        loader.dismiss();
+        this.isLoading = false;
         //console.log('File not found : ' + JSON.stringify(error));
 
         let alert = this.alertCtrl.create({
@@ -155,6 +169,21 @@ export class BookDetailPage {
         });
         alert.present();
 
+      });
+    
+      transfer.onProgress((progressEvent) => {
+        //console.log('on progress: ' + JSON.stringify(progressEvent));
+        //this.loadedProgress = Math.round(progressEvent.loaded / progressEvent.total);
+        this._zone.run(() => {
+          this.loadedProgress = (progressEvent.lengthComputable) ? Math.floor(progressEvent.loaded / progressEvent.total * 100) : -1;
+          //console.log('loadedProgress: ' + this.loadedProgress + '%');
+          loader.setContent(`<center>กำลังดาวน์โหลด<br>หนังสือ ${this.loadedProgress}%</center>`);
+  
+          if (this.loadedProgress == 100) {            
+            loader.dismiss();
+            this.loadedProgress = 0;
+          }
+        });
       });
   }
 

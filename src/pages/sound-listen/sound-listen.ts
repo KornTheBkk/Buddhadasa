@@ -161,7 +161,7 @@ export class SoundListenPage {
         filePath = this.storagePath + this.tempSoundName;
         this.downloadAndPlaySound(fileUrl, filePath);
 
-        console.log('soundDownloaded = false : new download file : ' + filePath);
+        //console.log('soundDownloaded = false : new download file : ' + filePath);
       } // end if soundDownloaded
 
     });
@@ -200,6 +200,7 @@ export class SoundListenPage {
 
         if (this.loadedProgress == 100) {
           this.loader.dismiss();
+          this.loadedProgress = 0;
         }
       });
     });

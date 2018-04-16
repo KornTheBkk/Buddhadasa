@@ -91,7 +91,7 @@ import { BookSearchProvider } from '../providers/book-search/book-search';
     SoundProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //{ provide: 'API_URL', useValue: 'http://localhost/buddha/services/api' },
-    { provide: 'API_URL', useValue: 'http://172.20.10.3/buddhadasa/api' },
+    { provide: 'API_URL', useValue: 'http://172.20.10.2/buddhadasa/api' },
     SearchProvider,
     BookProvider,
     BookSearchProvider,
