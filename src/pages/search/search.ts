@@ -163,6 +163,7 @@ export class SearchPage {
                 description: s.description,
                 showed_at: s.showed_at,
                 duration: s.duration,
+                published_at: s.published_at,
                 mp3_file: s.mp3_file
               };
               this.items.push(item);
@@ -226,6 +227,7 @@ export class SearchPage {
                   description: s.description,
                   showed_at: s.showed_at,
                   duration: s.duration,
+                  published_at: s.published_at,
                   mp3_file: s.mp3_file
                 };
                 this.items.push(item);
