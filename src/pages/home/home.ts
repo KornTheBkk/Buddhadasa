@@ -28,7 +28,7 @@ export class HomePage {
   bookTotal: number = 5;
   books: Array<IBook> = [];
 
-  banners: Array<{ image_url: string }> = [{ image_url: null }];
+  banners: Array<{ image: string }> = [{ image: null }];
   bannerUrl: string;
 
   constructor(
@@ -54,7 +54,7 @@ export class HomePage {
 
   ionViewWillEnter() {    
     let indexRandom = Math.floor((Math.random() * this.banners.length));    
-    this.bannerUrl = this.banners[indexRandom].image_url;
+    this.bannerUrl = this.banners[indexRandom].image;
   }
 
   getBanner() {
@@ -62,13 +62,14 @@ export class HomePage {
       .then((res: any) => {
         //console.log('getBanner ok');
         if (res.ok) {
-          for (let i = 0; i < res.data.length; i++){
-            this.banners[i] = res.data[i];
+          let data = res.data.data;          
+          for (let i = 0; i < data.length; i++){
+            this.banners[i] = data[i];
           }
           
           // fires once then it will fire in ionViewWillEnter
           let indexRandom = Math.floor((Math.random() * this.banners.length));
-          this.bannerUrl = this.banners[indexRandom].image_url;
+          this.bannerUrl = this.banners[indexRandom].image;
         }
       })
       .catch(error => {

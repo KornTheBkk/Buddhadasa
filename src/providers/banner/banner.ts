@@ -19,6 +19,8 @@ export class BannerProvider {
       this.http.get(url)
         .timeout(this.httpTimeout)
         .subscribe(res => {
+          //console.log(res);
+          
           resolve(res);
         }, error => {
           reject(error);
