@@ -6,6 +6,8 @@ import { BookDetailPage } from './../book-detail/book-detail';
 
 import { BookProvider } from './../../providers/book/book';
 import { SoundProvider } from './../../providers/sound/sound';
+import { BannerProvider } from '../../providers/banner/banner';
+
 import { ISound } from '../../interface/sound';
 import { SoundListenPage } from '../sound-listen/sound-listen';
 
@@ -26,6 +28,9 @@ export class HomePage {
   bookTotal: number = 5;
   books: Array<IBook> = [];
 
+  banners: Array<{ image_url: string }> = [];
+  bannerUrl: string;
+
   constructor(
     public navCtrl: NavController,
     public platform: Platform,
@@ -33,7 +38,8 @@ export class HomePage {
     public soundProvider: SoundProvider,
     private app: App,
     private bookProvider: BookProvider,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    private bannerProvider: BannerProvider) {
 
     /* let currentTime = moment().unix();
     console.log(`currentTime : ${currentTime} | ${moment().format('YYYY-MM-DD HH:mm:ss')}`);      
@@ -48,6 +54,27 @@ export class HomePage {
   ionViewDidLoad() {
     this.getRecommendedSound();
     this.getRecommendedBook();
+  }
+
+  ionViewWillEnter() {
+    //console.log(this.banners);
+    this.getBanner();
+  }
+
+  getBanner() {
+    this.bannerProvider.getBanner()
+      .then((res: any) => {
+        //console.log(res);
+        if (res.ok) {
+          this.banners = res.data;
+
+          let rand = Math.floor((Math.random() * this.banners.length));
+          this.bannerUrl = this.banners[rand].image_url;
+        }
+      })
+      .catch(error => {
+        console.log('getBanner error: ' + JSON.stringify(error));
+      });
   }
 
   getRecommendedSound() {

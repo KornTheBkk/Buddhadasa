@@ -23,8 +23,8 @@ export class SoundListenPage {
 
   mediaObject: MediaObject;
   isPlaying: boolean = false;
-  duration: number = -1;
-  currentPosition: number = -1;
+  duration: number = 0;
+  currentPosition: number = 0;
   subsPosition: Subscription;
   seekPosition: number;
   skipStep: number = 60;
@@ -66,8 +66,8 @@ export class SoundListenPage {
 
       this.sound = navParams.data;
 
-      this.fileUrl = 'http://sound.bia.or.th/administrator/biasound/1/1215120530020.mp3'; // for test
-      //this.fileUrl = this.sound.mp3_file; // source file
+      //this.fileUrl = 'http://sound.bia.or.th/administrator/biasound/1/1215120530020.mp3'; // for test
+      this.fileUrl = this.sound.mp3_file; // source file
       this.fileName = this.sound.id + '.mp3'; // destination file name ; using for Check file exists
 
       this.loader = this.loadingCtrl.create();
@@ -90,7 +90,7 @@ export class SoundListenPage {
 
   ionViewWillLeave() {
     this.mediaObject.release();
-    this.stop();
+    this.stopSound();
   }
 
   search() {
@@ -105,12 +105,12 @@ export class SoundListenPage {
     }
   }
 
-  stop() {
+  stopSound() {
     this.subsPosition.unsubscribe();
     // this.backgroundMode.disable();
     this.mediaObject.stop();
-    this.currentPosition = -1;
-    this.duration = -1;
+    this.currentPosition = 0;
+   // this.duration = -1;
     this.seekPosition = 0;
     this.isPlaying = false;
   }
@@ -231,15 +231,22 @@ export class SoundListenPage {
 
             this.currentPosition = Math.floor(position);
             //console.log('current position : ' + this.currentPosition);
+            this.seekPosition = this.currentPosition;
 
-            if (this.duration == -1) {
+            if (this.duration <= 0) {
               this.duration = Math.floor(this.mediaObject.getDuration());
             }
 
             if (this.currentPosition >= 1 && (this.currentPosition == this.duration)) {
-              this.subsPosition.unsubscribe();
-              this.currentPosition = 0;
-              this.isPlaying = false;
+              // this.subsPosition.unsubscribe();
+              // this.currentPosition = 0;
+              // this.seekPosition = 0;
+              // this.isPlaying = false;
+              this.stopSound();
+            }
+
+            if (this.currentPosition == -1) {
+              this.stopSound();
             }
           });
 

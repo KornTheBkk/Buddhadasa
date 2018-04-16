@@ -2,11 +2,11 @@
 
   <ion-navbar>
     <ion-title>เสียงพุทธทาส</ion-title>
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button icon-only color="royal" (click)="search()">
         <ion-icon name="search"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 
 </ion-header>
@@ -14,7 +14,9 @@
 
 <ion-content padding>
 
-  <!-- <h3 text-center>{{ sound.title }}</h3> -->
+  <!-- <p>isPlaying : {{ isPlaying }}</p>
+  <p>currentPosition : {{ currentPosition }}</p>
+  <p>duration : {{ duration }}</p> -->
 
   <ion-card>
     <ion-card-content text-center>
@@ -24,17 +26,17 @@
           <ion-label range-right *ngIf="duration >= 0">{{ duration | timeSecToMin }}</ion-label>
         </ion-range>
 
-        <button ion-button [disabled]="!soundReady" (click)="skipBackward()">
-          <ion-icon name="skip-backward"></ion-icon>
+        <button class="player-button" ion-button [disabled]="!soundReady" (click)="skipBackward()">
+          <ion-icon name="skip-backward" class="player-icon"></ion-icon>
         </button>
 
-        <button ion-button (click)="playSound()" [disabled]="!soundReady">
-          <ion-icon name="play" *ngIf="!isPlaying"></ion-icon>
-          <ion-icon name="pause" *ngIf="isPlaying"></ion-icon>
+        <button class="player-button" ion-button (click)="playSound()" [disabled]="!soundReady">
+          <ion-icon name="play" *ngIf="!isPlaying" class="player-icon"></ion-icon>
+          <ion-icon name="pause" *ngIf="isPlaying" class="player-icon"></ion-icon>
         </button>
 
-        <button ion-button [disabled]="!soundReady" (click)="skipForward()">
-          <ion-icon name="skip-forward"></ion-icon>
+        <button class="player-button" ion-button [disabled]="!soundReady" (click)="skipForward()">
+          <ion-icon name="skip-forward" class="player-icon"></ion-icon>
         </button>
       </div>
     </ion-card-content>

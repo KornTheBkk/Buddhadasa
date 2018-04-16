@@ -11,8 +11,8 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div id="headerBanner">
-    <img src="./assets/imgs/home_header.png">
+  <div id="headerBanner" *ngIf="bannerUrl">
+    <img [src]="bannerUrl">
   </div>
 
   <h1>

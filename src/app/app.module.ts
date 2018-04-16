@@ -18,6 +18,8 @@ import { SoundProvider } from '../providers/sound/sound';
 import { PipesModule } from '../pipes/pipes.module';
 import { SearchProvider } from '../providers/search/search';
 import { BookProvider } from '../providers/book/book';
+import { BookSearchProvider } from '../providers/book-search/book-search';
+import { BannerProvider } from '../providers/banner/banner';
 
 import { MyApp } from './app.component';
 
@@ -37,7 +39,7 @@ import { SoundListenPage } from '../pages/sound-listen/sound-listen';
 import { SearchPage } from '../pages/search/search';
 import { BookSearchPage } from '../pages/book-search/book-search';
 import { BookDetailPage } from '../pages/book-detail/book-detail';
-import { BookSearchProvider } from '../providers/book-search/book-search';
+
 
 
 @NgModule({
@@ -95,7 +97,9 @@ import { BookSearchProvider } from '../providers/book-search/book-search';
     SearchProvider,
     BookProvider,
     BookSearchProvider,
-    BookSearchProvider
+    BookSearchProvider,
+    BannerProvider,
+    BannerProvider
   ]
 })
 export class AppModule {}

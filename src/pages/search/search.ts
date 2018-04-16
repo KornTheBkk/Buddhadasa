@@ -122,7 +122,7 @@ export class SearchPage {
 
         })
         .catch(error => {
-          console.log('get log error : ' + JSON.stringify(error));
+          console.log('getLog error : ' + JSON.stringify(error));
         });
     }
   }
