@@ -51,10 +51,6 @@ export class HomePage {
     this.getRecommendedBook();
   }
 
-  search() {
-    this.navCtrl.push(SearchPage);
-  }
-
   getRecommendedSound() {
 
     this.soundProvider.getSound(null, null, this.soundsTotal)

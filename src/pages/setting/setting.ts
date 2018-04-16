@@ -42,10 +42,6 @@ export class SettingPage {
   ionViewDidLoad() {
   }
 
-  search() {
-    this.navCtrl.push(SearchPage);
-  }
-
   updateSetting(name: string) {
 
     if (name == 'push') {
