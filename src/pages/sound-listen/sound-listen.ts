@@ -76,7 +76,7 @@ export class SoundListenPage {
   }
 
   ionViewDidLoad(){
-   console.log('ionViewDidLoad SoundListenPage');
+   //console.log('ionViewDidLoad SoundListenPage');
    
   }
 

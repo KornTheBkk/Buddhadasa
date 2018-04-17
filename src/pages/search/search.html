@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header #header>
 
   <ion-navbar>
     <ion-searchbar #searchbar debounce="500" placeholder="พิมพ์คำค้นหาเสียง" [(ngModel)]="find" [showCancelButton]="shouldShowCancel"
@@ -9,7 +9,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding hide-header [header]="header">
   <!-- find: {{ find }} | isLoading: {{ isLoading }}
   <p>isHistory: {{ isHistory }}</p>
   <p>page: {{ page }} totalPage: {{ totalPage }}</p>

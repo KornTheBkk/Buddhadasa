@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header #header>
 
   <ion-navbar>
     <ion-title>ตั้งค่า</ion-title>
@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding hide-header [header]="header">
   <!-- <p>Push Notification: {{ pushNotification }}</p>
   <p>Book Donwloaded: {{ bookDownloaded }}</p>
   <p>Song Donwloaded: {{ songDownloaded }}</p> -->
