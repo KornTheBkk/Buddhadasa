@@ -24,7 +24,10 @@ import { BannerProvider } from '../providers/banner/banner';
 import { MyApp } from './app.component';
 
 // custom components
-import { ComponentsModule } from '../components/components.module';
+//import { ComponentsModule } from '../components/components.module';
+
+// directives
+import { DirectivesModule } from '../directives/directives.module';
 
 // my pages
 import { TabsPage } from '../pages/tabs/tabs';
@@ -39,7 +42,6 @@ import { SoundListenPage } from '../pages/sound-listen/sound-listen';
 import { SearchPage } from '../pages/search/search';
 import { BookSearchPage } from '../pages/book-search/book-search';
 import { BookDetailPage } from '../pages/book-detail/book-detail';
-
 
 
 @NgModule({
@@ -62,8 +64,8 @@ import { BookDetailPage } from '../pages/book-detail/book-detail';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    ComponentsModule,
     PipesModule,
+    DirectivesModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

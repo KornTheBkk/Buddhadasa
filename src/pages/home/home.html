@@ -1,10 +1,10 @@
-<ion-header>
+<ion-header #header>
   <ion-navbar>
     <ion-title>พุทธทาสศึกษา</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding hide-header [header]="header">
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
